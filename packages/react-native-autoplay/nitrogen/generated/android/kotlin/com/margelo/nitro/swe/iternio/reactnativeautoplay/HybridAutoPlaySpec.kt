@@ -89,6 +89,19 @@ abstract class HybridAutoPlaySpec: HybridObject() {
   @Keep
   abstract fun setTemplateHeaderActions(templateId: String, headerActions: Array<NitroAction>?): Promise<Unit>
   
+  abstract fun configureNowPlayingTemplate(onUpNextButtonPress: () -> Unit, onAlbumArtistButtonPress: () -> Unit, upNextButtonEnabled: Boolean?, upNextTitle: String?, albumArtistButtonEnabled: Boolean?, buttons: Array<NitroAction>?): Promise<Unit>
+  
+  @DoNotStrip
+  @Keep
+  private fun configureNowPlayingTemplate_cxx(onUpNextButtonPress: Func_void, onAlbumArtistButtonPress: Func_void, upNextButtonEnabled: Boolean?, upNextTitle: String?, albumArtistButtonEnabled: Boolean?, buttons: Array<NitroAction>?): Promise<Unit> {
+    val __result = configureNowPlayingTemplate(onUpNextButtonPress, onAlbumArtistButtonPress, upNextButtonEnabled, upNextTitle, albumArtistButtonEnabled, buttons)
+    return __result
+  }
+  
+  @DoNotStrip
+  @Keep
+  abstract fun showNowPlayingTemplate(animated: Boolean?): Promise<Unit>
+  
   @DoNotStrip
   @Keep
   abstract fun isConnected(): Boolean

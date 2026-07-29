@@ -186,6 +186,22 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       auto __value = std::move(__result.value());
       return __value;
     }
+    inline std::shared_ptr<Promise<void>> configureNowPlayingTemplate(const std::function<void()>& onUpNextButtonPress, const std::function<void()>& onAlbumArtistButtonPress, std::optional<bool> upNextButtonEnabled, const std::optional<std::string>& upNextTitle, std::optional<bool> albumArtistButtonEnabled, const std::optional<std::vector<NitroAction>>& buttons) override {
+      auto __result = _swiftPart.configureNowPlayingTemplate(onUpNextButtonPress, onAlbumArtistButtonPress, upNextButtonEnabled, upNextTitle, albumArtistButtonEnabled, buttons);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> showNowPlayingTemplate(std::optional<bool> animated) override {
+      auto __result = _swiftPart.showNowPlayingTemplate(animated);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
     inline bool isConnected() override {
       auto __result = _swiftPart.isConnected();
       if (__result.hasError()) [[unlikely]] {

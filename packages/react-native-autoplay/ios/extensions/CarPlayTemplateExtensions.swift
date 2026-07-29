@@ -18,8 +18,11 @@ extension CPTemplate {
         self.init()
         initTemplate(template: self, id: id)
     }
+    @objc var autoPlayId: String? {
+        return (self.userInfo as? [String: Any])?["id"] as? String
+    }
     @objc var id: String {
-        return (self.userInfo as? [String: Any])?["id"] as! String
+        return autoPlayId!
     }
 }
 

@@ -30,6 +30,9 @@ class WindowApplicationSceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
 
         self.window = window
+        ViewUtils.showSplashScreenForWindowApplicationScene(
+            rootView: rootViewController.view
+        )
 
         if let url = connectionOptions.urlContexts.first?.url {
             // Linking API -> on app start

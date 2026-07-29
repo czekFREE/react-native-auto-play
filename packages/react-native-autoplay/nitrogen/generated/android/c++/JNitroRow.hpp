@@ -53,6 +53,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       static const auto clazz = javaClassStatic();
       static const auto fieldTitle = clazz->getField<JAutoText>("title");
       jni::local_ref<JAutoText> title = this->getFieldValue(fieldTitle);
+      static const auto fieldId = clazz->getField<jni::JString>("id");
+      jni::local_ref<jni::JString> id = this->getFieldValue(fieldId);
       static const auto fieldDetailedText = clazz->getField<JAutoText>("detailedText");
       jni::local_ref<JAutoText> detailedText = this->getFieldValue(fieldDetailedText);
       static const auto fieldBrowsable = clazz->getField<jni::JBoolean>("browsable");
@@ -69,6 +71,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<jni::JBoolean> selected = this->getFieldValue(fieldSelected);
       return NitroRow(
         title->toCpp(),
+        id != nullptr ? std::make_optional(id->toStdString()) : std::nullopt,
         detailedText != nullptr ? std::make_optional(detailedText->toCpp()) : std::nullopt,
         browsable != nullptr ? std::make_optional(static_cast<bool>(browsable->value())) : std::nullopt,
         static_cast<bool>(enabled),
@@ -93,12 +96,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroRow::javaobject> fromCpp(const NitroRow& value) {
-      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool_::javaobject>, jni::alias_ref<jni::JBoolean>);
+      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool_::javaobject>, jni::alias_ref<jni::JBoolean>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         JAutoText::fromCpp(value.title),
+        value.id.has_value() ? jni::make_jstring(value.id.value()) : nullptr,
         value.detailedText.has_value() ? JAutoText::fromCpp(value.detailedText.value()) : nullptr,
         value.browsable.has_value() ? jni::JBoolean::valueOf(value.browsable.value()) : nullptr,
         value.enabled,

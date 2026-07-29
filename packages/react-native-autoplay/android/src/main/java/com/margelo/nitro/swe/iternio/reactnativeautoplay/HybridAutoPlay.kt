@@ -97,6 +97,25 @@ class HybridAutoPlay : HybridAutoPlaySpec() {
         }
     }
 
+    override fun configureNowPlayingTemplate(
+        onUpNextButtonPress: () -> Unit,
+        onAlbumArtistButtonPress: () -> Unit,
+        upNextButtonEnabled: Boolean?,
+        upNextTitle: String?,
+        albumArtistButtonEnabled: Boolean?,
+        buttons: Array<NitroAction>?
+    ): Promise<Unit> {
+        return Promise.async {
+            Unit
+        }
+    }
+
+    override fun showNowPlayingTemplate(animated: Boolean?): Promise<Unit> {
+        return Promise.async {
+            Unit
+        }
+    }
+
     override fun setRootTemplate(templateId: String): Promise<Unit> {
         return Promise.async {
             val template = AndroidAutoTemplate.getTemplate(templateId)

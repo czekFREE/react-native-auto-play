@@ -23,6 +23,8 @@ public protocol HybridAutoPlaySpec_protocol: HybridObject {
   func popToTemplate(templateId: String, animate: Bool?) throws -> Promise<Void>
   func addSafeAreaInsetsListener(moduleName: String, callback: @escaping (_ insets: SafeAreaInsets) -> Void) throws -> () -> Void
   func setTemplateHeaderActions(templateId: String, headerActions: [NitroAction]?) throws -> Promise<Void>
+  func configureNowPlayingTemplate(onUpNextButtonPress: @escaping () -> Void, onAlbumArtistButtonPress: @escaping () -> Void, upNextButtonEnabled: Bool?, upNextTitle: String?, albumArtistButtonEnabled: Bool?, buttons: [NitroAction]?) throws -> Promise<Void>
+  func showNowPlayingTemplate(animated: Bool?) throws -> Promise<Void>
   func isConnected() throws -> Bool
   func isCarServiceRunning() throws -> Bool
 }

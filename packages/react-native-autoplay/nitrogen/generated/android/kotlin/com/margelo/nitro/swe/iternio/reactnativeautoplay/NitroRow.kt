@@ -23,6 +23,9 @@ data class NitroRow(
   val title: AutoText,
   @DoNotStrip
   @Keep
+  val id: String?,
+  @DoNotStrip
+  @Keep
   val detailedText: AutoText?,
   @DoNotStrip
   @Keep
@@ -46,13 +49,14 @@ data class NitroRow(
   /**
    * Create a new instance of NitroRow from Kotlin
    */
-  constructor(title: AutoText, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: ((checked: Boolean?) -> Unit)?, selected: Boolean?):
-         this(title, detailedText, browsable, enabled, image, checked, onPress?.let { Func_void_std__optional_bool__java(it) }, selected)
+  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: ((checked: Boolean?) -> Unit)?, selected: Boolean?):
+         this(title, id, detailedText, browsable, enabled, image, checked, onPress?.let { Func_void_std__optional_bool__java(it) }, selected)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is NitroRow) return false
     return Objects.deepEquals(this.title, other.title)
+      && Objects.deepEquals(this.id, other.id)
       && Objects.deepEquals(this.detailedText, other.detailedText)
       && Objects.deepEquals(this.browsable, other.browsable)
       && Objects.deepEquals(this.enabled, other.enabled)
@@ -65,6 +69,7 @@ data class NitroRow(
   override fun hashCode(): Int {
     return arrayOf<Any?>(
       title,
+      id,
       detailedText,
       browsable,
       enabled,
@@ -83,8 +88,8 @@ data class NitroRow(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: AutoText, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: Func_void_std__optional_bool_?, selected: Boolean?): NitroRow {
-      return NitroRow(title, detailedText, browsable, enabled, image, checked, onPress, selected)
+    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: Func_void_std__optional_bool_?, selected: Boolean?): NitroRow {
+      return NitroRow(title, id, detailedText, browsable, enabled, image, checked, onPress, selected)
     }
   }
 }

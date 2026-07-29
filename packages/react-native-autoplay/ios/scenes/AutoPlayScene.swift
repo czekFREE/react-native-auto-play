@@ -33,6 +33,7 @@ class AutoPlayScene: UIResponder {
     }
 
     func connect(props: [String: Any]) {
+        SceneStore.addScene(moduleName: moduleName, scene: self)
         isConnected = true
 
         initialProperties = initialProperties.merging(props) { current, _ in

@@ -255,6 +255,45 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       return __promise;
     }();
   }
+  std::shared_ptr<Promise<void>> JHybridAutoPlaySpec::configureNowPlayingTemplate(const std::function<void()>& onUpNextButtonPress, const std::function<void()>& onAlbumArtistButtonPress, std::optional<bool> upNextButtonEnabled, const std::optional<std::string>& upNextTitle, std::optional<bool> albumArtistButtonEnabled, const std::optional<std::vector<NitroAction>>& buttons) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<JFunc_void::javaobject> /* onUpNextButtonPress */, jni::alias_ref<JFunc_void::javaobject> /* onAlbumArtistButtonPress */, jni::alias_ref<jni::JBoolean> /* upNextButtonEnabled */, jni::alias_ref<jni::JString> /* upNextTitle */, jni::alias_ref<jni::JBoolean> /* albumArtistButtonEnabled */, jni::alias_ref<jni::JArrayClass<JNitroAction>> /* buttons */)>("configureNowPlayingTemplate_cxx");
+    auto __result = method(_javaPart, JFunc_void_cxx::fromCpp(onUpNextButtonPress), JFunc_void_cxx::fromCpp(onAlbumArtistButtonPress), upNextButtonEnabled.has_value() ? jni::JBoolean::valueOf(upNextButtonEnabled.value()) : nullptr, upNextTitle.has_value() ? jni::make_jstring(upNextTitle.value()) : nullptr, albumArtistButtonEnabled.has_value() ? jni::JBoolean::valueOf(albumArtistButtonEnabled.value()) : nullptr, buttons.has_value() ? [&](auto&& __input) {
+      size_t __size = __input.size();
+      jni::local_ref<jni::JArrayClass<JNitroAction>> __array = jni::JArrayClass<JNitroAction>::newArray(__size);
+      for (size_t __i = 0; __i < __size; __i++) {
+        const auto& __element = __input[__i];
+        auto __elementJni = JNitroAction::fromCpp(__element);
+        __array->setElement(__i, *__elementJni);
+      }
+      return __array;
+    }(buttons.value()) : nullptr);
+    return [&]() {
+      auto __promise = Promise<void>::create();
+      __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {
+        __promise->resolve();
+      });
+      __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
+        jni::JniException __jniError(__throwable);
+        __promise->reject(std::make_exception_ptr(__jniError));
+      });
+      return __promise;
+    }();
+  }
+  std::shared_ptr<Promise<void>> JHybridAutoPlaySpec::showNowPlayingTemplate(std::optional<bool> animated) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JBoolean> /* animated */)>("showNowPlayingTemplate");
+    auto __result = method(_javaPart, animated.has_value() ? jni::JBoolean::valueOf(animated.value()) : nullptr);
+    return [&]() {
+      auto __promise = Promise<void>::create();
+      __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {
+        __promise->resolve();
+      });
+      __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
+        jni::JniException __jniError(__throwable);
+        __promise->reject(std::make_exception_ptr(__jniError));
+      });
+      return __promise;
+    }();
+  }
   bool JHybridAutoPlaySpec::isConnected() {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jboolean()>("isConnected");
     auto __result = method(_javaPart);

@@ -6,6 +6,7 @@ type NitroSectionType = 'default' | 'radio';
 
 export type NitroRow = {
   title: AutoText;
+  id?: string;
   detailedText?: AutoText;
   browsable?: boolean;
   enabled: boolean;
@@ -67,7 +68,7 @@ const convertRow = <T>(
   template: T,
   item: DefaultRow<T> | RadioRow<T> | ToggleRow<T> | TextRow
 ): NitroRow => {
-  const { title, type, enabled = true, image } = item;
+  const { title, type, enabled = true, id, image } = item;
 
   const detailedText = 'detailedText' in item ? item.detailedText : undefined;
   const selected = type === 'radio' ? (item.selected ?? false) : undefined;
@@ -92,6 +93,7 @@ const convertRow = <T>(
     browsable: type === 'default' ? item.browsable : undefined,
     detailedText,
     enabled,
+    id,
     image: NitroImageUtil.convert(image),
     title,
     checked: type === 'toggle' ? item.checked : undefined,

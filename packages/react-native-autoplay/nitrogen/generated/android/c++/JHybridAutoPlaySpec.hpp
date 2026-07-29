@@ -64,6 +64,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     std::shared_ptr<Promise<void>> popToTemplate(const std::string& templateId, std::optional<bool> animate) override;
     std::function<void()> addSafeAreaInsetsListener(const std::string& moduleName, const std::function<void(const SafeAreaInsets& /* insets */)>& callback) override;
     std::shared_ptr<Promise<void>> setTemplateHeaderActions(const std::string& templateId, const std::optional<std::vector<NitroAction>>& headerActions) override;
+    std::shared_ptr<Promise<void>> configureNowPlayingTemplate(const std::function<void()>& onUpNextButtonPress, const std::function<void()>& onAlbumArtistButtonPress, std::optional<bool> upNextButtonEnabled, const std::optional<std::string>& upNextTitle, std::optional<bool> albumArtistButtonEnabled, const std::optional<std::vector<NitroAction>>& buttons) override;
+    std::shared_ptr<Promise<void>> showNowPlayingTemplate(std::optional<bool> animated) override;
     bool isConnected() override;
     bool isCarServiceRunning() override;
 

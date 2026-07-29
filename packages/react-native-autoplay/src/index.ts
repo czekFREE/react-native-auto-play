@@ -34,16 +34,14 @@ export * from './hooks/useSafeAreaInsets';
 export * from './hooks/useVoiceInput';
 export * from './scenes/AutoPlayCluster';
 export * from './scenes/CarPlayDashboardScene';
-export type {
-  ActiveCarUxRestrictions,
-  AppFocusState,
-} from './specs/AndroidAutomotive.nitro';
+export type { ActiveCarUxRestrictions, AppFocusState } from './specs/AndroidAutomotive.nitro';
 export { CarUxRestrictions } from './specs/AndroidAutomotive.nitro';
 export * from './templates/GridTemplate';
 export * from './templates/InformationTemplate';
 export * from './templates/ListTemplate';
 export * from './templates/MapTemplate';
 export * from './templates/MessageTemplate';
+export * from './templates/NowPlayingTemplate';
 export * from './templates/SearchTemplate';
 export * from './templates/SignInTemplate';
 export * from './templates/Template';

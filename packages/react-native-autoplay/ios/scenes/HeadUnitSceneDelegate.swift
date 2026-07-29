@@ -34,6 +34,14 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
         ]
 
         connect(props: props)
+        do {
+            try initRootView()
+            NSLog("[AutoPlay] HeadUnitSceneDelegate initRootView succeeded")
+        } catch {
+            NSLog(
+                "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
+            )
+        }
         HybridAutoPlay.emit(event: .didconnect)
     }
 
@@ -49,6 +57,14 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
             "colorScheme": interfaceController.carTraitCollection
                 .userInterfaceStyle == .dark ? "dark" : "light"
         ])
+        do {
+            try initRootView()
+            NSLog("[AutoPlay] HeadUnitSceneDelegate initRootView succeeded")
+        } catch {
+            NSLog(
+                "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
+            )
+        }
         HybridAutoPlay.emit(event: .didconnect)
     }
 
@@ -90,6 +106,19 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        restoreConnectionIfNeeded(reason: "sceneDidBecomeActive")
         setState(state: .didappear)
+    }
+
+    private func restoreConnectionIfNeeded(reason: String) {
+        guard interfaceController != nil else { return }
+
+        SceneStore.addScene(moduleName: moduleName, scene: self)
+
+        guard !isConnected else { return }
+
+        NSLog("[AutoPlay] restoring CarPlay connection, reason=\(reason)")
+        connect(props: [:])
+        HybridAutoPlay.emit(event: .didconnect)
     }
 }

@@ -1,5 +1,6 @@
 import AVFoundation
 import CarPlay
+import MediaPlayer
 import NitroModules
 
 struct StateListener {
@@ -17,10 +18,76 @@ struct SafeAreaListener {
     let callback: (SafeAreaInsets) -> Void
 }
 
+private class NowPlayingTemplateObserver: NSObject, CPNowPlayingTemplateObserver {
+    var onUpNextButtonPress: (() -> Void)?
+    var onAlbumArtistButtonPress: (() -> Void)?
+
+    func nowPlayingTemplateUpNextButtonTapped(
+        _ nowPlayingTemplate: CPNowPlayingTemplate
+    ) {
+        onUpNextButtonPress?()
+    }
+
+    func nowPlayingTemplateAlbumArtistButtonTapped(
+        _ nowPlayingTemplate: CPNowPlayingTemplate
+    ) {
+        onAlbumArtistButtonPress?()
+    }
+}
+
 class HybridAutoPlay: HybridAutoPlaySpec {
     private static var listeners = [EventName: [StateListener]]()
     private static var renderStateListeners = [String: [RenderStateListener]]()
     private static var safeAreaInsetsListeners = [String: [SafeAreaListener]]()
+    private static let nowPlayingTemplateObserver = NowPlayingTemplateObserver()
+    private static var nowPlayingTemplateObserverRegistered = false
+    private static let nowPlayingButtonSelectedFlag = 1.0
+    private static let nowPlayingButtonTypeAddToLibrary = "addToLibrary"
+    private static let nowPlayingButtonTypeImage = "image"
+    private static let nowPlayingButtonTypeMore = "more"
+    private static let nowPlayingButtonTypePlaybackRate = "playbackRate"
+    private static let nowPlayingButtonTypeRepeat = "repeat"
+    private static let nowPlayingButtonTypeShuffle = "shuffle"
+
+    private static func logNowPlayingState(reason: String) {
+        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
+        let nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo
+        let remoteCommandCenter = MPRemoteCommandCenter.shared()
+
+        let snapshot: [String: Any] = [
+            "reason": reason,
+            "title": nowPlayingInfo?[MPMediaItemPropertyTitle] ?? "nil",
+            "artist": nowPlayingInfo?[MPMediaItemPropertyArtist] ?? "nil",
+            "album": nowPlayingInfo?[MPMediaItemPropertyAlbumTitle] ?? "nil",
+            "duration":
+                nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] ?? "nil",
+            "elapsedTime":
+                nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime]
+                ?? "nil",
+            "playbackRate":
+                nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] ?? "nil",
+            "playbackState": nowPlayingInfoCenter.playbackState.rawValue,
+            "hasArtwork":
+                nowPlayingInfo?[MPMediaItemPropertyArtwork] != nil,
+            "commands": [
+                "play": remoteCommandCenter.playCommand.isEnabled,
+                "pause": remoteCommandCenter.pauseCommand.isEnabled,
+                "togglePlayPause":
+                    remoteCommandCenter.togglePlayPauseCommand.isEnabled,
+                "stop": remoteCommandCenter.stopCommand.isEnabled,
+                "seek":
+                    remoteCommandCenter.changePlaybackPositionCommand.isEnabled,
+                "next": remoteCommandCenter.nextTrackCommand.isEnabled,
+                "previous": remoteCommandCenter.previousTrackCommand.isEnabled,
+                "skipForward":
+                    remoteCommandCenter.skipForwardCommand.isEnabled,
+                "skipBackward":
+                    remoteCommandCenter.skipBackwardCommand.isEnabled,
+            ],
+        ]
+
+        print("[AutoPlay][NowPlaying][iOS] snapshot \(snapshot)")
+    }
 
     override init() {
         HybridAutoPlay.listeners.removeAll()
@@ -126,6 +193,70 @@ class HybridAutoPlay: HybridAutoPlaySpec {
         return {}
     }
 
+    // MARK: CPNowPlayingTemplate
+    func configureNowPlayingTemplate(
+        onUpNextButtonPress: @escaping () -> Void,
+        onAlbumArtistButtonPress: @escaping () -> Void,
+        upNextButtonEnabled: Bool?,
+        upNextTitle: String?,
+        albumArtistButtonEnabled: Bool?,
+        buttons: [NitroAction]?
+    ) throws -> Promise<Void> {
+        return Promise.async {
+            await MainActor.run {
+                let nowPlayingTemplate = CPNowPlayingTemplate.shared
+
+                nowPlayingTemplate.isUpNextButtonEnabled =
+                    upNextButtonEnabled ?? false
+                nowPlayingTemplate.upNextTitle = upNextTitle ?? ""
+                nowPlayingTemplate.isAlbumArtistButtonEnabled =
+                    albumArtistButtonEnabled ?? false
+
+                HybridAutoPlay.nowPlayingTemplateObserver
+                    .onUpNextButtonPress = onUpNextButtonPress
+                HybridAutoPlay.nowPlayingTemplateObserver
+                    .onAlbumArtistButtonPress = onAlbumArtistButtonPress
+
+                if !HybridAutoPlay.nowPlayingTemplateObserverRegistered {
+                    nowPlayingTemplate.add(
+                        HybridAutoPlay.nowPlayingTemplateObserver
+                    )
+                    HybridAutoPlay.nowPlayingTemplateObserverRegistered = true
+                }
+
+                nowPlayingTemplate.updateNowPlayingButtons(
+                    HybridAutoPlay.parseNowPlayingButtons(buttons: buttons)
+                )
+            }
+        }
+    }
+
+    func showNowPlayingTemplate(animated: Bool?) throws -> Promise<Void> {
+        return Promise.async {
+            try await RootModule.withInterfaceController {
+                interfaceController in
+
+                let nowPlayingTemplate = await CPNowPlayingTemplate.shared
+                HybridAutoPlay.logNowPlayingState(reason: "before-show")
+
+                if let topTemplate = await interfaceController.topTemplate,
+                    topTemplate === nowPlayingTemplate
+                {
+                    HybridAutoPlay.logNowPlayingState(
+                        reason: "show-skipped-already-top"
+                    )
+                    return
+                }
+
+                let _ = try await interfaceController.pushTemplate(
+                    nowPlayingTemplate,
+                    animated: animated ?? true
+                )
+                HybridAutoPlay.logNowPlayingState(reason: "after-show")
+            }
+        }
+    }
+
     // MARK: set/push/pop templates
     func setRootTemplate(templateId: String) throws -> Promise<Void> {
         return Promise.async {
@@ -196,7 +327,7 @@ class HybridAutoPlay: HybridAutoPlaySpec {
 
                         if interfaceController.topTemplateId == templateId
                             || interfaceController.interfaceController
-                                .presentedTemplate?.id == templateId
+                                .presentedTemplate?.autoPlayId == templateId
                         {
                             try await self.popTemplate(animate: true).await()
                         }
@@ -337,5 +468,69 @@ class HybridAutoPlay: HybridAutoPlaySpec {
             right: safeAreaInsets.right,
             isLegacyLayout: nil
         )
+    }
+
+    @MainActor
+    private static func parseNowPlayingButtons(buttons: [NitroAction]?)
+        -> [CPNowPlayingButton]
+    {
+        guard let buttons else { return [] }
+
+        return buttons.prefix(5).compactMap { button in
+            parseNowPlayingButton(button: button)
+        }
+    }
+
+    @MainActor
+    private static func parseNowPlayingButton(button: NitroAction)
+        -> CPNowPlayingButton?
+    {
+        let handler: (CPNowPlayingButton) -> Void = { _ in
+            button.onPress()
+        }
+
+        let nowPlayingButton: CPNowPlayingButton?
+
+        switch button.title {
+        case nowPlayingButtonTypeShuffle:
+            nowPlayingButton = CPNowPlayingShuffleButton(handler: handler)
+        case nowPlayingButtonTypeAddToLibrary:
+            nowPlayingButton = CPNowPlayingAddToLibraryButton(handler: handler)
+        case nowPlayingButtonTypeMore:
+            nowPlayingButton = CPNowPlayingMoreButton(handler: handler)
+        case nowPlayingButtonTypePlaybackRate:
+            nowPlayingButton = CPNowPlayingPlaybackRateButton(handler: handler)
+        case nowPlayingButtonTypeRepeat:
+            nowPlayingButton = CPNowPlayingRepeatButton(handler: handler)
+        case nowPlayingButtonTypeImage:
+            nowPlayingButton = parseNowPlayingImageButton(
+                button: button,
+                handler: handler
+            )
+        default:
+            nowPlayingButton = nil
+        }
+
+        nowPlayingButton?.isEnabled = button.enabled ?? true
+        nowPlayingButton?.isSelected =
+            button.flags == nowPlayingButtonSelectedFlag
+
+        return nowPlayingButton
+    }
+
+    @MainActor
+    private static func parseNowPlayingImageButton(
+        button: NitroAction,
+        handler: @escaping (CPNowPlayingButton) -> Void
+    ) -> CPNowPlayingImageButton? {
+        guard
+            let image = Parser.parseNitroImage(
+                image: button.image,
+                traitCollection: SceneStore.getRootTraitCollection()
+                    ?? UITraitCollection.current
+            )
+        else { return nil }
+
+        return CPNowPlayingImageButton(image: image, handler: handler)
     }
 }

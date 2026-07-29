@@ -18,6 +18,7 @@ const HybridListTemplate = NitroModules.createHybridObject<NitroListTemplate>('L
 
 type BaseRow = {
   title: AutoText;
+  id?: string;
   enabled?: boolean;
   image?: AutoImage;
 };

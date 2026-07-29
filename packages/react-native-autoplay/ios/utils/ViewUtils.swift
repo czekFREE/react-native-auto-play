@@ -5,6 +5,8 @@
 //  Created by Manuel Auer on 01.10.25.
 //
 
+import UIKit
+
 class ViewUtils {
     // we use reflection to find the method that provides us root views from the app delegate
     // to avoid issues when importing React_AppDelegate (glog imports break)
@@ -21,6 +23,26 @@ class ViewUtils {
         }
 
         return nil
+    }
+
+    static func showSplashScreenForWindowApplicationScene(rootView: UIView) {
+        if let appDelegate = UIApplication.shared.delegate as? NSObject {
+            let selector = NSSelectorFromString(
+                "showSplashScreenForWindowApplicationSceneWithRootView:"
+            )
+            if appDelegate.responds(to: selector),
+                let methodIMP = appDelegate.method(for: selector)
+            {
+                typealias Func = @convention(c) (
+                    AnyObject,
+                    Selector,
+                    UIView
+                ) -> Void
+                let function = unsafeBitCast(methodIMP, to: Func.self)
+
+                function(appDelegate, selector, rootView)
+            }
+        }
     }
 
     static func showLaunchScreen(window: UIWindow) {

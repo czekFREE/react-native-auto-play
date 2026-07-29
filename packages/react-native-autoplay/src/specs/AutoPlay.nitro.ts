@@ -88,6 +88,25 @@ export interface AutoPlay extends HybridObject<{ android: 'kotlin'; ios: 'swift'
   setTemplateHeaderActions(templateId: string, headerActions?: Array<NitroAction>): Promise<void>;
 
   /**
+   * Configure the shared iOS CPNowPlayingTemplate.
+   * Android Auto exposes Now Playing through the media session, so Android resolves this as a no-op.
+   */
+  configureNowPlayingTemplate(
+    onUpNextButtonPress: () => void,
+    onAlbumArtistButtonPress: () => void,
+    upNextButtonEnabled?: boolean,
+    upNextTitle?: string,
+    albumArtistButtonEnabled?: boolean,
+    buttons?: Array<NitroAction>
+  ): Promise<void>;
+
+  /**
+   * Present the shared iOS CPNowPlayingTemplate.
+   * Android Auto exposes Now Playing through the media session, so Android resolves this as a no-op.
+   */
+  showNowPlayingTemplate(animated?: boolean): Promise<void>;
+
+  /**
    * Check if AutoPlay is connected.
    * @returns true if AutoPlay is connected, false otherwise.
    */

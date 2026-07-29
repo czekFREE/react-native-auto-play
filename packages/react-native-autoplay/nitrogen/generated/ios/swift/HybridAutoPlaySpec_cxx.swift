@@ -359,6 +359,89 @@ open class HybridAutoPlaySpec_cxx {
   }
   
   @inline(__always)
+  public final func configureNowPlayingTemplate(onUpNextButtonPress: bridge.Func_void, onAlbumArtistButtonPress: bridge.Func_void, upNextButtonEnabled: bridge.std__optional_bool_, upNextTitle: bridge.std__optional_std__string_, albumArtistButtonEnabled: bridge.std__optional_bool_, buttons: bridge.std__optional_std__vector_NitroAction__) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.configureNowPlayingTemplate(onUpNextButtonPress: { () -> () -> Void in
+        let __wrappedFunction = bridge.wrap_Func_void(onUpNextButtonPress)
+        return { () -> Void in
+          __wrappedFunction.call()
+        }
+      }(), onAlbumArtistButtonPress: { () -> () -> Void in
+        let __wrappedFunction = bridge.wrap_Func_void(onAlbumArtistButtonPress)
+        return { () -> Void in
+          __wrappedFunction.call()
+        }
+      }(), upNextButtonEnabled: { () -> Bool? in
+        if bridge.has_value_std__optional_bool_(upNextButtonEnabled) {
+          let __unwrapped = bridge.get_std__optional_bool_(upNextButtonEnabled)
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }(), upNextTitle: { () -> String? in
+        if bridge.has_value_std__optional_std__string_(upNextTitle) {
+          let __unwrapped = bridge.get_std__optional_std__string_(upNextTitle)
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }(), albumArtistButtonEnabled: { () -> Bool? in
+        if bridge.has_value_std__optional_bool_(albumArtistButtonEnabled) {
+          let __unwrapped = bridge.get_std__optional_bool_(albumArtistButtonEnabled)
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }(), buttons: { () -> [NitroAction]? in
+        if bridge.has_value_std__optional_std__vector_NitroAction__(buttons) {
+          let __unwrapped = bridge.get_std__optional_std__vector_NitroAction__(buttons)
+          return __unwrapped.map({ __item in __item })
+        } else {
+          return nil
+        }
+      }())
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
+  public final func showNowPlayingTemplate(animated: bridge.std__optional_bool_) -> bridge.Result_std__shared_ptr_Promise_void___ {
+    do {
+      let __result = try self.__implementation.showNowPlayingTemplate(animated: { () -> Bool? in
+        if bridge.has_value_std__optional_bool_(animated) {
+          let __unwrapped = bridge.get_std__optional_bool_(animated)
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }())
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve() })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
+    }
+  }
+  
+  @inline(__always)
   public final func isConnected() -> bridge.Result_bool_ {
     do {
       let __result = try self.__implementation.isConnected()

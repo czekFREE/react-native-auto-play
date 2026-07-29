@@ -38,11 +38,11 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
     }
 
     var topTemplateId: String? {
-        return interfaceController.topTemplate?.id
+        return interfaceController.topTemplate?.autoPlayId
     }
 
     var rootTemplateId: String? {
-        return interfaceController.rootTemplate.id
+        return interfaceController.rootTemplate.autoPlayId
     }
 
     func pushTemplate(
@@ -90,7 +90,9 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         var templateIds: [String] = []
 
         templates.forEach { template in
-            let templateId = template.id
+            guard let templateId = template.autoPlayId else {
+                return
+            }
 
             if templateId == rootTemplateId {
                 return
@@ -118,12 +120,12 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         guard
             let template = interfaceController.templates.first(
                 where: {
-                    templateId == $0.id
+                    templateId == $0.autoPlayId
                 })
         else { return [] }
 
-        var templateIds: [String] = interfaceController.templates.map {
-            template in template.id
+        var templateIds: [String] = interfaceController.templates.compactMap {
+            template in template.autoPlayId
         }
 
         if let startIndex = templateIds.firstIndex(where: {
@@ -173,7 +175,9 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         _ aTemplate: CPTemplate,
         animated: Bool
     ) {
-        let templateId = aTemplate.id
+        guard let templateId = aTemplate.autoPlayId else {
+            return
+        }
 
         try? RootModule.withAutoPlayTemplate(templateId: templateId) {
             (template: AutoPlayTemplate) in
@@ -187,7 +191,9 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         _ aTemplate: CPTemplate,
         animated: Bool
     ) {
-        let templateId = aTemplate.id
+        guard let templateId = aTemplate.autoPlayId else {
+            return
+        }
 
         if rootTemplateId == templateId {
             // this makes sure we purge outdated CPSearchTemplate since that one can be popped on with a CarPlay native button we can not intercept
@@ -210,7 +216,9 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         _ aTemplate: CPTemplate,
         animated: Bool
     ) {
-        let templateId = aTemplate.id
+        guard let templateId = aTemplate.autoPlayId else {
+            return
+        }
 
         try? RootModule.withAutoPlayTemplate(
             templateId: templateId,
@@ -228,7 +236,9 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         _ aTemplate: CPTemplate,
         animated: Bool
     ) {
-        let templateId = aTemplate.id
+        guard let templateId = aTemplate.autoPlayId else {
+            return
+        }
 
         try? RootModule.withAutoPlayTemplate(
             templateId: templateId,
