@@ -44,6 +44,7 @@ export * from './templates/MessageTemplate';
 export * from './templates/NowPlayingTemplate';
 export * from './templates/SearchTemplate';
 export * from './templates/SignInTemplate';
+export * from './templates/TabBarTemplate';
 export * from './templates/Template';
 export * from './types/Button';
 export * from './types/Event';

@@ -46,6 +46,7 @@ target_sources(
   ../nitrogen/generated/shared/c++/HybridMessageTemplateSpec.cpp
   ../nitrogen/generated/shared/c++/HybridSearchTemplateSpec.cpp
   ../nitrogen/generated/shared/c++/HybridSignInTemplateSpec.cpp
+  ../nitrogen/generated/shared/c++/HybridTabBarTemplateSpec.cpp
   ../nitrogen/generated/shared/c++/HybridVoiceSpec.cpp
   # Android-specific Nitrogen C++ sources
   ../nitrogen/generated/android/c++/JHybridAndroidAutomotiveSpec.cpp

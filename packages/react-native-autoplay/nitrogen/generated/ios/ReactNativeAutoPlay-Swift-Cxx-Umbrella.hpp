@@ -52,6 +52,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { class HybridMapTem
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { class HybridMessageTemplateSpec; }
 // Forward declaration of `HybridSearchTemplateSpec` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { class HybridSearchTemplateSpec; }
+// Forward declaration of `HybridTabBarTemplateSpec` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { class HybridTabBarTemplateSpec; }
 // Forward declaration of `HybridVoiceSpec` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { class HybridVoiceSpec; }
 // Forward declaration of `ImageLane` to properly resolve imports.
@@ -114,6 +116,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 // Forward declaration of `NitroSection` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSection; }
+// Forward declaration of `NitroTabBarItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroTabBarItem; }
 // Forward declaration of `OffRampType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class OffRampType; }
 // Forward declaration of `OnRampType` to properly resolve imports.
@@ -130,6 +134,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RouteChoice
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct SafeAreaInsets; }
 // Forward declaration of `SearchTemplateConfig` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct SearchTemplateConfig; }
+// Forward declaration of `TabBarTemplateConfig` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct TabBarTemplateConfig; }
 // Forward declaration of `TrafficSide` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class TrafficSide; }
 // Forward declaration of `TravelEstimates` to properly resolve imports.
@@ -182,6 +188,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class ZoomEve
 #include "HybridMapTemplateSpec.hpp"
 #include "HybridMessageTemplateSpec.hpp"
 #include "HybridSearchTemplateSpec.hpp"
+#include "HybridTabBarTemplateSpec.hpp"
 #include "HybridVoiceSpec.hpp"
 #include "ImageLane.hpp"
 #include "InformationTemplateConfig.hpp"
@@ -213,6 +220,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class ZoomEve
 #include "NitroRow.hpp"
 #include "NitroSection.hpp"
 #include "NitroSectionType.hpp"
+#include "NitroTabBarItem.hpp"
 #include "OffRampType.hpp"
 #include "OnRampType.hpp"
 #include "Point.hpp"
@@ -221,6 +229,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class ZoomEve
 #include "RouteChoice.hpp"
 #include "SafeAreaInsets.hpp"
 #include "SearchTemplateConfig.hpp"
+#include "TabBarTemplateConfig.hpp"
 #include "TrafficSide.hpp"
 #include "TravelEstimates.hpp"
 #include "TripConfig.hpp"
@@ -274,6 +283,8 @@ namespace ReactNativeAutoPlay { class HybridMapTemplateSpec_cxx; }
 namespace ReactNativeAutoPlay { class HybridMessageTemplateSpec_cxx; }
 // Forward declaration of `HybridSearchTemplateSpec_cxx` to properly resolve imports.
 namespace ReactNativeAutoPlay { class HybridSearchTemplateSpec_cxx; }
+// Forward declaration of `HybridTabBarTemplateSpec_cxx` to properly resolve imports.
+namespace ReactNativeAutoPlay { class HybridTabBarTemplateSpec_cxx; }
 // Forward declaration of `HybridVoiceSpec_cxx` to properly resolve imports.
 namespace ReactNativeAutoPlay { class HybridVoiceSpec_cxx; }
 

@@ -78,6 +78,13 @@ extension CPListTemplate {
     }
 }
 
+extension CPTabBarTemplate {
+    convenience init(templates: [CPTemplate], id: String) {
+        self.init(templates: templates)
+        initTemplate(template: self, id: id)
+    }
+}
+
 extension CPAlertTemplate {
     convenience init(
         titleVariants: [String],

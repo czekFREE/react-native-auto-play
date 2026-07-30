@@ -13,6 +13,7 @@
 #include "HybridVoiceSpecSwift.hpp"
 #include "HybridAutoPlaySpecSwift.hpp"
 #include "HybridListTemplateSpecSwift.hpp"
+#include "HybridTabBarTemplateSpecSwift.hpp"
 #include "HybridInformationTemplateSpecSwift.hpp"
 #include "HybridGridTemplateSpecSwift.hpp"
 #include "HybridMapTemplateSpecSwift.hpp"
@@ -48,6 +49,13 @@
     "ListTemplate",
     []() -> std::shared_ptr<HybridObject> {
       std::shared_ptr<HybridListTemplateSpec> hybridObject = ReactNativeAutoPlay::ReactNativeAutoPlayAutolinking::createListTemplate();
+      return hybridObject;
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "TabBarTemplate",
+    []() -> std::shared_ptr<HybridObject> {
+      std::shared_ptr<HybridTabBarTemplateSpec> hybridObject = ReactNativeAutoPlay::ReactNativeAutoPlayAutolinking::createTabBarTemplate();
       return hybridObject;
     }
   );

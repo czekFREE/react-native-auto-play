@@ -8,21 +8,21 @@
 import NitroModules
 
 /**
- * Wraps a Swift `(_ searchText: String) -> Void` as a class.
+ * Wraps a Swift `(_ templateId: String) -> Void` as a class.
  * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
  */
 public final class Func_void_std__string {
   public typealias bridge = margelo.nitro.swe.iternio.reactnativeautoplay.bridge.swift
 
-  private let closure: (_ searchText: String) -> Void
+  private let closure: (_ templateId: String) -> Void
 
-  public init(_ closure: @escaping (_ searchText: String) -> Void) {
+  public init(_ closure: @escaping (_ templateId: String) -> Void) {
     self.closure = closure
   }
 
   @inline(__always)
-  public func call(searchText: std.string) -> Void {
-    self.closure(String(searchText))
+  public func call(templateId: std.string) -> Void {
+    self.closure(String(templateId))
   }
 
   /**
