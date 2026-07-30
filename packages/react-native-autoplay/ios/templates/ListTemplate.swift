@@ -12,6 +12,7 @@ class ListTemplate: AutoPlayHeaderProviding {
     var config: ListTemplateConfig
 
     var sections: [NitroSection]?
+    private var playingItemId: String?
 
     private static func createSectionsLogValue(sections: [NitroSection]?) -> String {
         let sectionCount = sections?.count ?? 0
@@ -110,6 +111,7 @@ class ListTemplate: AutoPlayHeaderProviding {
                 traitCollection: traitCollection
             )
         )
+        applyPlayingItem()
 
         NSLog(
             "[AutoPlay] native list template CPListTemplate.updateSections end templateId=\(config.id), currentItems=\(template.itemCount)"
@@ -167,6 +169,7 @@ class ListTemplate: AutoPlayHeaderProviding {
             )
         {
             self.sections = nextSections
+            applyPlayingItem()
             NSLog(
                 "[AutoPlay] native list template rows updated in place templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
             )
@@ -176,6 +179,38 @@ class ListTemplate: AutoPlayHeaderProviding {
 
         self.sections = sections
         invalidate()
+    }
+
+    @MainActor
+    func updatePlayingItem(itemId: String?) {
+        playingItemId = itemId
+        applyPlayingItem()
+    }
+
+    @MainActor
+    private func applyPlayingItem() {
+        var matchedItemCount = 0
+
+        for section in template.sections {
+            for case let listItem as CPListItem in section.items {
+                let isPlaying =
+                    playingItemId != nil
+                    && listItem.userInfo as? String == playingItemId
+
+                listItem.playingIndicatorLocation = .trailing
+                if listItem.isPlaying != isPlaying {
+                    listItem.isPlaying = isPlaying
+                }
+
+                if isPlaying {
+                    matchedItemCount += 1
+                }
+            }
+        }
+
+        NSLog(
+            "[AutoPlay] native list template playing item updated templateId=\(config.id), itemId=\(playingItemId ?? "none"), matchedItems=\(matchedItemCount)"
+        )
     }
 
     @MainActor

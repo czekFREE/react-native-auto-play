@@ -50,12 +50,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     // Properties
-    
+
 
   public:
     // Methods
     void createListTemplate(const ListTemplateConfig& config) override;
     std::shared_ptr<Promise<void>> updateListTemplateSections(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections) override;
+    std::shared_ptr<Promise<void>> updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) override;
 
   private:
     jni::global_ref<JHybridListTemplateSpec::JavaPart> _javaPart;

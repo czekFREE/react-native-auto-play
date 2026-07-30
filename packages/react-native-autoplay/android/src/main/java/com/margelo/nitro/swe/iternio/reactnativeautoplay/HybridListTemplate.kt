@@ -22,4 +22,12 @@ class HybridListTemplate : HybridListTemplateSpec() {
             template.updateSections(sections)
         }
     }
+
+    override fun updateListTemplatePlayingItem(
+        templateId: String, itemId: String?
+    ): Promise<Unit> {
+        return Promise.async {
+            Unit
+        }
+    }
 }

@@ -32,4 +32,18 @@ class HybridListTemplate: HybridListTemplateSpec {
             }
         }
     }
+
+    func updateListTemplatePlayingItem(
+        templateId: String,
+        itemId: String?
+    ) throws -> Promise<Void> {
+        return Promise.async {
+            try await MainActor.run {
+                try RootModule.withAutoPlayTemplate(templateId: templateId) {
+                    (template: ListTemplate) in
+                    template.updatePlayingItem(itemId: itemId)
+                }
+            }
+        }
+    }
 }

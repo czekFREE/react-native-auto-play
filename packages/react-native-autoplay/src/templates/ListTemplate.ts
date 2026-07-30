@@ -132,4 +132,8 @@ export class ListTemplate extends Template<ListTemplateConfig, HeaderActions<Lis
       NitroSectionUtil.convert(this.template, sections)
     );
   }
+
+  public updatePlayingItem(itemId?: string) {
+    return HybridListTemplate.updateListTemplatePlayingItem(this.id, itemId);
+  }
 }

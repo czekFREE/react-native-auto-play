@@ -52,12 +52,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
     public:
       // Properties
-      
+
 
     public:
       // Methods
       virtual void createListTemplate(const ListTemplateConfig& config) = 0;
       virtual std::shared_ptr<Promise<void>> updateListTemplateSections(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections) = 0;
+      virtual std::shared_ptr<Promise<void>> updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) = 0;
 
     protected:
       // Hybrid Setup

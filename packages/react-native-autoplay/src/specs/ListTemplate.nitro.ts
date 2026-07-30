@@ -10,4 +10,5 @@ export interface ListTemplate extends HybridObject<{ android: 'kotlin'; ios: 'sw
     templateId: string,
     sections: NitroListTemplateConfig['sections']
   ): Promise<void>;
+  updateListTemplatePlayingItem(templateId: string, itemId?: string): Promise<void>;
 }
