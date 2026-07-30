@@ -184,6 +184,14 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     return swiftPart.toUnsafe();
   }
 
+  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>
+  Func_void_std__optional_bool__std__optional_std__function_void____ create_Func_void_std__optional_bool__std__optional_std__function_void____(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeAutoPlay::Func_void_std__optional_bool__std__optional_std__function_void____::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](std::optional<bool> checked, const std::optional<std::function<void()>>& complete) mutable -> void {
+      swiftClosure.call(checked, complete);
+    };
+  }
+
   // pragma MARK: std::shared_ptr<HybridInformationTemplateSpec>
   std::shared_ptr<HybridInformationTemplateSpec> create_std__shared_ptr_HybridInformationTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridInformationTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridInformationTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);

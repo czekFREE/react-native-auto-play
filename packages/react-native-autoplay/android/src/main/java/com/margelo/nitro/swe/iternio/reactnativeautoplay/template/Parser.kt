@@ -348,7 +348,7 @@ object Parser {
                     }
                     row.onPress?.let {
                         setOnClickListener {
-                            row.onPress(null)
+                            row.onPress(null, null)
                         }
                     }
                     row.browsable?.let {
@@ -374,7 +374,7 @@ object Parser {
                 setSelectedIndex(selectedIndex)
                 setOnSelectedListener {
                     // onPress is always defined on radio lists
-                    rows[it].onPress!!(null)
+                    rows[it].onPress!!(null, null)
                     AndroidAutoTemplate.getTypedConfig<ListTemplateConfig>(templateId)
                         ?.let { config ->
                             val items =
@@ -405,7 +405,7 @@ object Parser {
                     row.checked?.let { checked ->
                         setToggle(Toggle.Builder { isChecked ->
                             // onpPress is always defined on toggle rows
-                            row.onPress!!(isChecked)
+                            row.onPress!!(isChecked, null)
                             val item = row.copy(checked = isChecked)
                             rows[index] = item
                             AndroidAutoScreen.getScreen(templateId)?.applyConfigUpdate()
@@ -416,7 +416,7 @@ object Parser {
                     } ?: run {
                         if (selectedIndex == null && row.onPress != null) {
                             setOnClickListener {
-                                row.onPress(null)
+                                row.onPress(null, null)
                             }
                         }
                     }

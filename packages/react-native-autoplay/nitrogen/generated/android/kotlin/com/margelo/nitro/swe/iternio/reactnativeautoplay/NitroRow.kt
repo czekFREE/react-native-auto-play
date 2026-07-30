@@ -38,10 +38,16 @@ data class NitroRow(
   val image: Variant_GlyphImage_AssetImage_RemoteImage?,
   @DoNotStrip
   @Keep
+  val isPlaying: Boolean?,
+  @DoNotStrip
+  @Keep
+  val playingIndicatorLocation: PlayingIndicatorLocation?,
+  @DoNotStrip
+  @Keep
   val checked: Boolean?,
   @DoNotStrip
   @Keep
-  val onPress: Func_void_std__optional_bool_?,
+  val onPress: Func_void_std__optional_bool__std__optional_std__function_void____?,
   @DoNotStrip
   @Keep
   val selected: Boolean?
@@ -49,8 +55,8 @@ data class NitroRow(
   /**
    * Create a new instance of NitroRow from Kotlin
    */
-  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: ((checked: Boolean?) -> Unit)?, selected: Boolean?):
-         this(title, id, detailedText, browsable, enabled, image, checked, onPress?.let { Func_void_std__optional_bool__java(it) }, selected)
+  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, complete: (() -> Unit)?) -> Unit)?, selected: Boolean?):
+         this(title, id, detailedText, browsable, enabled, image, isPlaying, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__function_void_____java(it) }, selected)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -61,6 +67,8 @@ data class NitroRow(
       && Objects.deepEquals(this.browsable, other.browsable)
       && Objects.deepEquals(this.enabled, other.enabled)
       && Objects.deepEquals(this.image, other.image)
+      && Objects.deepEquals(this.isPlaying, other.isPlaying)
+      && Objects.deepEquals(this.playingIndicatorLocation, other.playingIndicatorLocation)
       && Objects.deepEquals(this.checked, other.checked)
       && Objects.deepEquals(this.onPress, other.onPress)
       && Objects.deepEquals(this.selected, other.selected)
@@ -74,6 +82,8 @@ data class NitroRow(
       browsable,
       enabled,
       image,
+      isPlaying,
+      playingIndicatorLocation,
       checked,
       onPress,
       selected
@@ -88,8 +98,8 @@ data class NitroRow(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, checked: Boolean?, onPress: Func_void_std__optional_bool_?, selected: Boolean?): NitroRow {
-      return NitroRow(title, id, detailedText, browsable, enabled, image, checked, onPress, selected)
+    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__function_void____?, selected: Boolean?): NitroRow {
+      return NitroRow(title, id, detailedText, browsable, enabled, image, isPlaying, playingIndicatorLocation, checked, onPress, selected)
     }
   }
 }

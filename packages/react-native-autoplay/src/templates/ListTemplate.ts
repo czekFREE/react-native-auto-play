@@ -16,11 +16,15 @@ import {
 
 const HybridListTemplate = NitroModules.createHybridObject<NitroListTemplate>('ListTemplate');
 
+export type PlayingIndicatorLocation = 'leading' | 'trailing';
+
 type BaseRow = {
   title: AutoText;
   id?: string;
   enabled?: boolean;
   image?: AutoImage;
+  isPlaying?: boolean;
+  playingIndicatorLocation?: PlayingIndicatorLocation;
 };
 
 export type DefaultRow<T> = BaseRow & {
@@ -29,19 +33,19 @@ export type DefaultRow<T> = BaseRow & {
    * adds a chevron at the end of the row
    */
   browsable?: boolean;
-  onPress: (template: T) => void;
+  onPress: (template: T) => Promise<void> | void;
   detailedText?: AutoText;
 };
 
 export type ToggleRow<T> = BaseRow & {
   type: 'toggle';
   checked: boolean;
-  onPress: (template: T, checked: boolean) => void;
+  onPress: (template: T, checked: boolean) => Promise<void> | void;
 };
 
 export type RadioRow<T> = BaseRow & {
   type: 'radio';
-  onPress: (template: T) => void;
+  onPress: (template: T) => Promise<void> | void;
   selected?: boolean;
 };
 

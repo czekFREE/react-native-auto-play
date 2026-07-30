@@ -35,6 +35,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class Distanc
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSection; }
 // Forward declaration of `NitroRow` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
+// Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 // Forward declaration of `NitroBaseMapTemplateConfig` to properly resolve imports.
@@ -84,6 +86,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JNitroSection.hpp"
 #include "NitroRow.hpp"
 #include "JNitroRow.hpp"
+#include "PlayingIndicatorLocation.hpp"
+#include "JPlayingIndicatorLocation.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
@@ -125,7 +130,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   }
 
   // Properties
-  
+
 
   // Methods
   void JHybridListTemplateSpec::createListTemplate(const ListTemplateConfig& config) {

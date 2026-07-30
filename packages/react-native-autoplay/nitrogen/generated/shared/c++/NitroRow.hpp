@@ -36,6 +36,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct GlyphImage;
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct AssetImage; }
 // Forward declaration of `RemoteImage` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage; }
+// Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
 
 #include "AutoText.hpp"
 #include <string>
@@ -44,6 +46,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage
 #include "AssetImage.hpp"
 #include "RemoteImage.hpp"
 #include <variant>
+#include "PlayingIndicatorLocation.hpp"
 #include <functional>
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {
@@ -59,13 +62,15 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     std::optional<bool> browsable     SWIFT_PRIVATE;
     bool enabled     SWIFT_PRIVATE;
     std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image     SWIFT_PRIVATE;
+    std::optional<bool> isPlaying     SWIFT_PRIVATE;
+    std::optional<PlayingIndicatorLocation> playingIndicatorLocation     SWIFT_PRIVATE;
     std::optional<bool> checked     SWIFT_PRIVATE;
-    std::optional<std::function<void(std::optional<bool> /* checked */)>> onPress     SWIFT_PRIVATE;
+    std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> onPress     SWIFT_PRIVATE;
     std::optional<bool> selected     SWIFT_PRIVATE;
 
   public:
     NitroRow() = default;
-    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */)>> onPress, std::optional<bool> selected): title(title), id(id), detailedText(detailedText), browsable(browsable), enabled(enabled), image(image), checked(checked), onPress(onPress), selected(selected) {}
+    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> onPress, std::optional<bool> selected): title(title), id(id), detailedText(detailedText), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected) {}
 
   public:
     // NitroRow is not equatable because these properties are not equatable: onPress
@@ -87,8 +92,10 @@ namespace margelo::nitro {
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "browsable"))),
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled"))),
         JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image"))),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPlaying"))),
+        JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked"))),
-        JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress"))),
+        JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "selected")))
       );
     }
@@ -100,8 +107,10 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "browsable"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.browsable));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "enabled"), JSIConverter<bool>::toJSI(runtime, arg.enabled));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "image"), JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::toJSI(runtime, arg.image));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "isPlaying"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isPlaying));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation"), JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::toJSI(runtime, arg.playingIndicatorLocation));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "checked"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.checked));
-      obj.setProperty(runtime, PropNameIDCache::get(runtime, "onPress"), JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::toJSI(runtime, arg.onPress));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "onPress"), JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::toJSI(runtime, arg.onPress));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "selected"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.selected));
       return obj;
     }
@@ -119,8 +128,10 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "browsable")))) return false;
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled")))) return false;
       if (!JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image")))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPlaying")))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked")))) return false;
-      if (!JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress")))) return false;
+      if (!JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "selected")))) return false;
       return true;
     }

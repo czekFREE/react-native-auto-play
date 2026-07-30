@@ -122,6 +122,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroTabBar
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class OffRampType; }
 // Forward declaration of `OnRampType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class OnRampType; }
+// Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
 // Forward declaration of `Point` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct Point; }
 // Forward declaration of `PreferredImageLane` to properly resolve imports.
@@ -223,6 +225,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class ZoomEve
 #include "NitroTabBarItem.hpp"
 #include "OffRampType.hpp"
 #include "OnRampType.hpp"
+#include "PlayingIndicatorLocation.hpp"
 #include "Point.hpp"
 #include "PreferredImageLane.hpp"
 #include "RemoteImage.hpp"

@@ -263,9 +263,18 @@ class Parser {
                     ? .disclosureIndicator : .none
             )
 
-            listItem.handler = { listItem, completionHandler in
-                item.onPress?(nil)
-                completionHandler()
+            listItem.isPlaying = item.isPlaying ?? false
+            listItem.playingIndicatorLocation =
+                item.playingIndicatorLocation == .trailing
+                ? .trailing : .leading
+
+            listItem.handler = { _, completionHandler in
+                guard let onPress = item.onPress else {
+                    completionHandler()
+                    return
+                }
+
+                onPress(nil, completionHandler)
             }
 
             return listItem
@@ -376,6 +385,19 @@ class Parser {
             listItem.isEnabled = item.enabled
         }
 
+        if currentItem == nil || currentItem?.isPlaying != item.isPlaying {
+            listItem.isPlaying = item.isPlaying ?? false
+        }
+
+        if currentItem == nil
+            || currentItem?.playingIndicatorLocation
+                != item.playingIndicatorLocation
+        {
+            listItem.playingIndicatorLocation =
+                item.playingIndicatorLocation == .trailing
+                ? .trailing : .leading
+        }
+
         listItem.userInfo = item.id
 
         listItem.handler = { _item, completion in
@@ -409,6 +431,8 @@ class Parser {
                         browsable: row.browsable,
                         enabled: row.enabled,
                         image: row.image,
+                        isPlaying: row.isPlaying,
+                        playingIndicatorLocation: row.playingIndicatorLocation,
                         checked: checked,
                         onPress: row.onPress,
                         selected: selected
@@ -424,8 +448,15 @@ class Parser {
                 updateSection(updatedSection, sectionIndex)
             }
 
-            completion()
-            item.onPress?(item.checked.map { checked in !checked })
+            guard let onPress = item.onPress else {
+                completion()
+                return
+            }
+
+            onPress(
+                item.checked.map { checked in !checked },
+                completion
+            )
         }
     }
 

@@ -21,6 +21,7 @@
 #include "JDistanceUnits.hpp"
 #include "JFunc_void.hpp"
 #include "JFunc_void_std__optional_bool_.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
 #include "JFunc_void_std__string.hpp"
 #include "JGlyphImage.hpp"
 #include "JNitroAction.hpp"
@@ -31,6 +32,7 @@
 #include "JNitroRow.hpp"
 #include "JNitroSection.hpp"
 #include "JNitroSectionType.hpp"
+#include "JPlayingIndicatorLocation.hpp"
 #include "JRemoteImage.hpp"
 #include "JVariant_GlyphImage_AssetImage_RemoteImage.hpp"
 #include "NitroAction.hpp"
@@ -41,6 +43,7 @@
 #include "NitroRow.hpp"
 #include "NitroSection.hpp"
 #include "NitroSectionType.hpp"
+#include "PlayingIndicatorLocation.hpp"
 #include "RemoteImage.hpp"
 #include <NitroModules/JNICallable.hpp>
 #include <functional>

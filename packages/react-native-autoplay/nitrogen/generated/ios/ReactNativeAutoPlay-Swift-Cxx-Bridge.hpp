@@ -106,6 +106,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroTabBar
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class OffRampType; }
 // Forward declaration of `OnRampType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class OnRampType; }
+// Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
 // Forward declaration of `Point` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct Point; }
 // Forward declaration of `PreferredImageLane` to properly resolve imports.
@@ -214,6 +216,7 @@ namespace ReactNativeAutoPlay { class HybridVoiceSpec_cxx; }
 #include "NitroTabBarItem.hpp"
 #include "OffRampType.hpp"
 #include "OnRampType.hpp"
+#include "PlayingIndicatorLocation.hpp"
 #include "Point.hpp"
 #include "PreferredImageLane.hpp"
 #include "RemoteImage.hpp"
@@ -977,18 +980,55 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     return optional.value();
   }
 
-  // pragma MARK: std::optional<std::function<void(std::optional<bool> /* checked */)>>
+  // pragma MARK: std::optional<PlayingIndicatorLocation>
   /**
-   * Specialized version of `std::optional<std::function<void(std::optional<bool> / * checked * /)>>`.
+   * Specialized version of `std::optional<PlayingIndicatorLocation>`.
    */
-  using std__optional_std__function_void_std__optional_bool_____checked______ = std::optional<std::function<void(std::optional<bool> /* checked */)>>;
-  inline std::optional<std::function<void(std::optional<bool> /* checked */)>> create_std__optional_std__function_void_std__optional_bool_____checked______(const std::function<void(std::optional<bool> /* checked */)>& value) noexcept {
-    return std::optional<std::function<void(std::optional<bool> /* checked */)>>(value);
+  using std__optional_PlayingIndicatorLocation_ = std::optional<PlayingIndicatorLocation>;
+  inline std::optional<PlayingIndicatorLocation> create_std__optional_PlayingIndicatorLocation_(const PlayingIndicatorLocation& value) noexcept {
+    return std::optional<PlayingIndicatorLocation>(value);
   }
-  inline bool has_value_std__optional_std__function_void_std__optional_bool_____checked______(const std::optional<std::function<void(std::optional<bool> /* checked */)>>& optional) noexcept {
+  inline bool has_value_std__optional_PlayingIndicatorLocation_(const std::optional<PlayingIndicatorLocation>& optional) noexcept {
     return optional.has_value();
   }
-  inline std::function<void(std::optional<bool> /* checked */)> get_std__optional_std__function_void_std__optional_bool_____checked______(const std::optional<std::function<void(std::optional<bool> /* checked */)>>& optional) noexcept {
+  inline PlayingIndicatorLocation get_std__optional_PlayingIndicatorLocation_(const std::optional<PlayingIndicatorLocation>& optional) noexcept {
+    return optional.value();
+  }
+
+  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>
+  /**
+   * Specialized version of `std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>`.
+   */
+  using Func_void_std__optional_bool__std__optional_std__function_void____ = std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>;
+  /**
+   * Wrapper class for a `std::function<void(std::optional<bool> / * checked * /, const std::optional<std::function<void()>>& / * complete * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper final {
+  public:
+    explicit Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper(std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>&& func): _function(std::make_unique<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>(std::move(func))) {}
+    inline void call(std::optional<bool> checked, std::optional<std::function<void()>> complete) const noexcept {
+      _function->operator()(checked, complete);
+    }
+  private:
+    std::unique_ptr<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__optional_bool__std__optional_std__function_void____ create_Func_void_std__optional_bool__std__optional_std__function_void____(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper wrap_Func_void_std__optional_bool__std__optional_std__function_void____(Func_void_std__optional_bool__std__optional_std__function_void____ value) noexcept {
+    return Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper(std::move(value));
+  }
+
+  // pragma MARK: std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>
+  /**
+   * Specialized version of `std::optional<std::function<void(std::optional<bool> / * checked * /, const std::optional<std::function<void()>>& / * complete * /)>>`.
+   */
+  using std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______ = std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>;
+  inline std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> create_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>& value) noexcept {
+    return std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>(value);
+  }
+  inline bool has_value_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)> get_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>& optional) noexcept {
     return optional.value();
   }
 

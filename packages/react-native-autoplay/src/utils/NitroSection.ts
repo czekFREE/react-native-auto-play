@@ -1,4 +1,11 @@
-import type { DefaultRow, RadioRow, Section, TextRow, ToggleRow } from '../templates/ListTemplate';
+import type {
+  DefaultRow,
+  PlayingIndicatorLocation,
+  RadioRow,
+  Section,
+  TextRow,
+  ToggleRow,
+} from '../templates/ListTemplate';
 import type { AutoText } from '../types/Text';
 import { type NitroImage, NitroImageUtil } from './NitroImage';
 
@@ -11,8 +18,10 @@ export type NitroRow = {
   browsable?: boolean;
   enabled: boolean;
   image?: NitroImage;
+  isPlaying?: boolean;
+  playingIndicatorLocation?: PlayingIndicatorLocation;
   checked?: boolean;
-  onPress?: (checked?: boolean) => void;
+  onPress?: (checked?: boolean, complete?: () => void) => void;
   selected?: boolean;
 };
 
@@ -76,17 +85,27 @@ const convertRow = <T>(
   const onTogglePress = item.type === 'toggle' ? item.onPress : undefined;
   const onRowPress = item.type !== 'text' && item.type !== 'toggle' ? item.onPress : undefined;
 
-  const onPress =
+  const onPress: NitroRow['onPress'] =
     item.type === 'text'
       ? undefined
-      : (checked?: boolean) => {
+      : (checked?: boolean, complete?: () => void) => {
+          const completePress = () => {
+            complete?.();
+          };
+
           if (onTogglePress != null && checked != null) {
-            onTogglePress(template, checked);
+            void Promise.resolve(onTogglePress(template, checked)).then(
+              completePress,
+              completePress
+            );
             return;
           }
           if (onRowPress != null) {
-            onRowPress(template);
+            void Promise.resolve(onRowPress(template)).then(completePress, completePress);
+            return;
           }
+
+          completePress();
         };
 
   return {
@@ -95,6 +114,8 @@ const convertRow = <T>(
     enabled,
     id,
     image: NitroImageUtil.convert(image),
+    isPlaying: item.isPlaying,
+    playingIndicatorLocation: item.playingIndicatorLocation,
     title,
     checked: type === 'toggle' ? item.checked : undefined,
     onPress,

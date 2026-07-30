@@ -35,6 +35,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class Distanc
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSection; }
 // Forward declaration of `NitroRow` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
+// Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 
@@ -78,6 +80,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSe
 #include "JNitroSection.hpp"
 #include "NitroRow.hpp"
 #include "JNitroRow.hpp"
+#include "PlayingIndicatorLocation.hpp"
+#include "JPlayingIndicatorLocation.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "JFunc_void_std__string.hpp"
@@ -112,7 +117,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   }
 
   // Properties
-  
+
 
   // Methods
   void JHybridSearchTemplateSpec::createSearchTemplate(const SearchTemplateConfig& config) {
