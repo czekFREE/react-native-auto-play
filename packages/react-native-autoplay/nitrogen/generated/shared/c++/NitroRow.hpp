@@ -63,6 +63,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     bool enabled     SWIFT_PRIVATE;
     std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image     SWIFT_PRIVATE;
     std::optional<bool> isPlaying     SWIFT_PRIVATE;
+    std::optional<double> playbackDuration     SWIFT_PRIVATE;
+    std::optional<double> playbackElapsedTime     SWIFT_PRIVATE;
+    std::optional<double> playbackProgress     SWIFT_PRIVATE;
     std::optional<PlayingIndicatorLocation> playingIndicatorLocation     SWIFT_PRIVATE;
     std::optional<bool> checked     SWIFT_PRIVATE;
     std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> onPress     SWIFT_PRIVATE;
@@ -70,7 +73,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     NitroRow() = default;
-    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> onPress, std::optional<bool> selected): title(title), id(id), detailedText(detailedText), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected) {}
+    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::optional<double> playbackProgress, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> onPress, std::optional<bool> selected): title(title), id(id), detailedText(detailedText), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), playbackProgress(playbackProgress), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected) {}
 
   public:
     // NitroRow is not equatable because these properties are not equatable: onPress
@@ -93,6 +96,9 @@ namespace margelo::nitro {
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled"))),
         JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPlaying"))),
+        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration"))),
+        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime"))),
+        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackProgress"))),
         JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked"))),
         JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress"))),
@@ -108,6 +114,9 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "enabled"), JSIConverter<bool>::toJSI(runtime, arg.enabled));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "image"), JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::toJSI(runtime, arg.image));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "isPlaying"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isPlaying));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.playbackDuration));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.playbackElapsedTime));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playbackProgress"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.playbackProgress));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation"), JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::toJSI(runtime, arg.playingIndicatorLocation));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "checked"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.checked));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "onPress"), JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::toJSI(runtime, arg.onPress));
@@ -129,6 +138,9 @@ namespace margelo::nitro {
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled")))) return false;
       if (!JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPlaying")))) return false;
+      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration")))) return false;
+      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime")))) return false;
+      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackProgress")))) return false;
       if (!JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked")))) return false;
       if (!JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress")))) return false;

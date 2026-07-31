@@ -6,6 +6,7 @@
 //
 
 import CarPlay
+import CoreMedia
 import ImageIO
 import UIKit
 
@@ -264,6 +265,7 @@ class Parser {
             )
 
             listItem.isPlaying = item.isPlaying ?? false
+            configureListItemPlayback(item: item, listItem: listItem)
             listItem.playingIndicatorLocation =
                 item.playingIndicatorLocation == .trailing
                 ? .trailing : .leading
@@ -390,6 +392,14 @@ class Parser {
         }
 
         if currentItem == nil
+            || currentItem?.playbackDuration != item.playbackDuration
+            || currentItem?.playbackElapsedTime != item.playbackElapsedTime
+            || currentItem?.playbackProgress != item.playbackProgress
+        {
+            configureListItemPlayback(item: item, listItem: listItem)
+        }
+
+        if currentItem == nil
             || currentItem?.playingIndicatorLocation
                 != item.playingIndicatorLocation
         {
@@ -432,6 +442,9 @@ class Parser {
                         enabled: row.enabled,
                         image: row.image,
                         isPlaying: row.isPlaying,
+                        playbackDuration: row.playbackDuration,
+                        playbackElapsedTime: row.playbackElapsedTime,
+                        playbackProgress: row.playbackProgress,
                         playingIndicatorLocation: row.playingIndicatorLocation,
                         checked: checked,
                         onPress: row.onPress,
@@ -456,6 +469,39 @@ class Parser {
             onPress(
                 item.checked.map { checked in !checked },
                 completion
+            )
+        }
+    }
+
+    private static func configureListItemPlayback(
+        item: NitroRow,
+        listItem: CPListItem
+    ) {
+        listItem.playbackProgress = CGFloat(item.playbackProgress ?? 0)
+
+        if #available(iOS 26.4, *) {
+            guard let duration = item.playbackDuration,
+                let elapsedTime = item.playbackElapsedTime,
+                duration.isFinite,
+                elapsedTime.isFinite,
+                duration > 0
+            else {
+                listItem.playbackConfiguration = nil
+                return
+            }
+
+            let clampedElapsedTime = min(max(elapsedTime, 0), duration)
+            listItem.playbackConfiguration = CPPlaybackConfiguration(
+                preferredPresentation: .audio,
+                playbackAction: .none,
+                elapsedTime: CMTime(
+                    seconds: clampedElapsedTime,
+                    preferredTimescale: 1_000
+                ),
+                duration: CMTime(
+                    seconds: duration,
+                    preferredTimescale: 1_000
+                )
             )
         }
     }

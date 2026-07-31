@@ -41,6 +41,15 @@ data class NitroRow(
   val isPlaying: Boolean?,
   @DoNotStrip
   @Keep
+  val playbackDuration: Double?,
+  @DoNotStrip
+  @Keep
+  val playbackElapsedTime: Double?,
+  @DoNotStrip
+  @Keep
+  val playbackProgress: Double?,
+  @DoNotStrip
+  @Keep
   val playingIndicatorLocation: PlayingIndicatorLocation?,
   @DoNotStrip
   @Keep
@@ -55,8 +64,8 @@ data class NitroRow(
   /**
    * Create a new instance of NitroRow from Kotlin
    */
-  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, complete: (() -> Unit)?) -> Unit)?, selected: Boolean?):
-         this(title, id, detailedText, browsable, enabled, image, isPlaying, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__function_void_____java(it) }, selected)
+  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, complete: (() -> Unit)?) -> Unit)?, selected: Boolean?):
+         this(title, id, detailedText, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__function_void_____java(it) }, selected)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -68,6 +77,9 @@ data class NitroRow(
       && Objects.deepEquals(this.enabled, other.enabled)
       && Objects.deepEquals(this.image, other.image)
       && Objects.deepEquals(this.isPlaying, other.isPlaying)
+      && Objects.deepEquals(this.playbackDuration, other.playbackDuration)
+      && Objects.deepEquals(this.playbackElapsedTime, other.playbackElapsedTime)
+      && Objects.deepEquals(this.playbackProgress, other.playbackProgress)
       && Objects.deepEquals(this.playingIndicatorLocation, other.playingIndicatorLocation)
       && Objects.deepEquals(this.checked, other.checked)
       && Objects.deepEquals(this.onPress, other.onPress)
@@ -83,6 +95,9 @@ data class NitroRow(
       enabled,
       image,
       isPlaying,
+      playbackDuration,
+      playbackElapsedTime,
+      playbackProgress,
       playingIndicatorLocation,
       checked,
       onPress,
@@ -98,8 +113,8 @@ data class NitroRow(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__function_void____?, selected: Boolean?): NitroRow {
-      return NitroRow(title, id, detailedText, browsable, enabled, image, isPlaying, playingIndicatorLocation, checked, onPress, selected)
+    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__function_void____?, selected: Boolean?): NitroRow {
+      return NitroRow(title, id, detailedText, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress, selected)
     }
   }
 }

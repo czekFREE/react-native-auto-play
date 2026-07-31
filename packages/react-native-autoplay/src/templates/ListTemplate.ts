@@ -24,6 +24,9 @@ type BaseRow = {
   enabled?: boolean;
   image?: AutoImage;
   isPlaying?: boolean;
+  playbackDuration?: number;
+  playbackElapsedTime?: number;
+  playbackProgress?: number;
   playingIndicatorLocation?: PlayingIndicatorLocation;
 };
 

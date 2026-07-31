@@ -19,6 +19,9 @@ export type NitroRow = {
   enabled: boolean;
   image?: NitroImage;
   isPlaying?: boolean;
+  playbackDuration?: number;
+  playbackElapsedTime?: number;
+  playbackProgress?: number;
   playingIndicatorLocation?: PlayingIndicatorLocation;
   checked?: boolean;
   onPress?: (checked?: boolean, complete?: () => void) => void;
@@ -115,6 +118,9 @@ const convertRow = <T>(
     id,
     image: NitroImageUtil.convert(image),
     isPlaying: item.isPlaying,
+    playbackDuration: item.playbackDuration,
+    playbackElapsedTime: item.playbackElapsedTime,
+    playbackProgress: item.playbackProgress,
     playingIndicatorLocation: item.playingIndicatorLocation,
     title,
     checked: type === 'toggle' ? item.checked : undefined,

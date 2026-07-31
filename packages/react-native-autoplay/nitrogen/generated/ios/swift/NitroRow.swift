@@ -18,7 +18,7 @@ public extension NitroRow {
   /**
    * Create a new instance of `NitroRow`.
    */
-  init(title: AutoText, id: String?, detailedText: AutoText?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ complete: (() -> Void)?) -> Void)?, selected: Bool?) {
+  init(title: AutoText, id: String?, detailedText: AutoText?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ complete: (() -> Void)?) -> Void)?, selected: Bool?) {
     self.init(title, { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = id {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -55,6 +55,24 @@ public extension NitroRow {
     }(), { () -> bridge.std__optional_bool_ in
       if let __unwrappedValue = isPlaying {
         return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = playbackDuration {
+        return bridge.create_std__optional_double_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = playbackElapsedTime {
+        return bridge.create_std__optional_double_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = playbackProgress {
+        return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -159,6 +177,42 @@ public extension NitroRow {
     return { () -> Bool? in
       if bridge.has_value_std__optional_bool_(self.__isPlaying) {
         let __unwrapped = bridge.get_std__optional_bool_(self.__isPlaying)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var playbackDuration: Double? {
+    return { () -> Double? in
+      if bridge.has_value_std__optional_double_(self.__playbackDuration) {
+        let __unwrapped = bridge.get_std__optional_double_(self.__playbackDuration)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var playbackElapsedTime: Double? {
+    return { () -> Double? in
+      if bridge.has_value_std__optional_double_(self.__playbackElapsedTime) {
+        let __unwrapped = bridge.get_std__optional_double_(self.__playbackElapsedTime)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var playbackProgress: Double? {
+    return { () -> Double? in
+      if bridge.has_value_std__optional_double_(self.__playbackProgress) {
+        let __unwrapped = bridge.get_std__optional_double_(self.__playbackProgress)
         return __unwrapped
       } else {
         return nil

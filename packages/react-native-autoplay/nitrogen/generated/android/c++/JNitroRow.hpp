@@ -68,6 +68,12 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<JVariant_GlyphImage_AssetImage_RemoteImage> image = this->getFieldValue(fieldImage);
       static const auto fieldIsPlaying = clazz->getField<jni::JBoolean>("isPlaying");
       jni::local_ref<jni::JBoolean> isPlaying = this->getFieldValue(fieldIsPlaying);
+      static const auto fieldPlaybackDuration = clazz->getField<jni::JDouble>("playbackDuration");
+      jni::local_ref<jni::JDouble> playbackDuration = this->getFieldValue(fieldPlaybackDuration);
+      static const auto fieldPlaybackElapsedTime = clazz->getField<jni::JDouble>("playbackElapsedTime");
+      jni::local_ref<jni::JDouble> playbackElapsedTime = this->getFieldValue(fieldPlaybackElapsedTime);
+      static const auto fieldPlaybackProgress = clazz->getField<jni::JDouble>("playbackProgress");
+      jni::local_ref<jni::JDouble> playbackProgress = this->getFieldValue(fieldPlaybackProgress);
       static const auto fieldPlayingIndicatorLocation = clazz->getField<JPlayingIndicatorLocation>("playingIndicatorLocation");
       jni::local_ref<JPlayingIndicatorLocation> playingIndicatorLocation = this->getFieldValue(fieldPlayingIndicatorLocation);
       static const auto fieldChecked = clazz->getField<jni::JBoolean>("checked");
@@ -84,6 +90,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         static_cast<bool>(enabled),
         image != nullptr ? std::make_optional(image->toCpp()) : std::nullopt,
         isPlaying != nullptr ? std::make_optional(static_cast<bool>(isPlaying->value())) : std::nullopt,
+        playbackDuration != nullptr ? std::make_optional(playbackDuration->value()) : std::nullopt,
+        playbackElapsedTime != nullptr ? std::make_optional(playbackElapsedTime->value()) : std::nullopt,
+        playbackProgress != nullptr ? std::make_optional(playbackProgress->value()) : std::nullopt,
         playingIndicatorLocation != nullptr ? std::make_optional(playingIndicatorLocation->toCpp()) : std::nullopt,
         checked != nullptr ? std::make_optional(static_cast<bool>(checked->value())) : std::nullopt,
         onPress != nullptr ? std::make_optional([&]() -> std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)> {
@@ -105,7 +114,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroRow::javaobject> fromCpp(const NitroRow& value) {
-      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__function_void____::javaobject>, jni::alias_ref<jni::JBoolean>);
+      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__function_void____::javaobject>, jni::alias_ref<jni::JBoolean>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -117,6 +126,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         value.enabled,
         value.image.has_value() ? JVariant_GlyphImage_AssetImage_RemoteImage::fromCpp(value.image.value()) : nullptr,
         value.isPlaying.has_value() ? jni::JBoolean::valueOf(value.isPlaying.value()) : nullptr,
+        value.playbackDuration.has_value() ? jni::JDouble::valueOf(value.playbackDuration.value()) : nullptr,
+        value.playbackElapsedTime.has_value() ? jni::JDouble::valueOf(value.playbackElapsedTime.value()) : nullptr,
+        value.playbackProgress.has_value() ? jni::JDouble::valueOf(value.playbackProgress.value()) : nullptr,
         value.playingIndicatorLocation.has_value() ? JPlayingIndicatorLocation::fromCpp(value.playingIndicatorLocation.value()) : nullptr,
         value.checked.has_value() ? jni::JBoolean::valueOf(value.checked.value()) : nullptr,
         value.onPress.has_value() ? JFunc_void_std__optional_bool__std__optional_std__function_void_____cxx::fromCpp(value.onPress.value()) : nullptr,
