@@ -252,6 +252,9 @@ class Parser {
         guard let section else { return [] }
 
         return section.items.enumerated().map { (itemIndex, item) in
+            let accessoryImage = item.systemAccessoryImage.flatMap {
+                UIImage(systemName: $0)
+            }
             let listItem = CPListItem(
                 text: parseText(text: item.title),
                 detailText: parseText(text: item.detailedText),
@@ -259,8 +262,8 @@ class Parser {
                     image: item.image,
                     traitCollection: traitCollection
                 ),
-                accessoryImage: nil,
-                accessoryType: item.browsable == true
+                accessoryImage: accessoryImage,
+                accessoryType: item.browsable == true && accessoryImage == nil
                     ? .disclosureIndicator : .none
             )
 
@@ -276,7 +279,10 @@ class Parser {
                     return
                 }
 
-                onPress(nil, completionHandler)
+                onPress(
+                    nil,
+                    ListItemPressCompletionStore.add(completionHandler)
+                )
             }
 
             return listItem
@@ -369,6 +375,8 @@ class Parser {
             || currentItem?.browsable != item.browsable
             || currentItem?.checked != item.checked
             || currentItem?.selected != item.selected
+            || currentItem?.systemAccessoryImage
+                != item.systemAccessoryImage
         {
             let accessoryImage = parseListItemAccessoryImage(
                 item: item,
@@ -438,6 +446,7 @@ class Parser {
                         title: row.title,
                         id: row.id,
                         detailedText: row.detailedText,
+                        systemAccessoryImage: row.systemAccessoryImage,
                         browsable: row.browsable,
                         enabled: row.enabled,
                         image: row.image,
@@ -468,7 +477,7 @@ class Parser {
 
             onPress(
                 item.checked.map { checked in !checked },
-                completion
+                ListItemPressCompletionStore.add(completion)
             )
         }
     }
@@ -512,6 +521,10 @@ class Parser {
         section: NitroSection,
         selectedIndex: Int?
     ) -> UIImage? {
+        if let systemAccessoryImage = item.systemAccessoryImage {
+            return UIImage(systemName: systemAccessoryImage)
+        }
+
         let isSelected =
             section.type == .radio
             && Int(selectedIndex ?? -1) == itemIndex

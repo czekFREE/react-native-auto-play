@@ -88,7 +88,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JNitroRow.hpp"
 #include "PlayingIndicatorLocation.hpp"
 #include "JPlayingIndicatorLocation.hpp"
-#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
@@ -130,7 +130,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   }
 
   // Properties
-
+  
 
   // Methods
   void JHybridInformationTemplateSpec::createInformationTemplate(const InformationTemplateConfig& config) {

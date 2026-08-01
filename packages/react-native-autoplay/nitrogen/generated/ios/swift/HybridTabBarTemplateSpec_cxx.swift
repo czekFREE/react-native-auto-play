@@ -84,7 +84,7 @@ open class HybridTabBarTemplateSpec_cxx {
     }
   }
 
-
+  
 
   /**
    * Get the memory size of the Swift class (plus size of any other allocations)
@@ -121,7 +121,7 @@ open class HybridTabBarTemplateSpec_cxx {
   }
 
   // Properties
-
+  
 
   // Methods
   @inline(__always)
@@ -134,7 +134,7 @@ open class HybridTabBarTemplateSpec_cxx {
       return bridge.create_Result_void_(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
   public final func selectTabBarTemplateTab(tabBarTemplateId: std.string, selectedTemplateId: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
     do {

@@ -19,8 +19,7 @@
 #include "JAutoText.hpp"
 #include "JDistance.hpp"
 #include "JDistanceUnits.hpp"
-#include "JFunc_void.hpp"
-#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
 #include "JGlyphImage.hpp"
 #include "JNitroColor.hpp"
 #include "JPlayingIndicatorLocation.hpp"
@@ -60,6 +59,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<jni::JString> id = this->getFieldValue(fieldId);
       static const auto fieldDetailedText = clazz->getField<JAutoText>("detailedText");
       jni::local_ref<JAutoText> detailedText = this->getFieldValue(fieldDetailedText);
+      static const auto fieldSystemAccessoryImage = clazz->getField<jni::JString>("systemAccessoryImage");
+      jni::local_ref<jni::JString> systemAccessoryImage = this->getFieldValue(fieldSystemAccessoryImage);
       static const auto fieldBrowsable = clazz->getField<jni::JBoolean>("browsable");
       jni::local_ref<jni::JBoolean> browsable = this->getFieldValue(fieldBrowsable);
       static const auto fieldEnabled = clazz->getField<jboolean>("enabled");
@@ -78,14 +79,15 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<JPlayingIndicatorLocation> playingIndicatorLocation = this->getFieldValue(fieldPlayingIndicatorLocation);
       static const auto fieldChecked = clazz->getField<jni::JBoolean>("checked");
       jni::local_ref<jni::JBoolean> checked = this->getFieldValue(fieldChecked);
-      static const auto fieldOnPress = clazz->getField<JFunc_void_std__optional_bool__std__optional_std__function_void____::javaobject>("onPress");
-      jni::local_ref<JFunc_void_std__optional_bool__std__optional_std__function_void____::javaobject> onPress = this->getFieldValue(fieldOnPress);
+      static const auto fieldOnPress = clazz->getField<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>("onPress");
+      jni::local_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject> onPress = this->getFieldValue(fieldOnPress);
       static const auto fieldSelected = clazz->getField<jni::JBoolean>("selected");
       jni::local_ref<jni::JBoolean> selected = this->getFieldValue(fieldSelected);
       return NitroRow(
         title->toCpp(),
         id != nullptr ? std::make_optional(id->toStdString()) : std::nullopt,
         detailedText != nullptr ? std::make_optional(detailedText->toCpp()) : std::nullopt,
+        systemAccessoryImage != nullptr ? std::make_optional(systemAccessoryImage->toStdString()) : std::nullopt,
         browsable != nullptr ? std::make_optional(static_cast<bool>(browsable->value())) : std::nullopt,
         static_cast<bool>(enabled),
         image != nullptr ? std::make_optional(image->toCpp()) : std::nullopt,
@@ -95,13 +97,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         playbackProgress != nullptr ? std::make_optional(playbackProgress->value()) : std::nullopt,
         playingIndicatorLocation != nullptr ? std::make_optional(playingIndicatorLocation->toCpp()) : std::nullopt,
         checked != nullptr ? std::make_optional(static_cast<bool>(checked->value())) : std::nullopt,
-        onPress != nullptr ? std::make_optional([&]() -> std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)> {
-          if (onPress->isInstanceOf(JFunc_void_std__optional_bool__std__optional_std__function_void_____cxx::javaClassStatic())) [[likely]] {
-            auto downcast = jni::static_ref_cast<JFunc_void_std__optional_bool__std__optional_std__function_void_____cxx::javaobject>(onPress);
+        onPress != nullptr ? std::make_optional([&]() -> std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)> {
+          if (onPress->isInstanceOf(JFunc_void_std__optional_bool__std__optional_std__string__cxx::javaClassStatic())) [[likely]] {
+            auto downcast = jni::static_ref_cast<JFunc_void_std__optional_bool__std__optional_std__string__cxx::javaobject>(onPress);
             return downcast->cthis()->getFunction();
           } else {
             auto onPressRef = jni::make_global(onPress);
-            return JNICallable<JFunc_void_std__optional_bool__std__optional_std__function_void____, void(std::optional<bool>, std::optional<std::function<void()>>)>(std::move(onPressRef));
+            return JNICallable<JFunc_void_std__optional_bool__std__optional_std__string_, void(std::optional<bool>, std::optional<std::string>)>(std::move(onPressRef));
           }
         }()) : std::nullopt,
         selected != nullptr ? std::make_optional(static_cast<bool>(selected->value())) : std::nullopt
@@ -114,7 +116,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroRow::javaobject> fromCpp(const NitroRow& value) {
-      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__function_void____::javaobject>, jni::alias_ref<jni::JBoolean>);
+      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>, jni::alias_ref<jni::JBoolean>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -122,6 +124,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         JAutoText::fromCpp(value.title),
         value.id.has_value() ? jni::make_jstring(value.id.value()) : nullptr,
         value.detailedText.has_value() ? JAutoText::fromCpp(value.detailedText.value()) : nullptr,
+        value.systemAccessoryImage.has_value() ? jni::make_jstring(value.systemAccessoryImage.value()) : nullptr,
         value.browsable.has_value() ? jni::JBoolean::valueOf(value.browsable.value()) : nullptr,
         value.enabled,
         value.image.has_value() ? JVariant_GlyphImage_AssetImage_RemoteImage::fromCpp(value.image.value()) : nullptr,
@@ -131,7 +134,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         value.playbackProgress.has_value() ? jni::JDouble::valueOf(value.playbackProgress.value()) : nullptr,
         value.playingIndicatorLocation.has_value() ? JPlayingIndicatorLocation::fromCpp(value.playingIndicatorLocation.value()) : nullptr,
         value.checked.has_value() ? jni::JBoolean::valueOf(value.checked.value()) : nullptr,
-        value.onPress.has_value() ? JFunc_void_std__optional_bool__std__optional_std__function_void_____cxx::fromCpp(value.onPress.value()) : nullptr,
+        value.onPress.has_value() ? JFunc_void_std__optional_bool__std__optional_std__string__cxx::fromCpp(value.onPress.value()) : nullptr,
         value.selected.has_value() ? jni::JBoolean::valueOf(value.selected.value()) : nullptr
       );
     }

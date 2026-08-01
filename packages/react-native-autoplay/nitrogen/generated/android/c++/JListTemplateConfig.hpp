@@ -22,7 +22,7 @@
 #include "JFunc_void.hpp"
 #include "JFunc_void_bool.hpp"
 #include "JFunc_void_std__optional_bool_.hpp"
-#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
 #include "JGlyphImage.hpp"
 #include "JNitroAction.hpp"
 #include "JNitroActionType.hpp"

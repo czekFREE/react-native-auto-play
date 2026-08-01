@@ -30,4 +30,8 @@ class HybridListTemplate : HybridListTemplateSpec() {
             Unit
         }
     }
+
+    override fun completeListItemPress(completionId: String): Promise<Unit> {
+        return Promise.resolved(Unit)
+    }
 }

@@ -26,7 +26,7 @@ public extension NitroTabBarItem {
   var templateId: String {
     return String(self.__templateId)
   }
-
+  
   @inline(__always)
   var title: String {
     return String(self.__title)

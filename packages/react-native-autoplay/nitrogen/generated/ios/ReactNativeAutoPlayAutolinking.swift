@@ -19,11 +19,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isVoiceRecyclable() -> Bool {
     return HybridVoice.self is any RecyclableView.Type
   }
-
+  
   public static func createAutoPlay() -> bridge.std__shared_ptr_HybridAutoPlaySpec_ {
     let hybridObject = HybridAutoPlay()
     return { () -> bridge.std__shared_ptr_HybridAutoPlaySpec_ in
@@ -31,11 +31,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isAutoPlayRecyclable() -> Bool {
     return HybridAutoPlay.self is any RecyclableView.Type
   }
-
+  
   public static func createListTemplate() -> bridge.std__shared_ptr_HybridListTemplateSpec_ {
     let hybridObject = HybridListTemplate()
     return { () -> bridge.std__shared_ptr_HybridListTemplateSpec_ in
@@ -43,11 +43,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isListTemplateRecyclable() -> Bool {
     return HybridListTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createTabBarTemplate() -> bridge.std__shared_ptr_HybridTabBarTemplateSpec_ {
     let hybridObject = HybridTabBarTemplate()
     return { () -> bridge.std__shared_ptr_HybridTabBarTemplateSpec_ in
@@ -55,11 +55,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isTabBarTemplateRecyclable() -> Bool {
     return HybridTabBarTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createInformationTemplate() -> bridge.std__shared_ptr_HybridInformationTemplateSpec_ {
     let hybridObject = HybridInformationTemplate()
     return { () -> bridge.std__shared_ptr_HybridInformationTemplateSpec_ in
@@ -67,11 +67,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isInformationTemplateRecyclable() -> Bool {
     return HybridInformationTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createGridTemplate() -> bridge.std__shared_ptr_HybridGridTemplateSpec_ {
     let hybridObject = HybridGridTemplate()
     return { () -> bridge.std__shared_ptr_HybridGridTemplateSpec_ in
@@ -79,11 +79,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isGridTemplateRecyclable() -> Bool {
     return HybridGridTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createMapTemplate() -> bridge.std__shared_ptr_HybridMapTemplateSpec_ {
     let hybridObject = HybridMapTemplate()
     return { () -> bridge.std__shared_ptr_HybridMapTemplateSpec_ in
@@ -91,11 +91,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isMapTemplateRecyclable() -> Bool {
     return HybridMapTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createMessageTemplate() -> bridge.std__shared_ptr_HybridMessageTemplateSpec_ {
     let hybridObject = HybridMessageTemplate()
     return { () -> bridge.std__shared_ptr_HybridMessageTemplateSpec_ in
@@ -103,11 +103,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isMessageTemplateRecyclable() -> Bool {
     return HybridMessageTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createSearchTemplate() -> bridge.std__shared_ptr_HybridSearchTemplateSpec_ {
     let hybridObject = HybridSearchTemplate()
     return { () -> bridge.std__shared_ptr_HybridSearchTemplateSpec_ in
@@ -115,11 +115,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isSearchTemplateRecyclable() -> Bool {
     return HybridSearchTemplate.self is any RecyclableView.Type
   }
-
+  
   public static func createCarPlayDashboard() -> bridge.std__shared_ptr_HybridCarPlayDashboardSpec_ {
     let hybridObject = HybridCarPlayDashboard()
     return { () -> bridge.std__shared_ptr_HybridCarPlayDashboardSpec_ in
@@ -127,11 +127,11 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isCarPlayDashboardRecyclable() -> Bool {
     return HybridCarPlayDashboard.self is any RecyclableView.Type
   }
-
+  
   public static func createCluster() -> bridge.std__shared_ptr_HybridClusterSpec_ {
     let hybridObject = HybridCluster()
     return { () -> bridge.std__shared_ptr_HybridClusterSpec_ in
@@ -139,7 +139,7 @@ public final class ReactNativeAutoPlayAutolinking {
       return __cxxWrapped.getCxxPart()
     }()
   }
-
+  
   public static func isClusterRecyclable() -> Bool {
     return HybridCluster.self is any RecyclableView.Type
   }

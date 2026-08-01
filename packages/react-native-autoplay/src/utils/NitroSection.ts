@@ -7,6 +7,7 @@ import type {
   ToggleRow,
 } from '../templates/ListTemplate';
 import type { AutoText } from '../types/Text';
+import { HybridListTemplate } from './HybridListTemplate';
 import { type NitroImage, NitroImageUtil } from './NitroImage';
 
 type NitroSectionType = 'default' | 'radio';
@@ -15,6 +16,7 @@ export type NitroRow = {
   title: AutoText;
   id?: string;
   detailedText?: AutoText;
+  systemAccessoryImage?: string;
   browsable?: boolean;
   enabled: boolean;
   image?: NitroImage;
@@ -24,7 +26,7 @@ export type NitroRow = {
   playbackProgress?: number;
   playingIndicatorLocation?: PlayingIndicatorLocation;
   checked?: boolean;
-  onPress?: (checked?: boolean, complete?: () => void) => void;
+  onPress?: (checked?: boolean, completionId?: string) => void;
   selected?: boolean;
 };
 
@@ -83,6 +85,8 @@ const convertRow = <T>(
   const { title, type, enabled = true, id, image } = item;
 
   const detailedText = 'detailedText' in item ? item.detailedText : undefined;
+  const systemAccessoryImage =
+    'systemAccessoryImage' in item ? item.systemAccessoryImage : undefined;
   const selected = type === 'radio' ? (item.selected ?? false) : undefined;
 
   const onTogglePress = item.type === 'toggle' ? item.onPress : undefined;
@@ -91,9 +95,11 @@ const convertRow = <T>(
   const onPress: NitroRow['onPress'] =
     item.type === 'text'
       ? undefined
-      : (checked?: boolean, complete?: () => void) => {
+      : (checked?: boolean, completionId?: string) => {
           const completePress = () => {
-            complete?.();
+            if (completionId != null) {
+              void HybridListTemplate.completeListItemPress(completionId);
+            }
           };
 
           if (onTogglePress != null && checked != null) {
@@ -122,6 +128,7 @@ const convertRow = <T>(
     playbackElapsedTime: item.playbackElapsedTime,
     playbackProgress: item.playbackProgress,
     playingIndicatorLocation: item.playingIndicatorLocation,
+    systemAccessoryImage,
     title,
     checked: type === 'toggle' ? item.checked : undefined,
     onPress,

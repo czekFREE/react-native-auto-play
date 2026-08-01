@@ -18,7 +18,7 @@ public extension NitroRow {
   /**
    * Create a new instance of `NitroRow`.
    */
-  init(title: AutoText, id: String?, detailedText: AutoText?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ complete: (() -> Void)?) -> Void)?, selected: Bool?) {
+  init(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)?, selected: Bool?) {
     self.init(title, { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = id {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -28,6 +28,12 @@ public extension NitroRow {
     }(), { () -> bridge.std__optional_AutoText_ in
       if let __unwrappedValue = detailedText {
         return bridge.create_std__optional_AutoText_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = systemAccessoryImage {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
@@ -88,11 +94,11 @@ public extension NitroRow {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______ in
+    }(), { () -> bridge.std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______ in
       if let __unwrappedValue = onPress {
-        return bridge.create_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______({ () -> bridge.Func_void_std__optional_bool__std__optional_std__function_void____ in
-          let __closureWrapper = Func_void_std__optional_bool__std__optional_std__function_void____(__unwrappedValue)
-          return bridge.create_Func_void_std__optional_bool__std__optional_std__function_void____(__closureWrapper.toUnsafe())
+        return bridge.create_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______({ () -> bridge.Func_void_std__optional_bool__std__optional_std__string_ in
+          let __closureWrapper = Func_void_std__optional_bool__std__optional_std__string_(__unwrappedValue)
+          return bridge.create_Func_void_std__optional_bool__std__optional_std__string_(__closureWrapper.toUnsafe())
         }())
       } else {
         return .init()
@@ -110,7 +116,7 @@ public extension NitroRow {
   var title: AutoText {
     return self.__title
   }
-
+  
   @inline(__always)
   var id: String? {
     return { () -> String? in
@@ -122,12 +128,24 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var detailedText: AutoText? {
     return self.__detailedText.value
   }
-
+  
+  @inline(__always)
+  var systemAccessoryImage: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__systemAccessoryImage) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__systemAccessoryImage)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+  
   @inline(__always)
   var browsable: Bool? {
     return { () -> Bool? in
@@ -139,12 +157,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var enabled: Bool {
     return self.__enabled
   }
-
+  
   @inline(__always)
   var image: Variant_GlyphImage_AssetImage_RemoteImage? {
     return { () -> Variant_GlyphImage_AssetImage_RemoteImage? in
@@ -171,7 +189,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var isPlaying: Bool? {
     return { () -> Bool? in
@@ -183,7 +201,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackDuration: Double? {
     return { () -> Double? in
@@ -195,7 +213,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackElapsedTime: Double? {
     return { () -> Double? in
@@ -207,7 +225,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackProgress: Double? {
     return { () -> Double? in
@@ -219,12 +237,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playingIndicatorLocation: PlayingIndicatorLocation? {
     return self.__playingIndicatorLocation.value
   }
-
+  
   @inline(__always)
   var checked: Bool? {
     return { () -> Bool? in
@@ -236,27 +254,24 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
-  var onPress: ((_ checked: Bool?, _ complete: (() -> Void)?) -> Void)? {
-    return { () -> ((_ checked: Bool?, _ complete: (() -> Void)?) -> Void)? in
-      if bridge.has_value_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(self.__onPress) {
-        let __unwrapped = bridge.get_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(self.__onPress)
-        return { () -> (Bool?, (() -> Void)?) -> Void in
-          let __wrappedFunction = bridge.wrap_Func_void_std__optional_bool__std__optional_std__function_void____(__unwrapped)
-          return { (__checked: Bool?, __complete: (() -> Void)?) -> Void in
+  var onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)? {
+    return { () -> ((_ checked: Bool?, _ completionId: String?) -> Void)? in
+      if bridge.has_value_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______(self.__onPress) {
+        let __unwrapped = bridge.get_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______(self.__onPress)
+        return { () -> (Bool?, String?) -> Void in
+          let __wrappedFunction = bridge.wrap_Func_void_std__optional_bool__std__optional_std__string_(__unwrapped)
+          return { (__checked: Bool?, __completionId: String?) -> Void in
             __wrappedFunction.call({ () -> bridge.std__optional_bool_ in
               if let __unwrappedValue = __checked {
                 return bridge.create_std__optional_bool_(__unwrappedValue)
               } else {
                 return .init()
               }
-            }(), { () -> bridge.std__optional_std__function_void____ in
-              if let __unwrappedValue = __complete {
-                return bridge.create_std__optional_std__function_void____({ () -> bridge.Func_void in
-                  let __closureWrapper = Func_void(__unwrappedValue)
-                  return bridge.create_Func_void(__closureWrapper.toUnsafe())
-                }())
+            }(), { () -> bridge.std__optional_std__string_ in
+              if let __unwrappedValue = __completionId {
+                return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
               } else {
                 return .init()
               }
@@ -268,7 +283,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var selected: Bool? {
     return { () -> Bool? in

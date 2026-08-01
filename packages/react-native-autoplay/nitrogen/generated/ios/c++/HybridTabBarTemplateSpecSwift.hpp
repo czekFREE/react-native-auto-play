@@ -71,7 +71,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     // Properties
-
+    
 
   public:
     // Methods

@@ -46,4 +46,10 @@ class HybridListTemplate: HybridListTemplateSpec {
             }
         }
     }
+
+    func completeListItemPress(completionId: String) throws -> Promise<Void> {
+        return Promise.async {
+            ListItemPressCompletionStore.complete(completionId)
+        }
+    }
 }

@@ -92,7 +92,7 @@ public extension TabBarTemplateConfig {
   var id: String {
     return String(self.__id)
   }
-
+  
   @inline(__always)
   var onWillAppear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -115,7 +115,7 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onWillDisappear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -138,7 +138,7 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onDidAppear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -161,7 +161,7 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onDidDisappear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -184,7 +184,7 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onPopped: (() -> Void)? {
     return { () -> (() -> Void)? in
@@ -201,7 +201,7 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var autoDismissMs: Double? {
     return { () -> Double? in
@@ -213,12 +213,12 @@ public extension TabBarTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var tabs: [NitroTabBarItem] {
     return self.__tabs.map({ __item in __item })
   }
-
+  
   @inline(__always)
   var onTabSelected: ((_ templateId: String) -> Void)? {
     return { () -> ((_ templateId: String) -> Void)? in

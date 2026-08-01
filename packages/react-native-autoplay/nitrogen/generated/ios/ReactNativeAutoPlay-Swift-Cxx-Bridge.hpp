@@ -274,7 +274,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_Wrapper wrap_Func_void(Func_void value) noexcept {
     return Func_void_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::function<void(VisibilityState /* payload */)>
   /**
    * Specialized version of `std::function<void(VisibilityState)>`.
@@ -296,7 +296,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_VisibilityState_Wrapper wrap_Func_void_VisibilityState(Func_void_VisibilityState value) noexcept {
     return Func_void_VisibilityState_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<Location>
   /**
    * Specialized version of `std::optional<Location>`.
@@ -311,7 +311,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Location get_std__optional_Location_(const std::optional<Location>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<std::string>
   /**
    * Specialized version of `std::optional<std::string>`.
@@ -326,7 +326,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::string get_std__optional_std__string_(const std::optional<std::string>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(const std::optional<Location>& /* coordinates */, const std::optional<std::string>& /* query */)>
   /**
    * Specialized version of `std::function<void(const std::optional<Location>&, const std::optional<std::string>&)>`.
@@ -348,7 +348,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__optional_Location__std__optional_std__string__Wrapper wrap_Func_void_std__optional_Location__std__optional_std__string_(Func_void_std__optional_Location__std__optional_std__string_ value) noexcept {
     return Func_void_std__optional_Location__std__optional_std__string__Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::shared_ptr<Promise<void>>
   /**
    * Specialized version of `std::shared_ptr<Promise<void>>`.
@@ -360,7 +360,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline PromiseHolder<void> wrap_std__shared_ptr_Promise_void__(std::shared_ptr<Promise<void>> promise) noexcept {
     return PromiseHolder<void>(std::move(promise));
   }
-
+  
   // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
   /**
    * Specialized version of `std::function<void(const std::exception_ptr&)>`.
@@ -382,7 +382,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) noexcept {
     return Func_void_std__exception_ptr_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<bool>
   /**
    * Specialized version of `std::optional<bool>`.
@@ -397,7 +397,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline bool get_std__optional_bool_(const std::optional<bool>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(const SafeAreaInsets& /* insets */)>
   /**
    * Specialized version of `std::function<void(const SafeAreaInsets&)>`.
@@ -419,7 +419,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_SafeAreaInsets_Wrapper wrap_Func_void_SafeAreaInsets(Func_void_SafeAreaInsets value) noexcept {
     return Func_void_SafeAreaInsets_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<double>
   /**
    * Specialized version of `std::optional<double>`.
@@ -434,7 +434,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<NitroColor>
   /**
    * Specialized version of `std::optional<NitroColor>`.
@@ -449,7 +449,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline NitroColor get_std__optional_NitroColor_(const std::optional<NitroColor>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::variant<GlyphImage, AssetImage, RemoteImage>
   /**
    * Wrapper struct for `std::variant<GlyphImage, AssetImage, RemoteImage>`.
@@ -484,7 +484,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std__variant_GlyphImage__AssetImage__RemoteImage_ create_std__variant_GlyphImage__AssetImage__RemoteImage_(const RemoteImage& value) noexcept {
     return std__variant_GlyphImage__AssetImage__RemoteImage_(value);
   }
-
+  
   // pragma MARK: std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>>
   /**
    * Specialized version of `std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>>`.
@@ -499,7 +499,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::variant<GlyphImage, AssetImage, RemoteImage> get_std__optional_std__variant_GlyphImage__AssetImage__RemoteImage__(const std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<NitroAlignment>
   /**
    * Specialized version of `std::optional<NitroAlignment>`.
@@ -514,7 +514,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline NitroAlignment get_std__optional_NitroAlignment_(const std::optional<NitroAlignment>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<NitroButtonStyle>
   /**
    * Specialized version of `std::optional<NitroButtonStyle>`.
@@ -529,7 +529,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline NitroButtonStyle get_std__optional_NitroButtonStyle_(const std::optional<NitroButtonStyle>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<NitroAction>
   /**
    * Specialized version of `std::vector<NitroAction>`.
@@ -540,7 +540,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::vector<NitroAction>>
   /**
    * Specialized version of `std::optional<std::vector<NitroAction>>`.
@@ -555,7 +555,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<NitroAction> get_std__optional_std__vector_NitroAction__(const std::optional<std::vector<NitroAction>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridAutoPlaySpec>
   /**
    * Specialized version of `std::shared_ptr<HybridAutoPlaySpec>`.
@@ -563,11 +563,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridAutoPlaySpec_ = std::shared_ptr<HybridAutoPlaySpec>;
   std::shared_ptr<HybridAutoPlaySpec> create_std__shared_ptr_HybridAutoPlaySpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridAutoPlaySpec_(std__shared_ptr_HybridAutoPlaySpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridAutoPlaySpec>
   using std__weak_ptr_HybridAutoPlaySpec_ = std::weak_ptr<HybridAutoPlaySpec>;
   inline std__weak_ptr_HybridAutoPlaySpec_ weakify_std__shared_ptr_HybridAutoPlaySpec_(const std::shared_ptr<HybridAutoPlaySpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: Result<std::function<void()>>
   using Result_std__function_void____ = Result<std::function<void()>>;
   inline Result_std__function_void____ create_Result_std__function_void____(const std::function<void()>& value) noexcept {
@@ -576,7 +576,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_std__function_void____ create_Result_std__function_void____(const std::exception_ptr& error) noexcept {
     return Result<std::function<void()>>::withError(error);
   }
-
+  
   // pragma MARK: Result<std::shared_ptr<Promise<void>>>
   using Result_std__shared_ptr_Promise_void___ = Result<std::shared_ptr<Promise<void>>>;
   inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::shared_ptr<Promise<void>>& value) noexcept {
@@ -585,7 +585,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
   }
-
+  
   // pragma MARK: Result<bool>
   using Result_bool_ = Result<bool>;
   inline Result_bool_ create_Result_bool_(bool value) noexcept {
@@ -594,7 +594,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_bool_ create_Result_bool_(const std::exception_ptr& error) noexcept {
     return Result<bool>::withError(error);
   }
-
+  
   // pragma MARK: std::vector<std::string>
   /**
    * Specialized version of `std::vector<std::string>`.
@@ -605,7 +605,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::vector<NitroCarPlayDashboardButton>
   /**
    * Specialized version of `std::vector<NitroCarPlayDashboardButton>`.
@@ -616,7 +616,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::function<void(ColorScheme /* payload */)>
   /**
    * Specialized version of `std::function<void(ColorScheme)>`.
@@ -638,7 +638,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_ColorScheme_Wrapper wrap_Func_void_ColorScheme(Func_void_ColorScheme value) noexcept {
     return Func_void_ColorScheme_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridCarPlayDashboardSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridCarPlayDashboardSpec>`.
@@ -646,11 +646,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridCarPlayDashboardSpec_ = std::shared_ptr<HybridCarPlayDashboardSpec>;
   std::shared_ptr<HybridCarPlayDashboardSpec> create_std__shared_ptr_HybridCarPlayDashboardSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridCarPlayDashboardSpec_(std__shared_ptr_HybridCarPlayDashboardSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridCarPlayDashboardSpec>
   using std__weak_ptr_HybridCarPlayDashboardSpec_ = std::weak_ptr<HybridCarPlayDashboardSpec>;
   inline std__weak_ptr_HybridCarPlayDashboardSpec_ weakify_std__shared_ptr_HybridCarPlayDashboardSpec_(const std::shared_ptr<HybridCarPlayDashboardSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */)>
   /**
    * Specialized version of `std::function<void(const std::string&)>`.
@@ -672,7 +672,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__string_Wrapper wrap_Func_void_std__string(Func_void_std__string value) noexcept {
     return Func_void_std__string_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::vector<NitroAttributedStringImage>
   /**
    * Specialized version of `std::vector<NitroAttributedStringImage>`.
@@ -683,7 +683,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::vector<NitroAttributedStringImage>>
   /**
    * Specialized version of `std::optional<std::vector<NitroAttributedStringImage>>`.
@@ -698,7 +698,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<NitroAttributedStringImage> get_std__optional_std__vector_NitroAttributedStringImage__(const std::optional<std::vector<NitroAttributedStringImage>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<NitroAttributedString>
   /**
    * Specialized version of `std::vector<NitroAttributedString>`.
@@ -709,7 +709,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, ColorScheme /* payload */)>
   /**
    * Specialized version of `std::function<void(const std::string&, ColorScheme)>`.
@@ -731,7 +731,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__string_ColorScheme_Wrapper wrap_Func_void_std__string_ColorScheme(Func_void_std__string_ColorScheme value) noexcept {
     return Func_void_std__string_ColorScheme_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, ZoomEvent /* payload */)>
   /**
    * Specialized version of `std::function<void(const std::string&, ZoomEvent)>`.
@@ -753,7 +753,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__string_ZoomEvent_Wrapper wrap_Func_void_std__string_ZoomEvent(Func_void_std__string_ZoomEvent value) noexcept {
     return Func_void_std__string_ZoomEvent_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, bool /* payload */)>
   /**
    * Specialized version of `std::function<void(const std::string&, bool)>`.
@@ -775,7 +775,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__string_bool_Wrapper wrap_Func_void_std__string_bool(Func_void_std__string_bool value) noexcept {
     return Func_void_std__string_bool_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridClusterSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridClusterSpec>`.
@@ -783,11 +783,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridClusterSpec_ = std::shared_ptr<HybridClusterSpec>;
   std::shared_ptr<HybridClusterSpec> create_std__shared_ptr_HybridClusterSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridClusterSpec_(std__shared_ptr_HybridClusterSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridClusterSpec>
   using std__weak_ptr_HybridClusterSpec_ = std::weak_ptr<HybridClusterSpec>;
   inline std__weak_ptr_HybridClusterSpec_ weakify_std__shared_ptr_HybridClusterSpec_(const std::shared_ptr<HybridClusterSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: Result<void>
   using Result_void_ = Result<void>;
   inline Result_void_ create_Result_void_() noexcept {
@@ -796,7 +796,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
     return Result<void>::withError(error);
   }
-
+  
   // pragma MARK: std::function<void(std::optional<bool> /* animated */)>
   /**
    * Specialized version of `std::function<void(std::optional<bool>)>`.
@@ -818,7 +818,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__optional_bool__Wrapper wrap_Func_void_std__optional_bool_(Func_void_std__optional_bool_ value) noexcept {
     return Func_void_std__optional_bool__Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(std::optional<bool> /* animated */)>>
   /**
    * Specialized version of `std::optional<std::function<void(std::optional<bool> / * animated * /)>>`.
@@ -833,7 +833,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(std::optional<bool> /* animated */)> get_std__optional_std__function_void_std__optional_bool_____animated______(const std::optional<std::function<void(std::optional<bool> /* animated */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<std::function<void()>>
   /**
    * Specialized version of `std::optional<std::function<void()>>`.
@@ -848,7 +848,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void()> get_std__optional_std__function_void____(const std::optional<std::function<void()>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<Distance>
   /**
    * Specialized version of `std::optional<Distance>`.
@@ -863,7 +863,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Distance get_std__optional_Distance_(const std::optional<Distance>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<NitroGridButton>
   /**
    * Specialized version of `std::vector<NitroGridButton>`.
@@ -874,7 +874,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::vector<NitroMapButton>
   /**
    * Specialized version of `std::vector<NitroMapButton>`.
@@ -885,7 +885,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::vector<NitroMapButton>>
   /**
    * Specialized version of `std::optional<std::vector<NitroMapButton>>`.
@@ -900,7 +900,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<NitroMapButton> get_std__optional_std__vector_NitroMapButton__(const std::optional<std::vector<NitroMapButton>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(bool /* isPanningInterfaceVisible */)>
   /**
    * Specialized version of `std::function<void(bool)>`.
@@ -922,7 +922,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_bool_Wrapper wrap_Func_void_bool(Func_void_bool value) noexcept {
     return Func_void_bool_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(bool /* isPanningInterfaceVisible */)>>
   /**
    * Specialized version of `std::optional<std::function<void(bool / * isPanningInterfaceVisible * /)>>`.
@@ -937,7 +937,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(bool /* isPanningInterfaceVisible */)> get_std__optional_std__function_void_bool____isPanningInterfaceVisible______(const std::optional<std::function<void(bool /* isPanningInterfaceVisible */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<NitroBaseMapTemplateConfig>
   /**
    * Specialized version of `std::optional<NitroBaseMapTemplateConfig>`.
@@ -952,7 +952,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline NitroBaseMapTemplateConfig get_std__optional_NitroBaseMapTemplateConfig_(const std::optional<NitroBaseMapTemplateConfig>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridGridTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridGridTemplateSpec>`.
@@ -960,11 +960,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridGridTemplateSpec_ = std::shared_ptr<HybridGridTemplateSpec>;
   std::shared_ptr<HybridGridTemplateSpec> create_std__shared_ptr_HybridGridTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridGridTemplateSpec_(std__shared_ptr_HybridGridTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridGridTemplateSpec>
   using std__weak_ptr_HybridGridTemplateSpec_ = std::weak_ptr<HybridGridTemplateSpec>;
   inline std__weak_ptr_HybridGridTemplateSpec_ weakify_std__shared_ptr_HybridGridTemplateSpec_(const std::shared_ptr<HybridGridTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::optional<AutoText>
   /**
    * Specialized version of `std::optional<AutoText>`.
@@ -979,7 +979,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline AutoText get_std__optional_AutoText_(const std::optional<AutoText>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<PlayingIndicatorLocation>
   /**
    * Specialized version of `std::optional<PlayingIndicatorLocation>`.
@@ -994,44 +994,44 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline PlayingIndicatorLocation get_std__optional_PlayingIndicatorLocation_(const std::optional<PlayingIndicatorLocation>& optional) noexcept {
     return optional.value();
   }
-
-  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>
+  
+  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>
   /**
-   * Specialized version of `std::function<void(std::optional<bool>, const std::optional<std::function<void()>>&)>`.
+   * Specialized version of `std::function<void(std::optional<bool>, const std::optional<std::string>&)>`.
    */
-  using Func_void_std__optional_bool__std__optional_std__function_void____ = std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>;
+  using Func_void_std__optional_bool__std__optional_std__string_ = std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>;
   /**
-   * Wrapper class for a `std::function<void(std::optional<bool> / * checked * /, const std::optional<std::function<void()>>& / * complete * /)>`, this can be used from Swift.
+   * Wrapper class for a `std::function<void(std::optional<bool> / * checked * /, const std::optional<std::string>& / * completionId * /)>`, this can be used from Swift.
    */
-  class Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper final {
+  class Func_void_std__optional_bool__std__optional_std__string__Wrapper final {
   public:
-    explicit Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper(std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>&& func): _function(std::make_unique<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>(std::move(func))) {}
-    inline void call(std::optional<bool> checked, std::optional<std::function<void()>> complete) const noexcept {
-      _function->operator()(checked, complete);
+    explicit Func_void_std__optional_bool__std__optional_std__string__Wrapper(std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>&& func): _function(std::make_unique<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>(std::move(func))) {}
+    inline void call(std::optional<bool> checked, std::optional<std::string> completionId) const noexcept {
+      _function->operator()(checked, completionId);
     }
   private:
-    std::unique_ptr<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> _function;
+    std::unique_ptr<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void_std__optional_bool__std__optional_std__function_void____ create_Func_void_std__optional_bool__std__optional_std__function_void____(void* NON_NULL swiftClosureWrapper) noexcept;
-  inline Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper wrap_Func_void_std__optional_bool__std__optional_std__function_void____(Func_void_std__optional_bool__std__optional_std__function_void____ value) noexcept {
-    return Func_void_std__optional_bool__std__optional_std__function_void_____Wrapper(std::move(value));
+  Func_void_std__optional_bool__std__optional_std__string_ create_Func_void_std__optional_bool__std__optional_std__string_(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__optional_bool__std__optional_std__string__Wrapper wrap_Func_void_std__optional_bool__std__optional_std__string_(Func_void_std__optional_bool__std__optional_std__string_ value) noexcept {
+    return Func_void_std__optional_bool__std__optional_std__string__Wrapper(std::move(value));
   }
-
-  // pragma MARK: std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>
+  
+  // pragma MARK: std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>
   /**
-   * Specialized version of `std::optional<std::function<void(std::optional<bool> / * checked * /, const std::optional<std::function<void()>>& / * complete * /)>>`.
+   * Specialized version of `std::optional<std::function<void(std::optional<bool> / * checked * /, const std::optional<std::string>& / * completionId * /)>>`.
    */
-  using std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______ = std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>;
-  inline std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>> create_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>& value) noexcept {
-    return std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>(value);
+  using std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______ = std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>;
+  inline std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> create_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______(const std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>& value) noexcept {
+    return std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>(value);
   }
-  inline bool has_value_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>& optional) noexcept {
+  inline bool has_value_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>& optional) noexcept {
     return optional.has_value();
   }
-  inline std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)> get_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__function_void_________complete______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>>& optional) noexcept {
+  inline std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)> get_std__optional_std__function_void_std__optional_bool_____checked_____const_std__optional_std__string______completionId______(const std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<NitroRow>
   /**
    * Specialized version of `std::vector<NitroRow>`.
@@ -1042,7 +1042,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridInformationTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridInformationTemplateSpec>`.
@@ -1050,11 +1050,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridInformationTemplateSpec_ = std::shared_ptr<HybridInformationTemplateSpec>;
   std::shared_ptr<HybridInformationTemplateSpec> create_std__shared_ptr_HybridInformationTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridInformationTemplateSpec_(std__shared_ptr_HybridInformationTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridInformationTemplateSpec>
   using std__weak_ptr_HybridInformationTemplateSpec_ = std::weak_ptr<HybridInformationTemplateSpec>;
   inline std__weak_ptr_HybridInformationTemplateSpec_ weakify_std__shared_ptr_HybridInformationTemplateSpec_(const std::shared_ptr<HybridInformationTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::vector<NitroSection>
   /**
    * Specialized version of `std::vector<NitroSection>`.
@@ -1065,7 +1065,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::vector<NitroSection>>
   /**
    * Specialized version of `std::optional<std::vector<NitroSection>>`.
@@ -1080,7 +1080,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<NitroSection> get_std__optional_std__vector_NitroSection__(const std::optional<std::vector<NitroSection>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridListTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridListTemplateSpec>`.
@@ -1088,11 +1088,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridListTemplateSpec_ = std::shared_ptr<HybridListTemplateSpec>;
   std::shared_ptr<HybridListTemplateSpec> create_std__shared_ptr_HybridListTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridListTemplateSpec_(std__shared_ptr_HybridListTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridListTemplateSpec>
   using std__weak_ptr_HybridListTemplateSpec_ = std::weak_ptr<HybridListTemplateSpec>;
   inline std__weak_ptr_HybridListTemplateSpec_ weakify_std__shared_ptr_HybridListTemplateSpec_(const std::shared_ptr<HybridListTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::optional<VisibleTravelEstimate>
   /**
    * Specialized version of `std::optional<VisibleTravelEstimate>`.
@@ -1107,7 +1107,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline VisibleTravelEstimate get_std__optional_VisibleTravelEstimate_(const std::optional<VisibleTravelEstimate>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<Point>
   /**
    * Specialized version of `std::optional<Point>`.
@@ -1122,7 +1122,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Point get_std__optional_Point_(const std::optional<Point>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* translation */, const std::optional<Point>& /* velocity */)>
   /**
    * Specialized version of `std::function<void(const Point&, const std::optional<Point>&)>`.
@@ -1144,7 +1144,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_Point_std__optional_Point__Wrapper wrap_Func_void_Point_std__optional_Point_(Func_void_Point_std__optional_Point_ value) noexcept {
     return Func_void_Point_std__optional_Point__Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(const Point& /* translation */, const std::optional<Point>& /* velocity */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const Point& / * translation * /, const std::optional<Point>& / * velocity * /)>>`.
@@ -1159,7 +1159,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(const Point& /* translation */, const std::optional<Point>& /* velocity */)> get_std__optional_std__function_void_const_Point_____translation_____const_std__optional_Point______velocity______(const std::optional<std::function<void(const Point& /* translation */, const std::optional<Point>& /* velocity */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* center */, double /* scale */)>
   /**
    * Specialized version of `std::function<void(const Point&, double)>`.
@@ -1181,7 +1181,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_Point_double_Wrapper wrap_Func_void_Point_double(Func_void_Point_double value) noexcept {
     return Func_void_Point_double_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(const Point& /* center */, double /* scale */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const Point& / * center * /, double / * scale * /)>>`.
@@ -1196,7 +1196,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(const Point& /* center */, double /* scale */)> get_std__optional_std__function_void_const_Point_____center_____double____scale______(const std::optional<std::function<void(const Point& /* center */, double /* scale */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* center */)>
   /**
    * Specialized version of `std::function<void(const Point&)>`.
@@ -1218,7 +1218,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_Point_Wrapper wrap_Func_void_Point(Func_void_Point value) noexcept {
     return Func_void_Point_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(const Point& /* center */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const Point& / * center * /)>>`.
@@ -1233,7 +1233,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(const Point& /* center */)> get_std__optional_std__function_void_const_Point_____center______(const std::optional<std::function<void(const Point& /* center */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<std::function<void(ColorScheme /* colorScheme */)>>
   /**
    * Specialized version of `std::optional<std::function<void(ColorScheme / * colorScheme * /)>>`.
@@ -1248,7 +1248,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(ColorScheme /* colorScheme */)> get_std__optional_std__function_void_ColorScheme____colorScheme______(const std::optional<std::function<void(ColorScheme /* colorScheme */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<AlertActionStyle>
   /**
    * Specialized version of `std::optional<AlertActionStyle>`.
@@ -1263,7 +1263,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline AlertActionStyle get_std__optional_AlertActionStyle_(const std::optional<AlertActionStyle>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<NavigationAlertAction>
   /**
    * Specialized version of `std::optional<NavigationAlertAction>`.
@@ -1278,7 +1278,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline NavigationAlertAction get_std__optional_NavigationAlertAction_(const std::optional<NavigationAlertAction>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::function<void(AlertDismissalReason /* reason */)>
   /**
    * Specialized version of `std::function<void(AlertDismissalReason)>`.
@@ -1300,7 +1300,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_AlertDismissalReason_Wrapper wrap_Func_void_AlertDismissalReason(Func_void_AlertDismissalReason value) noexcept {
     return Func_void_AlertDismissalReason_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(AlertDismissalReason /* reason */)>>
   /**
    * Specialized version of `std::optional<std::function<void(AlertDismissalReason / * reason * /)>>`.
@@ -1315,7 +1315,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(AlertDismissalReason /* reason */)> get_std__optional_std__function_void_AlertDismissalReason____reason______(const std::optional<std::function<void(AlertDismissalReason /* reason */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<TripPoint>
   /**
    * Specialized version of `std::vector<TripPoint>`.
@@ -1326,7 +1326,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::vector<RouteChoice>
   /**
    * Specialized version of `std::vector<RouteChoice>`.
@@ -1337,7 +1337,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::vector<TripsConfig>
   /**
    * Specialized version of `std::vector<TripsConfig>`.
@@ -1348,7 +1348,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* tripId */, const std::string& /* routeId */)>
   /**
    * Specialized version of `std::function<void(const std::string&, const std::string&)>`.
@@ -1370,7 +1370,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_std__string_std__string_Wrapper wrap_Func_void_std__string_std__string(Func_void_std__string_std__string value) noexcept {
     return Func_void_std__string_std__string_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<TurnType>
   /**
    * Specialized version of `std::optional<TurnType>`.
@@ -1385,7 +1385,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline TurnType get_std__optional_TurnType_(const std::optional<TurnType>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<double>
   /**
    * Specialized version of `std::vector<double>`.
@@ -1396,7 +1396,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::vector<double>>
   /**
    * Specialized version of `std::optional<std::vector<double>>`.
@@ -1411,7 +1411,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<double> get_std__optional_std__vector_double__(const std::optional<std::vector<double>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<OffRampType>
   /**
    * Specialized version of `std::optional<OffRampType>`.
@@ -1426,7 +1426,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline OffRampType get_std__optional_OffRampType_(const std::optional<OffRampType>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<OnRampType>
   /**
    * Specialized version of `std::optional<OnRampType>`.
@@ -1441,7 +1441,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline OnRampType get_std__optional_OnRampType_(const std::optional<OnRampType>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<ForkType>
   /**
    * Specialized version of `std::optional<ForkType>`.
@@ -1456,7 +1456,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline ForkType get_std__optional_ForkType_(const std::optional<ForkType>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<KeepType>
   /**
    * Specialized version of `std::optional<KeepType>`.
@@ -1471,7 +1471,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline KeepType get_std__optional_KeepType_(const std::optional<KeepType>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::variant<PreferredImageLane, ImageLane>
   /**
    * Wrapper struct for `std::variant<PreferredImageLane, ImageLane>`.
@@ -1500,7 +1500,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std__variant_PreferredImageLane__ImageLane_ create_std__variant_PreferredImageLane__ImageLane_(const ImageLane& value) noexcept {
     return std__variant_PreferredImageLane__ImageLane_(value);
   }
-
+  
   // pragma MARK: std::vector<std::variant<PreferredImageLane, ImageLane>>
   /**
    * Specialized version of `std::vector<std::variant<PreferredImageLane, ImageLane>>`.
@@ -1511,7 +1511,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<LaneGuidance>
   /**
    * Specialized version of `std::optional<LaneGuidance>`.
@@ -1526,7 +1526,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline LaneGuidance get_std__optional_LaneGuidance_(const std::optional<LaneGuidance>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<std::vector<std::string>>
   /**
    * Specialized version of `std::optional<std::vector<std::string>>`.
@@ -1541,7 +1541,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::vector<std::string> get_std__optional_std__vector_std__string__(const std::optional<std::vector<std::string>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::vector<NitroRoutingManeuver>
   /**
    * Specialized version of `std::vector<NitroRoutingManeuver>`.
@@ -1552,7 +1552,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::variant<std::vector<NitroRoutingManeuver>, NitroMessageManeuver, NitroLoadingManeuver>
   /**
    * Wrapper struct for `std::variant<std::vector<NitroRoutingManeuver>, NitroMessageManeuver, NitroLoadingManeuver>`.
@@ -1587,7 +1587,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std__variant_std__vector_NitroRoutingManeuver___NitroMessageManeuver__NitroLoadingManeuver_ create_std__variant_std__vector_NitroRoutingManeuver___NitroMessageManeuver__NitroLoadingManeuver_(const NitroLoadingManeuver& value) noexcept {
     return std__variant_std__vector_NitroRoutingManeuver___NitroMessageManeuver__NitroLoadingManeuver_(value);
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridMapTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridMapTemplateSpec>`.
@@ -1595,11 +1595,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridMapTemplateSpec_ = std::shared_ptr<HybridMapTemplateSpec>;
   std::shared_ptr<HybridMapTemplateSpec> create_std__shared_ptr_HybridMapTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridMapTemplateSpec_(std__shared_ptr_HybridMapTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridMapTemplateSpec>
   using std__weak_ptr_HybridMapTemplateSpec_ = std::weak_ptr<HybridMapTemplateSpec>;
   inline std__weak_ptr_HybridMapTemplateSpec_ weakify_std__shared_ptr_HybridMapTemplateSpec_(const std::shared_ptr<HybridMapTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: Result<TripSelectorCallback>
   using Result_TripSelectorCallback_ = Result<TripSelectorCallback>;
   inline Result_TripSelectorCallback_ create_Result_TripSelectorCallback_(const TripSelectorCallback& value) noexcept {
@@ -1608,7 +1608,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_TripSelectorCallback_ create_Result_TripSelectorCallback_(const std::exception_ptr& error) noexcept {
     return Result<TripSelectorCallback>::withError(error);
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridMessageTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridMessageTemplateSpec>`.
@@ -1616,11 +1616,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridMessageTemplateSpec_ = std::shared_ptr<HybridMessageTemplateSpec>;
   std::shared_ptr<HybridMessageTemplateSpec> create_std__shared_ptr_HybridMessageTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridMessageTemplateSpec_(std__shared_ptr_HybridMessageTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridMessageTemplateSpec>
   using std__weak_ptr_HybridMessageTemplateSpec_ = std::weak_ptr<HybridMessageTemplateSpec>;
   inline std__weak_ptr_HybridMessageTemplateSpec_ weakify_std__shared_ptr_HybridMessageTemplateSpec_(const std::shared_ptr<HybridMessageTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::shared_ptr<HybridSearchTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridSearchTemplateSpec>`.
@@ -1628,11 +1628,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridSearchTemplateSpec_ = std::shared_ptr<HybridSearchTemplateSpec>;
   std::shared_ptr<HybridSearchTemplateSpec> create_std__shared_ptr_HybridSearchTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridSearchTemplateSpec_(std__shared_ptr_HybridSearchTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridSearchTemplateSpec>
   using std__weak_ptr_HybridSearchTemplateSpec_ = std::weak_ptr<HybridSearchTemplateSpec>;
   inline std__weak_ptr_HybridSearchTemplateSpec_ weakify_std__shared_ptr_HybridSearchTemplateSpec_(const std::shared_ptr<HybridSearchTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::vector<NitroTabBarItem>
   /**
    * Specialized version of `std::vector<NitroTabBarItem>`.
@@ -1643,7 +1643,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     vector.reserve(size);
     return vector;
   }
-
+  
   // pragma MARK: std::optional<std::function<void(const std::string& /* templateId */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const std::string& / * templateId * /)>>`.
@@ -1658,7 +1658,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(const std::string& /* templateId */)> get_std__optional_std__function_void_const_std__string_____templateId______(const std::optional<std::function<void(const std::string& /* templateId */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridTabBarTemplateSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridTabBarTemplateSpec>`.
@@ -1666,11 +1666,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridTabBarTemplateSpec_ = std::shared_ptr<HybridTabBarTemplateSpec>;
   std::shared_ptr<HybridTabBarTemplateSpec> create_std__shared_ptr_HybridTabBarTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridTabBarTemplateSpec_(std__shared_ptr_HybridTabBarTemplateSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridTabBarTemplateSpec>
   using std__weak_ptr_HybridTabBarTemplateSpec_ = std::weak_ptr<HybridTabBarTemplateSpec>;
   inline std__weak_ptr_HybridTabBarTemplateSpec_ weakify_std__shared_ptr_HybridTabBarTemplateSpec_(const std::shared_ptr<HybridTabBarTemplateSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: std::shared_ptr<Promise<bool>>
   /**
    * Specialized version of `std::shared_ptr<Promise<bool>>`.
@@ -1682,7 +1682,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline PromiseHolder<bool> wrap_std__shared_ptr_Promise_bool__(std::shared_ptr<Promise<bool>> promise) noexcept {
     return PromiseHolder<bool>(std::move(promise));
   }
-
+  
   // pragma MARK: std::optional<std::shared_ptr<ArrayBuffer>>
   /**
    * Specialized version of `std::optional<std::shared_ptr<ArrayBuffer>>`.
@@ -1697,7 +1697,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::shared_ptr<ArrayBuffer> get_std__optional_std__shared_ptr_ArrayBuffer__(const std::optional<std::shared_ptr<ArrayBuffer>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<Promise<VoiceInputResult>>
   /**
    * Specialized version of `std::shared_ptr<Promise<VoiceInputResult>>`.
@@ -1709,7 +1709,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline PromiseHolder<VoiceInputResult> wrap_std__shared_ptr_Promise_VoiceInputResult__(std::shared_ptr<Promise<VoiceInputResult>> promise) noexcept {
     return PromiseHolder<VoiceInputResult>(std::move(promise));
   }
-
+  
   // pragma MARK: std::function<void(const VoiceInputResult& /* result */)>
   /**
    * Specialized version of `std::function<void(const VoiceInputResult&)>`.
@@ -1731,7 +1731,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_VoiceInputResult_Wrapper wrap_Func_void_VoiceInputResult(Func_void_VoiceInputResult value) noexcept {
     return Func_void_VoiceInputResult_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::function<void(const VoiceInputChunk& /* chunk */)>
   /**
    * Specialized version of `std::function<void(const VoiceInputChunk&)>`.
@@ -1753,7 +1753,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Func_void_VoiceInputChunk_Wrapper wrap_Func_void_VoiceInputChunk(Func_void_VoiceInputChunk value) noexcept {
     return Func_void_VoiceInputChunk_Wrapper(std::move(value));
   }
-
+  
   // pragma MARK: std::optional<std::function<void(const VoiceInputChunk& /* chunk */)>>
   /**
    * Specialized version of `std::optional<std::function<void(const VoiceInputChunk& / * chunk * /)>>`.
@@ -1768,7 +1768,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline std::function<void(const VoiceInputChunk& /* chunk */)> get_std__optional_std__function_void_const_VoiceInputChunk_____chunk______(const std::optional<std::function<void(const VoiceInputChunk& /* chunk */)>>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::optional<VoiceAudioEncoding>
   /**
    * Specialized version of `std::optional<VoiceAudioEncoding>`.
@@ -1783,7 +1783,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline VoiceAudioEncoding get_std__optional_VoiceAudioEncoding_(const std::optional<VoiceAudioEncoding>& optional) noexcept {
     return optional.value();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridVoiceSpec>
   /**
    * Specialized version of `std::shared_ptr<HybridVoiceSpec>`.
@@ -1791,11 +1791,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   using std__shared_ptr_HybridVoiceSpec_ = std::shared_ptr<HybridVoiceSpec>;
   std::shared_ptr<HybridVoiceSpec> create_std__shared_ptr_HybridVoiceSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
   void* NON_NULL get_std__shared_ptr_HybridVoiceSpec_(std__shared_ptr_HybridVoiceSpec_ cppType);
-
+  
   // pragma MARK: std::weak_ptr<HybridVoiceSpec>
   using std__weak_ptr_HybridVoiceSpec_ = std::weak_ptr<HybridVoiceSpec>;
   inline std__weak_ptr_HybridVoiceSpec_ weakify_std__shared_ptr_HybridVoiceSpec_(const std::shared_ptr<HybridVoiceSpec>& strong) noexcept { return strong; }
-
+  
   // pragma MARK: Result<std::shared_ptr<Promise<bool>>>
   using Result_std__shared_ptr_Promise_bool___ = Result<std::shared_ptr<Promise<bool>>>;
   inline Result_std__shared_ptr_Promise_bool___ create_Result_std__shared_ptr_Promise_bool___(const std::shared_ptr<Promise<bool>>& value) noexcept {
@@ -1804,7 +1804,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
   inline Result_std__shared_ptr_Promise_bool___ create_Result_std__shared_ptr_Promise_bool___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<bool>>>::withError(error);
   }
-
+  
   // pragma MARK: Result<std::shared_ptr<Promise<VoiceInputResult>>>
   using Result_std__shared_ptr_Promise_VoiceInputResult___ = Result<std::shared_ptr<Promise<VoiceInputResult>>>;
   inline Result_std__shared_ptr_Promise_VoiceInputResult___ create_Result_std__shared_ptr_Promise_VoiceInputResult___(const std::shared_ptr<Promise<VoiceInputResult>>& value) noexcept {

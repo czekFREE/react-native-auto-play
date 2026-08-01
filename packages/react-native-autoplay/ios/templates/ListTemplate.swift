@@ -191,13 +191,34 @@ class ListTemplate: AutoPlayHeaderProviding {
     private func applyPlayingItem() {
         var matchedItemCount = 0
 
-        for section in template.sections {
-            for case let listItem as CPListItem in section.items {
+        for (sectionIndex, section) in template.sections.enumerated() {
+            guard let configuredSections = sections,
+                sectionIndex < configuredSections.count
+            else { continue }
+
+            let configuredSection = configuredSections[sectionIndex]
+
+            for (itemIndex, item) in section.items.enumerated() {
+                guard let listItem = item as? CPListItem,
+                    itemIndex < configuredSection.items.count
+                else { continue }
+
+                let configuredItem = configuredSection.items[itemIndex]
                 let isPlaying =
                     playingItemId != nil
                     && listItem.userInfo as? String == playingItemId
+                let systemAccessoryImage =
+                    isPlaying ? "checkmark" : configuredItem.systemAccessoryImage
+                let accessoryImage = systemAccessoryImage.flatMap {
+                    UIImage(systemName: $0)
+                }
 
-                listItem.playingIndicatorLocation = .trailing
+                listItem.playingIndicatorLocation =
+                    accessoryImage == nil ? .trailing : .leading
+                listItem.setAccessoryImage(accessoryImage)
+                listItem.accessoryType =
+                    configuredItem.browsable == true && accessoryImage == nil
+                    ? .disclosureIndicator : .none
                 if listItem.isPlaying != isPlaying {
                     listItem.isPlaying = isPlaying
                 }

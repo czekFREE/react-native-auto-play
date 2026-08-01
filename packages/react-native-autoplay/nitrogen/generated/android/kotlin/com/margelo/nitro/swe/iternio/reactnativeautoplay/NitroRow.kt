@@ -29,6 +29,9 @@ data class NitroRow(
   val detailedText: AutoText?,
   @DoNotStrip
   @Keep
+  val systemAccessoryImage: String?,
+  @DoNotStrip
+  @Keep
   val browsable: Boolean?,
   @DoNotStrip
   @Keep
@@ -56,7 +59,7 @@ data class NitroRow(
   val checked: Boolean?,
   @DoNotStrip
   @Keep
-  val onPress: Func_void_std__optional_bool__std__optional_std__function_void____?,
+  val onPress: Func_void_std__optional_bool__std__optional_std__string_?,
   @DoNotStrip
   @Keep
   val selected: Boolean?
@@ -64,8 +67,8 @@ data class NitroRow(
   /**
    * Create a new instance of NitroRow from Kotlin
    */
-  constructor(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, complete: (() -> Unit)?) -> Unit)?, selected: Boolean?):
-         this(title, id, detailedText, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__function_void_____java(it) }, selected)
+  constructor(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, completionId: String?) -> Unit)?, selected: Boolean?):
+         this(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__string__java(it) }, selected)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -73,6 +76,7 @@ data class NitroRow(
     return Objects.deepEquals(this.title, other.title)
       && Objects.deepEquals(this.id, other.id)
       && Objects.deepEquals(this.detailedText, other.detailedText)
+      && Objects.deepEquals(this.systemAccessoryImage, other.systemAccessoryImage)
       && Objects.deepEquals(this.browsable, other.browsable)
       && Objects.deepEquals(this.enabled, other.enabled)
       && Objects.deepEquals(this.image, other.image)
@@ -91,6 +95,7 @@ data class NitroRow(
       title,
       id,
       detailedText,
+      systemAccessoryImage,
       browsable,
       enabled,
       image,
@@ -113,8 +118,8 @@ data class NitroRow(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__function_void____?, selected: Boolean?): NitroRow {
-      return NitroRow(title, id, detailedText, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress, selected)
+    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__string_?, selected: Boolean?): NitroRow {
+      return NitroRow(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress, selected)
     }
   }
 }

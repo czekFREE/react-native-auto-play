@@ -10,7 +10,7 @@ import NitroModules
 /// See ``HybridTabBarTemplateSpec``
 public protocol HybridTabBarTemplateSpec_protocol: HybridObject {
   // Properties
-
+  
 
   // Methods
   func createTabBarTemplate(config: TabBarTemplateConfig) throws -> Void

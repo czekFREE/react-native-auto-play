@@ -123,7 +123,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     // Properties
-
+    
 
   public:
     // Methods
@@ -143,6 +143,14 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     }
     inline std::shared_ptr<Promise<void>> updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) override {
       auto __result = _swiftPart.updateListTemplatePlayingItem(templateId, itemId);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> completeListItemPress(const std::string& completionId) override {
+      auto __result = _swiftPart.completeListItemPress(completionId);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

@@ -88,7 +88,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JNitroRow.hpp"
 #include "PlayingIndicatorLocation.hpp"
 #include "JPlayingIndicatorLocation.hpp"
-#include "JFunc_void_std__optional_bool__std__optional_std__function_void____.hpp"
+#include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
@@ -130,7 +130,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   }
 
   // Properties
-
+  
 
   // Methods
   void JHybridListTemplateSpec::createListTemplate(const ListTemplateConfig& config) {
@@ -164,6 +164,21 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   std::shared_ptr<Promise<void>> JHybridListTemplateSpec::updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* templateId */, jni::alias_ref<jni::JString> /* itemId */)>("updateListTemplatePlayingItem");
     auto __result = method(_javaPart, jni::make_jstring(templateId), itemId.has_value() ? jni::make_jstring(itemId.value()) : nullptr);
+    return [&]() {
+      auto __promise = Promise<void>::create();
+      __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {
+        __promise->resolve();
+      });
+      __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
+        jni::JniException __jniError(__throwable);
+        __promise->reject(std::make_exception_ptr(__jniError));
+      });
+      return __promise;
+    }();
+  }
+  std::shared_ptr<Promise<void>> JHybridListTemplateSpec::completeListItemPress(const std::string& completionId) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* completionId */)>("completeListItemPress");
+    auto __result = method(_javaPart, jni::make_jstring(completionId));
     return [&]() {
       auto __promise = Promise<void>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {

@@ -1,7 +1,6 @@
-import { NitroModules } from 'react-native-nitro-modules';
-import type { ListTemplate as NitroListTemplate } from '../specs/ListTemplate.nitro';
 import type { AutoImage } from '../types/Image';
 import type { AutoText } from '../types/Text';
+import { HybridListTemplate } from '../utils/HybridListTemplate';
 import { type NitroAction, NitroActionUtil } from '../utils/NitroAction';
 import { NitroMapButton } from '../utils/NitroMapButton';
 import { type NitroSection, NitroSectionUtil } from '../utils/NitroSection';
@@ -13,8 +12,6 @@ import {
   Template,
   type TemplateConfig,
 } from './Template';
-
-const HybridListTemplate = NitroModules.createHybridObject<NitroListTemplate>('ListTemplate');
 
 export type PlayingIndicatorLocation = 'leading' | 'trailing';
 
@@ -32,6 +29,11 @@ type BaseRow = {
 
 export type DefaultRow<T> = BaseRow & {
   type: 'default';
+  /**
+   * Displays an SF Symbol in the trailing region of a CarPlay row.
+   * @namespace ios
+   */
+  systemAccessoryImage?: string;
   /**
    * adds a chevron at the end of the row
    */

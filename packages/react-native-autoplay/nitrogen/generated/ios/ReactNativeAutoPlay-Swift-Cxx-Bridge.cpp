@@ -31,7 +31,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call();
     };
   }
-
+  
   // pragma MARK: std::function<void(VisibilityState /* payload */)>
   Func_void_VisibilityState create_Func_void_VisibilityState(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_VisibilityState::fromUnsafe(swiftClosureWrapper);
@@ -39,7 +39,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(static_cast<int>(payload));
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::optional<Location>& /* coordinates */, const std::optional<std::string>& /* query */)>
   Func_void_std__optional_Location__std__optional_std__string_ create_Func_void_std__optional_Location__std__optional_std__string_(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__optional_Location__std__optional_std__string_::fromUnsafe(swiftClosureWrapper);
@@ -47,7 +47,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(coordinates, query);
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
   Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__exception_ptr::fromUnsafe(swiftClosureWrapper);
@@ -55,7 +55,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(error);
     };
   }
-
+  
   // pragma MARK: std::function<void(const SafeAreaInsets& /* insets */)>
   Func_void_SafeAreaInsets create_Func_void_SafeAreaInsets(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_SafeAreaInsets::fromUnsafe(swiftClosureWrapper);
@@ -63,7 +63,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(insets);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridAutoPlaySpec>
   std::shared_ptr<HybridAutoPlaySpec> create_std__shared_ptr_HybridAutoPlaySpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridAutoPlaySpec_cxx swiftPart = ReactNativeAutoPlay::HybridAutoPlaySpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -79,7 +79,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridAutoPlaySpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::function<void(ColorScheme /* payload */)>
   Func_void_ColorScheme create_Func_void_ColorScheme(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_ColorScheme::fromUnsafe(swiftClosureWrapper);
@@ -87,7 +87,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(static_cast<int>(payload));
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridCarPlayDashboardSpec>
   std::shared_ptr<HybridCarPlayDashboardSpec> create_std__shared_ptr_HybridCarPlayDashboardSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridCarPlayDashboardSpec_cxx swiftPart = ReactNativeAutoPlay::HybridCarPlayDashboardSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -103,7 +103,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridCarPlayDashboardSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */)>
   Func_void_std__string create_Func_void_std__string(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
@@ -111,7 +111,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(clusterId);
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, ColorScheme /* payload */)>
   Func_void_std__string_ColorScheme create_Func_void_std__string_ColorScheme(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__string_ColorScheme::fromUnsafe(swiftClosureWrapper);
@@ -119,7 +119,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(clusterId, static_cast<int>(payload));
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, ZoomEvent /* payload */)>
   Func_void_std__string_ZoomEvent create_Func_void_std__string_ZoomEvent(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__string_ZoomEvent::fromUnsafe(swiftClosureWrapper);
@@ -127,7 +127,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(clusterId, static_cast<int>(payload));
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* clusterId */, bool /* payload */)>
   Func_void_std__string_bool create_Func_void_std__string_bool(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__string_bool::fromUnsafe(swiftClosureWrapper);
@@ -135,7 +135,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(clusterId, payload);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridClusterSpec>
   std::shared_ptr<HybridClusterSpec> create_std__shared_ptr_HybridClusterSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridClusterSpec_cxx swiftPart = ReactNativeAutoPlay::HybridClusterSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -151,7 +151,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridClusterSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::function<void(std::optional<bool> /* animated */)>
   Func_void_std__optional_bool_ create_Func_void_std__optional_bool_(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__optional_bool_::fromUnsafe(swiftClosureWrapper);
@@ -159,7 +159,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(animated);
     };
   }
-
+  
   // pragma MARK: std::function<void(bool /* isPanningInterfaceVisible */)>
   Func_void_bool create_Func_void_bool(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_bool::fromUnsafe(swiftClosureWrapper);
@@ -167,7 +167,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(isPanningInterfaceVisible);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridGridTemplateSpec>
   std::shared_ptr<HybridGridTemplateSpec> create_std__shared_ptr_HybridGridTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridGridTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridGridTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -183,15 +183,15 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridGridTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
-  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::function<void()>>& /* complete */)>
-  Func_void_std__optional_bool__std__optional_std__function_void____ create_Func_void_std__optional_bool__std__optional_std__function_void____(void* NON_NULL swiftClosureWrapper) noexcept {
-    auto swiftClosure = ReactNativeAutoPlay::Func_void_std__optional_bool__std__optional_std__function_void____::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](std::optional<bool> checked, const std::optional<std::function<void()>>& complete) mutable -> void {
-      swiftClosure.call(checked, complete);
+  
+  // pragma MARK: std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>
+  Func_void_std__optional_bool__std__optional_std__string_ create_Func_void_std__optional_bool__std__optional_std__string_(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeAutoPlay::Func_void_std__optional_bool__std__optional_std__string_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](std::optional<bool> checked, const std::optional<std::string>& completionId) mutable -> void {
+      swiftClosure.call(checked, completionId);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridInformationTemplateSpec>
   std::shared_ptr<HybridInformationTemplateSpec> create_std__shared_ptr_HybridInformationTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridInformationTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridInformationTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -207,7 +207,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridInformationTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridListTemplateSpec>
   std::shared_ptr<HybridListTemplateSpec> create_std__shared_ptr_HybridListTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridListTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridListTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -223,7 +223,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridListTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* translation */, const std::optional<Point>& /* velocity */)>
   Func_void_Point_std__optional_Point_ create_Func_void_Point_std__optional_Point_(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_Point_std__optional_Point_::fromUnsafe(swiftClosureWrapper);
@@ -231,7 +231,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(translation, velocity);
     };
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* center */, double /* scale */)>
   Func_void_Point_double create_Func_void_Point_double(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_Point_double::fromUnsafe(swiftClosureWrapper);
@@ -239,7 +239,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(center, scale);
     };
   }
-
+  
   // pragma MARK: std::function<void(const Point& /* center */)>
   Func_void_Point create_Func_void_Point(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_Point::fromUnsafe(swiftClosureWrapper);
@@ -247,7 +247,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(center);
     };
   }
-
+  
   // pragma MARK: std::function<void(AlertDismissalReason /* reason */)>
   Func_void_AlertDismissalReason create_Func_void_AlertDismissalReason(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_AlertDismissalReason::fromUnsafe(swiftClosureWrapper);
@@ -255,7 +255,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(static_cast<int>(reason));
     };
   }
-
+  
   // pragma MARK: std::function<void(const std::string& /* tripId */, const std::string& /* routeId */)>
   Func_void_std__string_std__string create_Func_void_std__string_std__string(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_std__string_std__string::fromUnsafe(swiftClosureWrapper);
@@ -263,7 +263,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(tripId, routeId);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridMapTemplateSpec>
   std::shared_ptr<HybridMapTemplateSpec> create_std__shared_ptr_HybridMapTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridMapTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridMapTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -279,7 +279,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridMapTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridMessageTemplateSpec>
   std::shared_ptr<HybridMessageTemplateSpec> create_std__shared_ptr_HybridMessageTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridMessageTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridMessageTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -295,7 +295,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridMessageTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridSearchTemplateSpec>
   std::shared_ptr<HybridSearchTemplateSpec> create_std__shared_ptr_HybridSearchTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridSearchTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridSearchTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -311,7 +311,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridSearchTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridTabBarTemplateSpec>
   std::shared_ptr<HybridTabBarTemplateSpec> create_std__shared_ptr_HybridTabBarTemplateSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridTabBarTemplateSpec_cxx swiftPart = ReactNativeAutoPlay::HybridTabBarTemplateSpec_cxx::fromUnsafe(swiftUnsafePointer);
@@ -327,7 +327,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
     ReactNativeAutoPlay::HybridTabBarTemplateSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
-
+  
   // pragma MARK: std::function<void(const VoiceInputResult& /* result */)>
   Func_void_VoiceInputResult create_Func_void_VoiceInputResult(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_VoiceInputResult::fromUnsafe(swiftClosureWrapper);
@@ -335,7 +335,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(result);
     };
   }
-
+  
   // pragma MARK: std::function<void(const VoiceInputChunk& /* chunk */)>
   Func_void_VoiceInputChunk create_Func_void_VoiceInputChunk(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeAutoPlay::Func_void_VoiceInputChunk::fromUnsafe(swiftClosureWrapper);
@@ -343,7 +343,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay::bridge::swift {
       swiftClosure.call(chunk);
     };
   }
-
+  
   // pragma MARK: std::shared_ptr<HybridVoiceSpec>
   std::shared_ptr<HybridVoiceSpec> create_std__shared_ptr_HybridVoiceSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     ReactNativeAutoPlay::HybridVoiceSpec_cxx swiftPart = ReactNativeAutoPlay::HybridVoiceSpec_cxx::fromUnsafe(swiftUnsafePointer);
