@@ -169,7 +169,9 @@ class AndroidAutoService : CarAppService() {
             ) == PackageManager.PERMISSION_GRANTED
 
         if (!isLocationPermissionGranted) {
-            Log.w(TAG, "location permission not granted, unable to start foreground service!")
+            if (BuildConfig.DEBUG) {
+                Log.w(TAG, "location permission not granted, unable to start foreground service!")
+            }
             return
         }
 
@@ -178,7 +180,9 @@ class AndroidAutoService : CarAppService() {
                 NOTIFICATION_ID, createNotification(null, null, null)
             )
         } catch (e: SecurityException) {
-            Log.e(TAG, "failed to start foreground service", e)
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "failed to start foreground service", e)
+            }
         }
     }
 

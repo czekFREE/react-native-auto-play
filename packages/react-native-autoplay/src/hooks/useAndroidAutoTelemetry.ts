@@ -154,12 +154,18 @@ export const useAndroidAutoTelemetry = ({
           (permission) => result[permission as Permission] === 'granted'
         );
         if (!isGranted) {
-          console.warn('Android Auto telemetry permissions not granted');
+          if (__DEV__) {
+            console.warn('Android Auto telemetry permissions not granted');
+          }
           return;
         }
         setPermissionsGranted(true);
       })
-      .catch((e) => console.error('Android Auto telemetry permissions error', e));
+      .catch((e) => {
+        if (__DEV__) {
+          console.error('Android Auto telemetry permissions error', e);
+        }
+      });
   }, [
     requestTelemetryPermissions,
     requiredPermissions,

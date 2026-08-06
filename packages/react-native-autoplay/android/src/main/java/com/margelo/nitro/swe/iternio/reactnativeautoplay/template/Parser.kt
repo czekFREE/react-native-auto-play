@@ -18,6 +18,7 @@ import androidx.car.app.model.CarIconSpan
 import androidx.car.app.model.CarText
 import androidx.car.app.model.DateTimeWithZone
 import androidx.car.app.model.Distance
+import com.margelo.nitro.swe.iternio.reactnativeautoplay.BuildConfig
 import androidx.car.app.model.DistanceSpan
 import androidx.car.app.model.DurationSpan
 import androidx.car.app.model.Header
@@ -296,7 +297,9 @@ object Parser {
         val span = SpannableString(text.text)
         text.distance?.let { distance ->
             if (!text.text.contains(PLACEHOLDER_DISTANCE)) {
-                Log.w(TAG, "got duration without $PLACEHOLDER_DISTANCE placeholder")
+                if (BuildConfig.DEBUG) {
+                    Log.w(TAG, "got duration without $PLACEHOLDER_DISTANCE placeholder")
+                }
                 return@let
             }
             span.setSpan(
@@ -308,7 +311,9 @@ object Parser {
         }
         text.duration?.let { duration ->
             if (!text.text.contains(PLACEHOLDER_DURATION)) {
-                Log.w(TAG, "got duration without $PLACEHOLDER_DURATION placeholder")
+                if (BuildConfig.DEBUG) {
+                    Log.w(TAG, "got duration without $PLACEHOLDER_DURATION placeholder")
+                }
                 return@let
             }
             span.setSpan(

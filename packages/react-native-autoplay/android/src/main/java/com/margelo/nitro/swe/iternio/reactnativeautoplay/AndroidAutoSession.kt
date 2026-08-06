@@ -161,7 +161,9 @@ class AndroidAutoSession(sessionInfo: SessionInfo) :
 
                     HybridAutoPlay.emitVoiceInput(location, query)
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to parse navigation intent: ${e.message}")
+                    if (BuildConfig.DEBUG) {
+                        Log.e(TAG, "Failed to parse navigation intent: ${e.message}")
+                    }
                 }
             }
         }

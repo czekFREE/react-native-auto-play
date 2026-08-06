@@ -18,7 +18,9 @@ class SymbolFont {
         }
 
         guard let url = Bundle.main.url(forResource: fontName, withExtension: "ttf") else {
-            print("[AutoPlay] \(fontName).ttf not found in the app bundle — glyph images will not render.")
+            logAutoPlayDevelopment(
+                "[AutoPlay] \(fontName).ttf not found in the app bundle — glyph images will not render."
+            )
             return nil
         }
 

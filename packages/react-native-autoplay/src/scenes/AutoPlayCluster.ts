@@ -30,7 +30,9 @@ class Cluster {
     HybridCluster.addListener('didConnectWithWindow', (clusterId) => {
       this.clusters[clusterId] = false;
       this.registerComponent().catch((e) => {
-        console.error(e);
+        if (__DEV__) {
+          console.error(e);
+        }
       });
     });
     HybridCluster.addListener('didDisconnectFromWindow', (clusterId) => {
@@ -111,9 +113,11 @@ class Cluster {
     attributedInactiveDescriptionVariants: Array<AutoAttributedString>
   ) {
     if (Platform.OS !== 'ios') {
-      console.warn(
-        `ClusterScene.setAttributedInactiveDescriptionVariants not supported for ${Platform.OS}`
-      );
+      if (__DEV__) {
+        console.warn(
+          `ClusterScene.setAttributedInactiveDescriptionVariants not supported for ${Platform.OS}`
+        );
+      }
       return;
     }
     this.attributedInactiveDescriptionVariants = attributedInactiveDescriptionVariants;

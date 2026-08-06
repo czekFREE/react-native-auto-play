@@ -100,7 +100,7 @@ class ListTemplate: AutoPlayHeaderProviding {
             return
         }
 
-        NSLog(
+        logAutoPlayDevelopment(
             "[AutoPlay] native list template CPListTemplate.updateSections begin templateId=\(config.id), currentItems=\(template.itemCount), \(Self.createSectionsLogValue(sections: sections))"
         )
 
@@ -113,7 +113,7 @@ class ListTemplate: AutoPlayHeaderProviding {
         )
         applyPlayingItem()
 
-        NSLog(
+        logAutoPlayDevelopment(
             "[AutoPlay] native list template CPListTemplate.updateSections end templateId=\(config.id), currentItems=\(template.itemCount)"
         )
     }
@@ -140,7 +140,7 @@ class ListTemplate: AutoPlayHeaderProviding {
 
     @MainActor
     private func updateSection(section: NitroSection, sectionIndex: Int) {
-        NSLog(
+        logAutoPlayDevelopment(
             "[AutoPlay] native list template internal section update requested templateId=\(config.id), sectionIndex=\(sectionIndex)"
         )
 
@@ -150,7 +150,7 @@ class ListTemplate: AutoPlayHeaderProviding {
 
     @MainActor
     func updateSections(sections: [NitroSection]?) {
-        NSLog(
+        logAutoPlayDevelopment(
             "[AutoPlay] native list template external sections update requested templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
         )
 
@@ -170,7 +170,7 @@ class ListTemplate: AutoPlayHeaderProviding {
         {
             self.sections = nextSections
             applyPlayingItem()
-            NSLog(
+            logAutoPlayDevelopment(
                 "[AutoPlay] native list template rows updated in place templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
             )
 
@@ -229,7 +229,7 @@ class ListTemplate: AutoPlayHeaderProviding {
             }
         }
 
-        NSLog(
+        logAutoPlayDevelopment(
             "[AutoPlay] native list template playing item updated templateId=\(config.id), itemId=\(playingItemId ?? "none"), matchedItems=\(matchedItemCount)"
         )
     }

@@ -168,7 +168,9 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
                 }
             }
             catch {
-                print("Failed to push list template: \(error)")
+                logAutoPlayDevelopment(
+                    "[AutoPlay] Failed to push list template: \(error)"
+                )
             }
         }
     }

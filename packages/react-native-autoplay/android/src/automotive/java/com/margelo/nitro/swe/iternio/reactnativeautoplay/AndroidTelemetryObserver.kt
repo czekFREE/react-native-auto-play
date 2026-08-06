@@ -142,12 +142,16 @@ object AndroidTelemetryObserver : TelemetryObserver() {
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "error processing telemetry value", e)
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "error processing telemetry value", e)
+                }
             }
         }
 
         override fun onErrorEvent(p0: Int, p1: Int) {
-            Log.e(TAG, "error receiving vehicle property id $p0 zone: $p1")
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "error receiving vehicle property id $p0 zone: $p1")
+            }
         }
     }
 

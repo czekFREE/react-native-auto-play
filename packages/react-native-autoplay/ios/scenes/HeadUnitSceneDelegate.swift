@@ -36,9 +36,12 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
         connect(props: props)
         do {
             try initRootView()
-            NSLog("[AutoPlay] HeadUnitSceneDelegate initRootView succeeded")
-        } catch {
-            NSLog(
+            logAutoPlayDevelopment(
+                "[AutoPlay] HeadUnitSceneDelegate initRootView succeeded"
+            )
+        }
+        catch {
+            logAutoPlayDevelopment(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
             )
         }
@@ -59,9 +62,12 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
         ])
         do {
             try initRootView()
-            NSLog("[AutoPlay] HeadUnitSceneDelegate initRootView succeeded")
-        } catch {
-            NSLog(
+            logAutoPlayDevelopment(
+                "[AutoPlay] HeadUnitSceneDelegate initRootView succeeded"
+            )
+        }
+        catch {
+            logAutoPlayDevelopment(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
             )
         }
@@ -117,7 +123,9 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
 
         guard !isConnected else { return }
 
-        NSLog("[AutoPlay] restoring CarPlay connection, reason=\(reason)")
+        logAutoPlayDevelopment(
+            "[AutoPlay] restoring CarPlay connection, reason=\(reason)"
+        )
         connect(props: [:])
         HybridAutoPlay.emit(event: .didconnect)
     }

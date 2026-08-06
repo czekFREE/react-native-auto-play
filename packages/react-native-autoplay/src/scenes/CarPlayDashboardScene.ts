@@ -72,7 +72,9 @@ class Dashboard {
 
   public setComponent(component: React.ComponentType<RootComponentInitialProps>) {
     if (Platform.OS !== 'ios') {
-      console.warn(`CarPlayDashboard.setComponent is not supported on ${Platform.OS}`);
+      if (__DEV__) {
+        console.warn(`CarPlayDashboard.setComponent is not supported on ${Platform.OS}`);
+      }
       return;
     }
     if (this.component != null) {
@@ -89,7 +91,9 @@ class Dashboard {
    */
   public setButtons(buttons: Array<CarPlayDashboardButton>) {
     if (HybridCarPlayDashboard == null) {
-      console.warn(`CarPlayDashboard.setButtons is not supported on ${Platform.OS}`);
+      if (__DEV__) {
+        console.warn(`CarPlayDashboard.setButtons is not supported on ${Platform.OS}`);
+      }
       return;
     }
     HybridCarPlayDashboard.setButtons(

@@ -86,7 +86,9 @@ class HybridAutoPlay: HybridAutoPlaySpec {
             ],
         ]
 
-        print("[AutoPlay][NowPlaying][iOS] snapshot \(snapshot)")
+        logAutoPlayDevelopment(
+            "[AutoPlay][NowPlaying][iOS] snapshot \(snapshot)"
+        )
     }
 
     override init() {

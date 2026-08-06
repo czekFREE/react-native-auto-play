@@ -421,7 +421,7 @@ class Parser {
         listItem.handler = { _item, completion in
             let shouldUpdateSection =
                 section.type == .radio || item.checked != nil
-            NSLog(
+            logAutoPlayDevelopment(
                 "[AutoPlay] list item press section=\(sectionIndex), row=\(itemIndex), updatesNativeState=\(shouldUpdateSection), title=\(parseText(text: item.title) ?? "")"
             )
 
