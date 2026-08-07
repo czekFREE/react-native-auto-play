@@ -1,7 +1,14 @@
 import AVFoundation
 import CarPlay
+import Foundation
 import MediaPlayer
 import NitroModules
+
+func logAutoPlayDevelopment(_ message: @autoclosure () -> String) {
+    #if DEBUG
+        NSLog("%@", message())
+    #endif
+}
 
 struct StateListener {
     let id: UUID
