@@ -185,7 +185,9 @@ class VoiceInputManager {
             }
         }
         catch {
-            logAutoPlayDevelopment("[AutoPlay] Voice input failed: \(error)")
+            AutoPlayDevelopmentLogger.log(
+                "[AutoPlay] Voice input failed: \(error)"
+            )
             // fail silently — a broken sound file must not block voice input
         }
     }

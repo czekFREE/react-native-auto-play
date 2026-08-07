@@ -421,7 +421,7 @@ class Parser {
         listItem.handler = { _item, completion in
             let shouldUpdateSection =
                 section.type == .radio || item.checked != nil
-            logAutoPlayDevelopment(
+            AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] list item press section=\(sectionIndex), row=\(itemIndex), updatesNativeState=\(shouldUpdateSection), title=\(parseText(text: item.title) ?? "")"
             )
 
@@ -501,7 +501,7 @@ class Parser {
 
             let clampedElapsedTime = min(max(elapsedTime, 0), duration)
             listItem.playbackConfiguration = CPPlaybackConfiguration(
-                preferredPresentation: .audio,
+                preferredPresentation: .none,
                 playbackAction: .none,
                 elapsedTime: CMTime(
                     seconds: clampedElapsedTime,

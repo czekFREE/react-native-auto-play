@@ -36,12 +36,12 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
         connect(props: props)
         do {
             try initRootView()
-            logAutoPlayDevelopment(
+            AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView succeeded"
             )
         }
         catch {
-            logAutoPlayDevelopment(
+            AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
             )
         }
@@ -62,12 +62,12 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
         ])
         do {
             try initRootView()
-            logAutoPlayDevelopment(
+            AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView succeeded"
             )
         }
         catch {
-            logAutoPlayDevelopment(
+            AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] HeadUnitSceneDelegate initRootView failed: \(error)"
             )
         }
@@ -123,7 +123,7 @@ class HeadUnitSceneDelegate: AutoPlayScene, CPTemplateApplicationSceneDelegate {
 
         guard !isConnected else { return }
 
-        logAutoPlayDevelopment(
+        AutoPlayDevelopmentLogger.log(
             "[AutoPlay] restoring CarPlay connection, reason=\(reason)"
         )
         connect(props: [:])

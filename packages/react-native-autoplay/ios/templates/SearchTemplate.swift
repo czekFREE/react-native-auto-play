@@ -168,7 +168,7 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
                 }
             }
             catch {
-                logAutoPlayDevelopment(
+                AutoPlayDevelopmentLogger.log(
                     "[AutoPlay] Failed to push list template: \(error)"
                 )
             }
