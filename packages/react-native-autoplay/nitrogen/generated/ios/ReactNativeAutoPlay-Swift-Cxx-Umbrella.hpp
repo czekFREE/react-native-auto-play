@@ -98,6 +98,16 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroCarPla
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroColor; }
 // Forward declaration of `NitroGridButton` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroGridButton; }
+// Forward declaration of `NitroImageRowElementShape` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowElementShape; }
+// Forward declaration of `NitroImageRowItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroImageRowItem; }
+// Forward declaration of `NitroImageRowVariant` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowVariant; }
+// Forward declaration of `NitroListTemplateDetailsHeaderAction` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeaderAction; }
+// Forward declaration of `NitroListTemplateDetailsHeader` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeader; }
 // Forward declaration of `NitroLoadingManeuver` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroLoadingManeuver; }
 // Forward declaration of `NitroMapButtonType` to properly resolve imports.
@@ -213,6 +223,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class ZoomEve
 #include "NitroCarPlayDashboardButton.hpp"
 #include "NitroColor.hpp"
 #include "NitroGridButton.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "NitroImageRowItem.hpp"
+#include "NitroImageRowVariant.hpp"
+#include "NitroListTemplateDetailsHeader.hpp"
+#include "NitroListTemplateDetailsHeaderAction.hpp"
 #include "NitroLoadingManeuver.hpp"
 #include "NitroMapButton.hpp"
 #include "NitroMapButtonType.hpp"

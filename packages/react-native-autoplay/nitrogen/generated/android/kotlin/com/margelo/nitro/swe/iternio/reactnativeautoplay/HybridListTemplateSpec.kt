@@ -26,21 +26,25 @@ import com.margelo.nitro.core.HybridObject
 )
 abstract class HybridListTemplateSpec: HybridObject() {
   // Properties
-  
+
 
   // Methods
   @DoNotStrip
   @Keep
   abstract fun createListTemplate(config: ListTemplateConfig): Unit
-  
+
   @DoNotStrip
   @Keep
   abstract fun updateListTemplateSections(templateId: String, sections: Array<NitroSection>?): Promise<Unit>
-  
+
+  @DoNotStrip
+  @Keep
+  abstract fun updateListTemplateContent(templateId: String, sections: Array<NitroSection>?, detailsHeader: NitroListTemplateDetailsHeader?): Promise<Unit>
+
   @DoNotStrip
   @Keep
   abstract fun updateListTemplatePlayingItem(templateId: String, itemId: String?): Promise<Unit>
-  
+
   @DoNotStrip
   @Keep
   abstract fun completeListItemPress(completionId: String): Promise<Unit>

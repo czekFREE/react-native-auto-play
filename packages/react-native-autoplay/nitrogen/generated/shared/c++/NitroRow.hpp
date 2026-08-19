@@ -38,6 +38,10 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct AssetImage;
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage; }
 // Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
+// Forward declaration of `NitroImageRowItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroImageRowItem; }
+// Forward declaration of `NitroImageRowVariant` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowVariant; }
 
 #include "AutoText.hpp"
 #include <string>
@@ -48,6 +52,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class Playing
 #include <variant>
 #include "PlayingIndicatorLocation.hpp"
 #include <functional>
+#include "NitroImageRowItem.hpp"
+#include <vector>
+#include "NitroImageRowVariant.hpp"
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
@@ -71,13 +78,16 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     std::optional<bool> checked     SWIFT_PRIVATE;
     std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> onPress     SWIFT_PRIVATE;
     std::optional<bool> selected     SWIFT_PRIVATE;
+    std::optional<std::vector<NitroImageRowItem>> imageRowItems     SWIFT_PRIVATE;
+    std::optional<NitroImageRowVariant> imageRowVariant     SWIFT_PRIVATE;
+    std::optional<bool> imageRowAllowsMultipleLines     SWIFT_PRIVATE;
 
   public:
     NitroRow() = default;
-    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<std::string> systemAccessoryImage, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::optional<double> playbackProgress, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> onPress, std::optional<bool> selected): title(title), id(id), detailedText(detailedText), systemAccessoryImage(systemAccessoryImage), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), playbackProgress(playbackProgress), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected) {}
+    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<std::string> systemAccessoryImage, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::optional<double> playbackProgress, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> onPress, std::optional<bool> selected, std::optional<std::vector<NitroImageRowItem>> imageRowItems, std::optional<NitroImageRowVariant> imageRowVariant, std::optional<bool> imageRowAllowsMultipleLines): title(title), id(id), detailedText(detailedText), systemAccessoryImage(systemAccessoryImage), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), playbackProgress(playbackProgress), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected), imageRowItems(imageRowItems), imageRowVariant(imageRowVariant), imageRowAllowsMultipleLines(imageRowAllowsMultipleLines) {}
 
   public:
-    // NitroRow is not equatable because these properties are not equatable: onPress
+    // NitroRow is not equatable because these properties are not equatable: onPress, imageRowItems
   };
 
 } // namespace margelo::nitro::swe::iternio::reactnativeautoplay
@@ -104,7 +114,10 @@ namespace margelo::nitro {
         JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::PlayingIndicatorLocation>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playingIndicatorLocation"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked"))),
         JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::string>&)>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress"))),
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "selected")))
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "selected"))),
+        JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowItems"))),
+        JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowVariant>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowVariant"))),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowAllowsMultipleLines")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::swe::iternio::reactnativeautoplay::NitroRow& arg) {
@@ -124,6 +137,9 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "checked"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.checked));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "onPress"), JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::string>&)>>>::toJSI(runtime, arg.onPress));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "selected"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.selected));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "imageRowItems"), JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem>>>::toJSI(runtime, arg.imageRowItems));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "imageRowVariant"), JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowVariant>>::toJSI(runtime, arg.imageRowVariant));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "imageRowAllowsMultipleLines"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.imageRowAllowsMultipleLines));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -149,6 +165,9 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "checked")))) return false;
       if (!JSIConverter<std::optional<std::function<void(std::optional<bool>, const std::optional<std::string>&)>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPress")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "selected")))) return false;
+      if (!JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowItems")))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowVariant>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowVariant")))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "imageRowAllowsMultipleLines")))) return false;
       return true;
     }
   };

@@ -1,5 +1,6 @@
 import type {
   DefaultRow,
+  ImageRow,
   PlayingIndicatorLocation,
   RadioRow,
   Section,
@@ -8,6 +9,7 @@ import type {
 } from '../templates/ListTemplate';
 import type { AutoText } from '../types/Text';
 import { HybridListTemplate } from './HybridListTemplate';
+import { type NitroColor, NitroColorUtil } from './NitroColor';
 import { type NitroImage, NitroImageUtil } from './NitroImage';
 
 type NitroSectionType = 'default' | 'radio';
@@ -28,9 +30,30 @@ export type NitroRow = {
   checked?: boolean;
   onPress?: (checked?: boolean, completionId?: string) => void;
   selected?: boolean;
+  imageRowItems?: Array<NitroImageRowItem>;
+  imageRowVariant?: NitroImageRowVariant;
+  imageRowAllowsMultipleLines?: boolean;
 };
 
+export type NitroImageRowItem = {
+  title?: string;
+  subtitle?: string;
+  image: NitroImage;
+  enabled: boolean;
+  showsImageFullHeight?: boolean;
+  tintColor?: NitroColor;
+  imageShape?: NitroImageRowElementShape;
+  accessorySystemImage?: string;
+  accessibilityLabel?: string;
+  onPress?: (completionId?: string) => void;
+};
+
+export type NitroImageRowVariant = 'row' | 'card' | 'condensed' | 'grid' | 'imageGrid';
+export type NitroImageRowElementShape = 'circular' | 'roundedRectangle';
+
 export type NitroSection = {
+  headerImage?: NitroImage;
+  headerSubtitle?: string;
   title?: string;
   items: Array<NitroRow>;
   type: NitroSectionType;
@@ -53,12 +76,14 @@ const convert = <T>(template: T, sections?: Section<T>): Array<NitroSection> | u
 
   if (Array.isArray(sections)) {
     return sections.map<NitroSection>((section) => {
-      const { title, type } = section;
+      const { headerImage, headerSubtitle, title, type } = section;
       const items = section.items.map<NitroRow>((item) => convertRow(template, item));
 
       validateRadioItems(type, items);
 
       return {
+        headerImage: NitroImageUtil.convert(headerImage),
+        headerSubtitle,
         items,
         type,
         title,
@@ -80,10 +105,11 @@ const convert = <T>(template: T, sections?: Section<T>): Array<NitroSection> | u
 
 const convertRow = <T>(
   template: T,
-  item: DefaultRow<T> | RadioRow<T> | ToggleRow<T> | TextRow
+  item: DefaultRow<T> | ImageRow<T> | RadioRow<T> | ToggleRow<T> | TextRow
 ): NitroRow => {
-  const { title, type, enabled = true, id, image } = item;
+  const { title, type, enabled = true, id } = item;
 
+  const image = 'image' in item ? item.image : undefined;
   const detailedText = 'detailedText' in item ? item.detailedText : undefined;
   const systemAccessoryImage =
     'systemAccessoryImage' in item ? item.systemAccessoryImage : undefined;
@@ -117,6 +143,41 @@ const convertRow = <T>(
           completePress();
         };
 
+  const imageRowItems =
+    item.type === 'image'
+      ? item.items.map<NitroImageRowItem>((imageRowItem) => ({
+          accessibilityLabel:
+            'accessibilityLabel' in imageRowItem ? imageRowItem.accessibilityLabel : undefined,
+          accessorySystemImage:
+            'accessorySystemImage' in imageRowItem ? imageRowItem.accessorySystemImage : undefined,
+          enabled: imageRowItem.enabled ?? true,
+          image: NitroImageUtil.convert(imageRowItem.image),
+          imageShape: 'imageShape' in imageRowItem ? imageRowItem.imageShape : undefined,
+          onPress: imageRowItem.onPress
+            ? (completionId?: string) => {
+                const completePress = () => {
+                  if (completionId != null) {
+                    void HybridListTemplate.completeListItemPress(completionId);
+                  }
+                };
+
+                void Promise.resolve(imageRowItem.onPress?.(template)).then(
+                  completePress,
+                  completePress
+                );
+              }
+            : undefined,
+          showsImageFullHeight:
+            'showsImageFullHeight' in imageRowItem ? imageRowItem.showsImageFullHeight : undefined,
+          subtitle: 'subtitle' in imageRowItem ? imageRowItem.subtitle?.text : undefined,
+          tintColor:
+            'tintColor' in imageRowItem
+              ? NitroColorUtil.convert(imageRowItem.tintColor)
+              : undefined,
+          title: 'title' in imageRowItem ? imageRowItem.title?.text : undefined,
+        }))
+      : undefined;
+
   return {
     browsable: type === 'default' ? item.browsable : undefined,
     detailedText,
@@ -133,6 +194,10 @@ const convertRow = <T>(
     checked: type === 'toggle' ? item.checked : undefined,
     onPress,
     selected,
+    imageRowItems,
+    imageRowAllowsMultipleLines:
+      item.type === 'image' ? (item.allowsMultipleLines ?? false) : undefined,
+    imageRowVariant: item.type === 'image' ? (item.variant ?? 'row') : undefined,
   };
 };
 

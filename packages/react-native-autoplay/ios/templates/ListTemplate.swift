@@ -12,6 +12,7 @@ class ListTemplate: AutoPlayHeaderProviding {
     var config: ListTemplateConfig
 
     var sections: [NitroSection]?
+    private var detailsHeader: NitroListTemplateDetailsHeader?
     private var playingItemId: String?
 
     private static func createSectionsLogValue(sections: [NitroSection]?) -> String {
@@ -42,8 +43,13 @@ class ListTemplate: AutoPlayHeaderProviding {
         for (sectionIndex, currentSection) in currentSections.enumerated() {
             let nextSection = nextSections[sectionIndex]
 
-            if currentSection.title != nextSection.title
-                || currentSection.type != nextSection.type
+            if currentSection.type != nextSection.type
+                || Parser.listSectionHeaderContentSignature(
+                    section: currentSection
+                )
+                    != Parser.listSectionHeaderContentSignature(
+                        section: nextSection
+                    )
                 || currentSection.items.count != nextSection.items.count
             {
                 return false
@@ -79,6 +85,7 @@ class ListTemplate: AutoPlayHeaderProviding {
         self.config = config
 
         sections = config.sections
+        detailsHeader = config.detailsHeader
 
         template = CPListTemplate(
             title: Parser.parseText(text: config.title),
@@ -111,6 +118,7 @@ class ListTemplate: AutoPlayHeaderProviding {
                 traitCollection: traitCollection
             )
         )
+        applyDetailsHeader(traitCollection: traitCollection)
         applyPlayingItem()
 
         AutoPlayDevelopmentLogger.log(
@@ -149,7 +157,8 @@ class ListTemplate: AutoPlayHeaderProviding {
     }
 
     @MainActor
-    func updateSections(sections: [NitroSection]?) {
+    @discardableResult
+    func updateSections(sections: [NitroSection]?) -> Bool {
         AutoPlayDevelopmentLogger.log(
             "[AutoPlay] native list template external sections update requested templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
         )
@@ -174,11 +183,48 @@ class ListTemplate: AutoPlayHeaderProviding {
                 "[AutoPlay] native list template rows updated in place templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
             )
 
-            return
+            return false
         }
 
         self.sections = sections
         invalidate()
+        return true
+    }
+
+    @MainActor
+    private func applyDetailsHeader(
+        traitCollection: UITraitCollection
+    ) {
+        guard #available(iOS 26.4, *) else { return }
+
+        template.listHeader = detailsHeader.map {
+            Parser.parseListTemplateDetailsHeader(
+                detailsHeader: $0,
+                traitCollection: traitCollection
+            )
+        }
+    }
+
+    @MainActor
+    func updateContent(
+        sections: [NitroSection]?,
+        detailsHeader: NitroListTemplateDetailsHeader?
+    ) {
+        let detailsHeaderDidChange =
+            Parser.listTemplateDetailsHeaderContentSignature(
+                detailsHeader: self.detailsHeader
+            )
+            != Parser.listTemplateDetailsHeaderContentSignature(
+                detailsHeader: detailsHeader
+            )
+        self.detailsHeader = detailsHeader
+        let didInvalidate = updateSections(sections: sections)
+
+        if !didInvalidate, detailsHeaderDidChange,
+            let traitCollection = SceneStore.getRootTraitCollection()
+        {
+            applyDetailsHeader(traitCollection: traitCollection)
+        }
     }
 
     @MainActor
@@ -191,34 +237,12 @@ class ListTemplate: AutoPlayHeaderProviding {
     private func applyPlayingItem() {
         var matchedItemCount = 0
 
-        for (sectionIndex, section) in template.sections.enumerated() {
-            guard let configuredSections = sections,
-                sectionIndex < configuredSections.count
-            else { continue }
-
-            let configuredSection = configuredSections[sectionIndex]
-
-            for (itemIndex, item) in section.items.enumerated() {
-                guard let listItem = item as? CPListItem,
-                    itemIndex < configuredSection.items.count
-                else { continue }
-
-                let configuredItem = configuredSection.items[itemIndex]
+        for section in template.sections {
+            for case let listItem as CPListItem in section.items {
                 let isPlaying =
                     playingItemId != nil
                     && listItem.userInfo as? String == playingItemId
-                let systemAccessoryImage =
-                    isPlaying ? "checkmark" : configuredItem.systemAccessoryImage
-                let accessoryImage = systemAccessoryImage.flatMap {
-                    UIImage(systemName: $0)
-                }
 
-                listItem.playingIndicatorLocation =
-                    accessoryImage == nil ? .trailing : .leading
-                listItem.setAccessoryImage(accessoryImage)
-                listItem.accessoryType =
-                    configuredItem.browsable == true && accessoryImage == nil
-                    ? .disclosureIndicator : .none
                 if listItem.isPlaying != isPlaying {
                     listItem.isPlaying = isPlaying
                 }
@@ -250,15 +274,50 @@ class ListTemplate: AutoPlayHeaderProviding {
             }
 
             for (itemIndex, item) in nextSection.items.enumerated() {
-                guard itemIndex < currentListSection.items.count,
-                    let listItem = currentListSection.items[itemIndex]
-                        as? CPListItem
-                else {
+                guard itemIndex < currentListSection.items.count else {
                     return false
                 }
 
+                let currentItem = currentSection.items[itemIndex]
+                let currentTemplateItem = currentListSection.items[itemIndex]
+
+                if let imageRowItems = item.imageRowItems,
+                    currentItem.imageRowItems != nil,
+                    let imageRowItem = currentTemplateItem as? CPListImageRowItem
+                {
+                    if currentItem.imageRowVariant != item.imageRowVariant
+                        || currentItem.imageRowAllowsMultipleLines
+                            != item.imageRowAllowsMultipleLines
+                    {
+                        return false
+                    }
+
+                    guard #available(iOS 26.0, *) else {
+                        if Parser.imageRowContentSignature(item: currentItem)
+                            == Parser.imageRowContentSignature(item: item)
+                        {
+                            continue
+                        }
+
+                        return false
+                    }
+
+                    Parser.configureImageRowItem(
+                        item: item,
+                        imageRowItems: imageRowItems,
+                        listItem: imageRowItem,
+                        traitCollection: traitCollection
+                    )
+                    continue
+                }
+
+                guard currentItem.imageRowItems == nil,
+                    item.imageRowItems == nil,
+                    let listItem = currentTemplateItem as? CPListItem
+                else { return false }
+
                 Parser.configureListItem(
-                    currentItem: currentSection.items[itemIndex],
+                    currentItem: currentItem,
                     item: item,
                     itemIndex: itemIndex,
                     listItem: listItem,

@@ -15,6 +15,7 @@ public protocol HybridListTemplateSpec_protocol: HybridObject {
   // Methods
   func createListTemplate(config: ListTemplateConfig) throws -> Void
   func updateListTemplateSections(templateId: String, sections: [NitroSection]?) throws -> Promise<Void>
+  func updateListTemplateContent(templateId: String, sections: [NitroSection]?, detailsHeader: NitroListTemplateDetailsHeader?) throws -> Promise<Void>
   func updateListTemplatePlayingItem(templateId: String, itemId: String?) throws -> Promise<Void>
   func completeListItemPress(completionId: String) throws -> Promise<Void>
 }

@@ -300,7 +300,16 @@ class Parser {
             let selectedIndex = section.items.firstIndex { item in
                 item.selected == true
             }
-            let items = section.items.enumerated().map { (itemIndex, item) in
+            let items: [any CPListTemplateItem] = section.items.enumerated().map {
+                (itemIndex, item) in
+                if let imageRowItems = item.imageRowItems {
+                    return parseImageRowItem(
+                        item: item,
+                        imageRowItems: imageRowItems,
+                        traitCollection: traitCollection
+                    )
+                }
+
                 let listItem = CPListItem(
                     text: parseText(text: item.title),
                     detailText: parseText(text: item.detailedText),
@@ -324,12 +333,921 @@ class Parser {
                 return listItem
             }
 
+            return parseListSection(
+                items: items,
+                section: section,
+                traitCollection: traitCollection
+            )
+        }
+    }
+
+    private static func parseListSection(
+        items: [any CPListTemplateItem],
+        section: NitroSection,
+        traitCollection: UITraitCollection
+    ) -> CPListSection {
+        let header = section.title?.isEmpty == false ? section.title : nil
+
+        guard #available(iOS 15.0, *),
+            section.headerImage != nil || section.headerSubtitle != nil
+        else {
             return CPListSection(
                 items: items,
-                header: section.title,
+                header: header,
                 sectionIndexTitle: nil
             )
         }
+
+        let headerImage = parseListSectionHeaderImage(
+            image: section.headerImage,
+            traitCollection: traitCollection
+        )
+        let listSection = CPListSection(
+            items: items,
+            header: header ?? "",
+            headerSubtitle: section.headerSubtitle,
+            headerImage: headerImage.image,
+            headerButton: nil,
+            sectionIndexTitle: nil
+        )
+
+        loadListSectionRemoteHeaderImage(
+            listSection: listSection,
+            remoteImage: headerImage.remoteImage,
+            traitCollection: traitCollection
+        )
+
+        return listSection
+    }
+
+    private static func parseListSectionHeaderImage(
+        image: ImageProtocol?,
+        traitCollection: UITraitCollection
+    ) -> (image: UIImage?, remoteImage: RemoteImage?) {
+        guard let remoteImage = image?.remoteImage else {
+            return (
+                parseNitroImage(
+                    image: image,
+                    traitCollection: traitCollection
+                ),
+                nil
+            )
+        }
+
+        if let cachedImage = cachedRemoteImage(uri: remoteImage.uri) {
+            return (
+                applyTint(
+                    uiImage: cachedImage,
+                    color: remoteImage.color,
+                    traitCollection: traitCollection
+                ),
+                nil
+            )
+        }
+
+        return (
+            createRemoteImageLoadingPlaceholder(
+                maximumImageSize: CPMaximumListSectionImageSize
+            ),
+            remoteImage
+        )
+    }
+
+    private static func loadListSectionRemoteHeaderImage(
+        listSection: CPListSection,
+        remoteImage: RemoteImage?,
+        traitCollection: UITraitCollection
+    ) {
+        guard let remoteImage else {
+            listSectionRemoteImageRequestSignatures.removeObject(
+                forKey: listSection
+            )
+            return
+        }
+
+        let requestSignature = UUID().uuidString as NSString
+        listSectionRemoteImageRequestSignatures.setObject(
+            requestSignature,
+            forKey: listSection
+        )
+        let timeoutSeconds =
+            remoteImage.timeoutMs.map { $0 / 1000.0 }
+            ?? defaultAsyncRemoteTimeoutSeconds
+
+        loadRemoteImageAsync(
+            uri: remoteImage.uri,
+            timeoutSeconds: timeoutSeconds
+        ) { loadedImage in
+            DispatchQueue.main.async {
+                guard
+                    listSectionRemoteImageRequestSignatures.object(
+                        forKey: listSection
+                    ) == requestSignature
+                else { return }
+
+                listSectionRemoteImageRequestSignatures.removeObject(
+                    forKey: listSection
+                )
+                listSection.headerImage =
+                    applyTint(
+                        uiImage: loadedImage
+                            ?? createRemoteImageFailurePlaceholder(
+                                maximumImageSize: CPMaximumListSectionImageSize
+                            ),
+                        color: remoteImage.color,
+                        traitCollection: traitCollection
+                    )
+                    ?? createRemoteImageFailurePlaceholder(
+                        maximumImageSize: CPMaximumListSectionImageSize
+                    )
+            }
+        }
+    }
+
+    private static let listSectionRemoteImageRequestSignatures =
+        NSMapTable<CPListSection, NSString>.weakToStrongObjects()
+
+    @available(iOS 26.4, *)
+    static func parseListTemplateDetailsHeader(
+        detailsHeader: NitroListTemplateDetailsHeader,
+        traitCollection: UITraitCollection
+    ) -> CPListTemplateDetailsHeader {
+        let thumbnail = CPThumbnailImage(
+            image: parseAsyncImage(
+                image: detailsHeader.thumbnail,
+                maximumImageSize: CPListImageRowItemCardElement
+                    .maximumFullHeightImageSize,
+                traitCollection: traitCollection
+            )
+        )
+        let listHeader = CPListTemplateDetailsHeader(
+            thumbnail: thumbnail,
+            title: detailsHeader.title,
+            subtitle: detailsHeader.subtitle,
+            bodyVariants: detailsHeader.bodyVariants.map {
+                NSAttributedString(string: $0)
+            },
+            actionButtons: parseListTemplateDetailsHeaderActions(
+                actions: detailsHeader.actionButtons,
+                traitCollection: traitCollection
+            )
+        )
+        listHeader.wantsAdaptiveBackgroundStyle =
+            detailsHeader.adaptiveBackgroundStyle
+
+        loadListTemplateDetailsHeaderRemoteImages(
+            detailsHeader: detailsHeader,
+            listHeader: listHeader,
+            traitCollection: traitCollection
+        )
+
+        return listHeader
+    }
+
+    @available(iOS 26.4, *)
+    private static func parseListTemplateDetailsHeaderActions(
+        actions: [NitroListTemplateDetailsHeaderAction],
+        traitCollection: UITraitCollection
+    ) -> [CPButton] {
+        return actions.prefix(CPListTemplateDetailsHeader.maximumActionButtonCount)
+            .map { action in
+                let button = CPButton(
+                    image: parseAsyncImage(
+                        image: action.image,
+                        maximumImageSize: CPButtonMaximumImageSize,
+                        traitCollection: traitCollection
+                    ),
+                    handler: { _ in action.onPress?() }
+                )
+                button.title = action.title
+                button.isEnabled = action.enabled
+                return button
+            }
+    }
+
+    private static func parseAsyncImage(
+        image: ImageProtocol,
+        maximumImageSize: CGSize,
+        traitCollection: UITraitCollection
+    ) -> UIImage {
+        guard let remoteImage = image.remoteImage else {
+            return parseNitroImage(
+                image: image,
+                traitCollection: traitCollection
+            ) ?? createRemoteImageFailurePlaceholder(
+                maximumImageSize: maximumImageSize
+            )
+                ?? createRemoteImageLoadingPlaceholder(
+                    maximumImageSize: maximumImageSize
+                )
+        }
+
+        return applyTint(
+            uiImage: cachedRemoteImage(uri: remoteImage.uri),
+            color: remoteImage.color,
+            traitCollection: traitCollection
+        )
+            ?? createRemoteImageLoadingPlaceholder(
+                maximumImageSize: maximumImageSize
+            )
+    }
+
+    @available(iOS 26.4, *)
+    private static func loadListTemplateDetailsHeaderRemoteImages(
+        detailsHeader: NitroListTemplateDetailsHeader,
+        listHeader: CPListTemplateDetailsHeader,
+        traitCollection: UITraitCollection
+    ) {
+        let remoteImages =
+            [detailsHeader.thumbnail.remoteImage]
+            + detailsHeader.actionButtons.map { $0.image.remoteImage }
+
+        guard remoteImages.contains(where: { $0 != nil }) else {
+            listTemplateDetailsHeaderRemoteImageRequestSignatures.removeObject(
+                forKey: listHeader
+            )
+            return
+        }
+
+        let requestSignature = UUID().uuidString as NSString
+        listTemplateDetailsHeaderRemoteImageRequestSignatures.setObject(
+            requestSignature,
+            forKey: listHeader
+        )
+
+        for (index, remoteImage) in remoteImages.enumerated() {
+            guard let remoteImage,
+                cachedRemoteImage(uri: remoteImage.uri) == nil
+            else { continue }
+
+            let timeoutSeconds =
+                remoteImage.timeoutMs.map { $0 / 1000.0 }
+                ?? defaultAsyncRemoteTimeoutSeconds
+            loadRemoteImageAsync(
+                uri: remoteImage.uri,
+                timeoutSeconds: timeoutSeconds
+            ) { loadedImage in
+                DispatchQueue.main.async {
+                    guard
+                        listTemplateDetailsHeaderRemoteImageRequestSignatures
+                            .object(forKey: listHeader) == requestSignature
+                    else { return }
+
+                    if index == 0 {
+                        listHeader.thumbnail.image =
+                            applyTint(
+                                uiImage: loadedImage,
+                                color: remoteImage.color,
+                                traitCollection: traitCollection
+                            )
+                            ?? createRemoteImageFailurePlaceholder(
+                                maximumImageSize:
+                                    CPListImageRowItemCardElement
+                                    .maximumFullHeightImageSize
+                            )
+                            ?? listHeader.thumbnail.image
+                    }
+                    else {
+                        listHeader.actionButtons =
+                            parseListTemplateDetailsHeaderActions(
+                                actions: detailsHeader.actionButtons,
+                                traitCollection: traitCollection
+                            )
+                    }
+                }
+            }
+        }
+    }
+
+    @available(iOS 26.4, *)
+    private static let listTemplateDetailsHeaderRemoteImageRequestSignatures =
+        NSMapTable<CPListTemplateDetailsHeader, NSString>.weakToStrongObjects()
+
+    static func listTemplateDetailsHeaderContentSignature(
+        detailsHeader: NitroListTemplateDetailsHeader?
+    ) -> String {
+        guard let detailsHeader else { return "none" }
+
+        let actionButtonsSignature = detailsHeader.actionButtons.map { action in
+            [
+                action.title ?? "",
+                "\(action.enabled)",
+                imageSignature(image: action.image),
+            ].joined(separator: "|")
+        }.joined(separator: ";")
+
+        return [
+            imageSignature(image: detailsHeader.thumbnail),
+            detailsHeader.title ?? "",
+            detailsHeader.subtitle ?? "",
+            detailsHeader.bodyVariants.joined(separator: "|"),
+            actionButtonsSignature,
+            "\(detailsHeader.adaptiveBackgroundStyle)",
+        ].joined(separator: "|")
+    }
+
+    static func listSectionHeaderContentSignature(
+        section: NitroSection
+    ) -> String {
+        return [
+            section.title ?? "",
+            section.headerSubtitle ?? "",
+            imageSignature(image: section.headerImage),
+        ].joined(separator: "|")
+    }
+
+    private static func parseImageRowItem(
+        item: NitroRow,
+        imageRowItems: [NitroImageRowItem],
+        traitCollection: UITraitCollection
+    ) -> CPListImageRowItem {
+        let content = parseImageRowContent(
+            imageRowItems: imageRowItems,
+            variant: item.imageRowVariant ?? .row,
+            traitCollection: traitCollection
+        )
+        let images = content.parsedItems.map { $0.image }
+        let listItem: CPListImageRowItem
+
+        if #available(iOS 26.0, *) {
+            listItem = createImageRowItem(
+                item: item,
+                images: images,
+                parsedItems: content.parsedItems
+            )
+        }
+        else if #available(iOS 17.4, *) {
+            listItem = CPListImageRowItem(
+                text: parseText(text: item.title) ?? "",
+                images: images,
+                imageTitles: content.parsedItems.map { $0.title ?? "" }
+            )
+        }
+        else {
+            listItem = CPListImageRowItem(
+                text: parseText(text: item.title) ?? "",
+                images: images
+            )
+        }
+
+        configureImageRowInteraction(
+            item: item,
+            listItem: listItem,
+            parsedItems: content.parsedItems
+        )
+        loadImageRowRemoteImages(
+            images: images,
+            listItem: listItem,
+            parsedItems: content.parsedItems,
+            remoteImagesToLoad: content.remoteImagesToLoad,
+            variant: item.imageRowVariant ?? .row,
+            traitCollection: traitCollection
+        )
+
+        return listItem
+    }
+
+    private typealias ParsedImageRowItem = (
+        accessibilityLabel: String?,
+        accessorySystemImage: String?,
+        enabled: Bool,
+        image: UIImage,
+        imageShape: NitroImageRowElementShape?,
+        maximumImageSize: CGSize,
+        onPress: ((String?) -> Void)?,
+        showsImageFullHeight: Bool,
+        subtitle: String?,
+        tintColor: NitroColor?,
+        title: String?
+    )
+    private typealias ImageRowRemoteImageToLoad = (
+        index: Int,
+        maximumImageSize: CGSize,
+        remoteImage: RemoteImage
+    )
+
+    private static func parseImageRowContent(
+        imageRowItems: [NitroImageRowItem],
+        variant: NitroImageRowVariant,
+        traitCollection: UITraitCollection
+    ) -> (
+        parsedItems: [ParsedImageRowItem],
+        remoteImagesToLoad: [ImageRowRemoteImageToLoad]
+    ) {
+        var parsedItems: [ParsedImageRowItem] = []
+        var remoteImagesToLoad: [ImageRowRemoteImageToLoad] = []
+
+        for imageRowItem in imageRowItems {
+            let maximumImageSize = imageRowMaximumImageSize(
+                variant: variant,
+                imageRowItem: imageRowItem
+            )
+
+            let image: UIImage
+            if let remoteImage = imageRowItem.image.remoteImage {
+                if let cachedImage = cachedRemoteImage(uri: remoteImage.uri) {
+                    image =
+                        applyTint(
+                            uiImage: cachedImage,
+                            color: remoteImage.color,
+                            traitCollection: traitCollection
+                        )
+                        ?? createImageRowFailurePlaceholder(
+                            maximumImageSize: maximumImageSize
+                        )
+                }
+                else {
+                    image = createRemoteImageLoadingPlaceholder(
+                        maximumImageSize: maximumImageSize
+                    )
+                    remoteImagesToLoad.append(
+                        (
+                            index: parsedItems.count,
+                            maximumImageSize: maximumImageSize,
+                            remoteImage: remoteImage
+                        )
+                    )
+                }
+            }
+            else {
+                image =
+                    parseNitroImage(
+                        image: imageRowItem.image,
+                        traitCollection: traitCollection
+                    )
+                    ?? createImageRowFailurePlaceholder(
+                        maximumImageSize: maximumImageSize
+                    )
+            }
+
+            parsedItems.append(
+                (
+                    accessibilityLabel: imageRowItem.accessibilityLabel,
+                    accessorySystemImage: imageRowItem.accessorySystemImage,
+                    enabled: imageRowItem.enabled,
+                    image: image,
+                    imageShape: imageRowItem.imageShape,
+                    maximumImageSize: maximumImageSize,
+                    onPress: imageRowItem.onPress,
+                    showsImageFullHeight: imageRowItem.showsImageFullHeight
+                        ?? false,
+                    subtitle: imageRowItem.subtitle,
+                    tintColor: imageRowItem.tintColor,
+                    title: imageRowItem.title
+                )
+            )
+        }
+
+        return (parsedItems, remoteImagesToLoad)
+    }
+
+    private static func configureImageRowInteraction(
+        item: NitroRow,
+        listItem: CPListImageRowItem,
+        parsedItems: [ParsedImageRowItem]
+    ) {
+        listItem.userInfo = item.id
+        listItem.isEnabled = item.enabled
+        listItem.handler = { _, completion in
+            guard let onPress = item.onPress else {
+                completion()
+                return
+            }
+
+            onPress(
+                nil,
+                ListItemPressCompletionStore.add(completion)
+            )
+        }
+        listItem.listImageRowHandler = { _, index, completion in
+            guard parsedItems.indices.contains(index) else {
+                completion()
+                return
+            }
+
+            guard parsedItems[index].enabled,
+                let onPress = parsedItems[index].onPress
+            else {
+                completion()
+                return
+            }
+
+            onPress(
+                ListItemPressCompletionStore.add(completion)
+            )
+        }
+    }
+
+    @available(iOS 26.0, *)
+    static func configureImageRowItem(
+        item: NitroRow,
+        imageRowItems: [NitroImageRowItem],
+        listItem: CPListImageRowItem,
+        traitCollection: UITraitCollection
+    ) {
+        let content = parseImageRowContent(
+            imageRowItems: imageRowItems,
+            variant: item.imageRowVariant ?? .row,
+            traitCollection: traitCollection
+        )
+        let images = content.parsedItems.map { $0.image }
+
+        listItem.text = parseText(text: item.title)
+        listItem.elements = createImageRowElements(
+            variant: item.imageRowVariant ?? .row,
+            images: images,
+            parsedItems: content.parsedItems
+        )
+        configureImageRowInteraction(
+            item: item,
+            listItem: listItem,
+            parsedItems: content.parsedItems
+        )
+        loadImageRowRemoteImages(
+            images: images,
+            listItem: listItem,
+            parsedItems: content.parsedItems,
+            remoteImagesToLoad: content.remoteImagesToLoad,
+            variant: item.imageRowVariant ?? .row,
+            traitCollection: traitCollection
+        )
+    }
+
+    static func imageRowContentSignature(item: NitroRow) -> String {
+        let imageItemsSignature =
+            item.imageRowItems?.map(imageRowItemContentSignature).joined(
+                separator: ";"
+            ) ?? "none"
+
+        return [
+            parseText(text: item.title) ?? "",
+            "\(item.enabled)",
+            item.imageRowVariant?.stringValue ?? "row",
+            "\(item.imageRowAllowsMultipleLines ?? false)",
+            imageItemsSignature,
+        ].joined(separator: "|")
+    }
+
+    private static func imageRowItemContentSignature(
+        imageRowItem: NitroImageRowItem
+    ) -> String {
+        let enabled = imageRowItem.enabled ? "true" : "false"
+        let showsImageFullHeight =
+            imageRowItem.showsImageFullHeight == true ? "true" : "false"
+
+        return [
+            imageRowItem.title ?? "",
+            imageRowItem.subtitle ?? "",
+            imageSignature(image: imageRowItem.image),
+            enabled,
+            showsImageFullHeight,
+            colorSignature(color: imageRowItem.tintColor),
+            imageRowItem.imageShape?.stringValue ?? "",
+            imageRowItem.accessorySystemImage ?? "",
+            imageRowItem.accessibilityLabel ?? "",
+        ].joined(separator: "|")
+    }
+
+    private static func loadImageRowRemoteImages(
+        images: [UIImage],
+        listItem: CPListImageRowItem,
+        parsedItems: [ParsedImageRowItem],
+        remoteImagesToLoad: [ImageRowRemoteImageToLoad],
+        variant: NitroImageRowVariant,
+        traitCollection: UITraitCollection
+    ) {
+        var images = images
+
+        guard !remoteImagesToLoad.isEmpty else {
+            imageRowRemoteRequestSignatures.removeObject(forKey: listItem)
+            return
+        }
+
+        let requestSignature = UUID().uuidString as NSString
+        imageRowRemoteRequestSignatures.setObject(
+            requestSignature,
+            forKey: listItem
+        )
+        var remainingImageCount = remoteImagesToLoad.count
+
+        for remoteImageToLoad in remoteImagesToLoad {
+            let timeoutSeconds =
+                remoteImageToLoad.remoteImage.timeoutMs.map { $0 / 1000.0 }
+                ?? defaultAsyncRemoteTimeoutSeconds
+
+            loadRemoteImageAsync(
+                uri: remoteImageToLoad.remoteImage.uri,
+                timeoutSeconds: timeoutSeconds
+            ) { loadedImage in
+                DispatchQueue.main.async {
+                    guard
+                        imageRowRemoteRequestSignatures.object(
+                            forKey: listItem
+                        ) == requestSignature,
+                        images.indices.contains(remoteImageToLoad.index)
+                    else { return }
+
+                    images[remoteImageToLoad.index] =
+                        applyTint(
+                            uiImage: loadedImage
+                                ?? createImageRowFailurePlaceholder(
+                                    maximumImageSize: remoteImageToLoad
+                                        .maximumImageSize
+                                ),
+                            color: remoteImageToLoad.remoteImage.color,
+                            traitCollection: traitCollection
+                        )
+                        ?? createImageRowFailurePlaceholder(
+                            maximumImageSize: remoteImageToLoad
+                                .maximumImageSize
+                        )
+
+                    updateImageRowItem(
+                        images: images,
+                        listItem: listItem,
+                        parsedItems: parsedItems,
+                        variant: variant
+                    )
+
+                    remainingImageCount -= 1
+                    if remainingImageCount == 0 {
+                        imageRowRemoteRequestSignatures.removeObject(
+                            forKey: listItem
+                        )
+                    }
+                }
+            }
+        }
+
+    }
+
+    private static let imageRowRemoteRequestSignatures =
+        NSMapTable<CPListImageRowItem, NSString>.weakToStrongObjects()
+
+    @available(iOS 26.0, *)
+    private static func createImageRowItem(
+        item: NitroRow,
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> CPListImageRowItem {
+        let text = parseText(text: item.title)
+        let allowsMultipleLines = item.imageRowAllowsMultipleLines ?? false
+
+        switch item.imageRowVariant ?? .row {
+        case .card:
+            return CPListImageRowItem(
+                text: text,
+                cardElements: createImageRowCardElements(
+                    images: images,
+                    parsedItems: parsedItems
+                ),
+                allowsMultipleLines: allowsMultipleLines
+            )
+        case .condensed:
+            return CPListImageRowItem(
+                text: text,
+                condensedElements: createImageRowCondensedElements(
+                    images: images,
+                    parsedItems: parsedItems
+                ),
+                allowsMultipleLines: allowsMultipleLines
+            )
+        case .grid:
+            return CPListImageRowItem(
+                text: text,
+                gridElements: createImageRowGridElements(
+                    images: images,
+                    parsedItems: parsedItems
+                ),
+                allowsMultipleLines: allowsMultipleLines
+            )
+        case .imagegrid:
+            return CPListImageRowItem(
+                text: text,
+                imageGridElements: createImageRowImageGridElements(
+                    images: images,
+                    parsedItems: parsedItems
+                ),
+                allowsMultipleLines: allowsMultipleLines
+            )
+        case .row:
+            return CPListImageRowItem(
+                text: text,
+                elements: createImageRowRowElements(
+                    images: images,
+                    parsedItems: parsedItems
+                ),
+                allowsMultipleLines: allowsMultipleLines
+            )
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowElements(
+        variant: NitroImageRowVariant,
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemElement] {
+        switch variant {
+        case .card:
+            return createImageRowCardElements(
+                images: images,
+                parsedItems: parsedItems
+            )
+        case .condensed:
+            return createImageRowCondensedElements(
+                images: images,
+                parsedItems: parsedItems
+            )
+        case .grid:
+            return createImageRowGridElements(
+                images: images,
+                parsedItems: parsedItems
+            )
+        case .imagegrid:
+            return createImageRowImageGridElements(
+                images: images,
+                parsedItems: parsedItems
+            )
+        case .row:
+            return createImageRowRowElements(
+                images: images,
+                parsedItems: parsedItems
+            )
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowRowElements(
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemRowElement] {
+        return images.enumerated().compactMap { index, image in
+            guard parsedItems.indices.contains(index) else { return nil }
+
+            let element = CPListImageRowItemRowElement(
+                image: image,
+                title: parsedItems[index].title,
+                subtitle: parsedItems[index].subtitle
+            )
+            configureImageRowElement(
+                element: element,
+                parsedItem: parsedItems[index]
+            )
+            return element
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowCardElements(
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemCardElement] {
+        return images.enumerated().compactMap { index, image in
+            guard parsedItems.indices.contains(index) else { return nil }
+
+            let parsedItem = parsedItems[index]
+            let element = CPListImageRowItemCardElement(
+                image: image,
+                showsImageFullHeight: parsedItem.showsImageFullHeight,
+                title: parsedItem.title,
+                subtitle: parsedItem.subtitle,
+                tintColor: parsedItem.tintColor.map { parseColor(color: $0) }
+            )
+            configureImageRowElement(
+                element: element,
+                parsedItem: parsedItem
+            )
+            return element
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowCondensedElements(
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemCondensedElement] {
+        return images.enumerated().compactMap { index, image in
+            guard parsedItems.indices.contains(index) else { return nil }
+
+            let parsedItem = parsedItems[index]
+            let element = CPListImageRowItemCondensedElement(
+                image: image,
+                imageShape: parsedItem.imageShape == .circular
+                    ? .circular : .roundedRectangle,
+                title: parsedItem.title ?? "",
+                subtitle: parsedItem.subtitle,
+                accessorySymbolName: parsedItem.accessorySystemImage
+            )
+            configureImageRowElement(
+                element: element,
+                parsedItem: parsedItem
+            )
+            return element
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowGridElements(
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemGridElement] {
+        return images.enumerated().compactMap { index, image in
+            guard parsedItems.indices.contains(index) else { return nil }
+
+            let element = CPListImageRowItemGridElement(image: image)
+            configureImageRowElement(
+                element: element,
+                parsedItem: parsedItems[index]
+            )
+            return element
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func createImageRowImageGridElements(
+        images: [UIImage],
+        parsedItems: [ParsedImageRowItem]
+    ) -> [CPListImageRowItemImageGridElement] {
+        return images.enumerated().compactMap { index, image in
+            guard parsedItems.indices.contains(index) else { return nil }
+
+            let parsedItem = parsedItems[index]
+            let element = CPListImageRowItemImageGridElement(
+                image: image,
+                imageShape: parsedItem.imageShape == .circular
+                    ? .circular : .roundedRectangle,
+                title: parsedItem.title ?? "",
+                accessorySymbolName: parsedItem.accessorySystemImage
+            )
+            configureImageRowElement(
+                element: element,
+                parsedItem: parsedItem
+            )
+            return element
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private static func configureImageRowElement(
+        element: CPListImageRowItemElement,
+        parsedItem: ParsedImageRowItem
+    ) {
+        element.isEnabled = parsedItem.enabled
+        if #available(iOS 26.4, *) {
+            element.accessibilityLabel = parsedItem.accessibilityLabel
+        }
+    }
+
+    private static func imageRowMaximumImageSize(
+        variant: NitroImageRowVariant,
+        imageRowItem: NitroImageRowItem
+    ) -> CGSize {
+        guard #available(iOS 26.0, *) else {
+            return CPListImageRowItem.maximumImageSize
+        }
+
+        switch variant {
+        case .card:
+            return imageRowItem.showsImageFullHeight == true
+                ? CPListImageRowItemCardElement.maximumFullHeightImageSize
+                : CPListImageRowItemCardElement.maximumImageSize
+        case .condensed:
+            return CPListImageRowItemCondensedElement.maximumImageSize
+        case .grid:
+            return CPListImageRowItemGridElement.maximumImageSize
+        case .imagegrid:
+            return CPListImageRowItemImageGridElement.maximumImageSize
+        case .row:
+            return CPListImageRowItemRowElement.maximumImageSize
+        }
+    }
+
+    private static func createImageRowFailurePlaceholder(
+        maximumImageSize: CGSize
+    ) -> UIImage {
+        return createRemoteImageFailurePlaceholder(
+            maximumImageSize: maximumImageSize
+        ) ?? createRemoteImageLoadingPlaceholder(maximumImageSize: maximumImageSize)
+    }
+
+    private static func updateImageRowItem(
+        images: [UIImage],
+        listItem: CPListImageRowItem,
+        parsedItems: [ParsedImageRowItem],
+        variant: NitroImageRowVariant
+    ) {
+        if #available(iOS 26.0, *) {
+            // Reassign the copied collection so CarPlay reloads the visible row.
+            listItem.elements = createImageRowElements(
+                variant: variant,
+                images: images,
+                parsedItems: parsedItems
+            )
+            return
+        }
+
+        listItem.update(images)
     }
 
     static func configureListItem(
@@ -363,11 +1281,10 @@ class Parser {
                     image: item.image
                 )
         {
-            listItem.setImage(
-                parseNitroImage(
-                    image: item.image,
-                    traitCollection: traitCollection
-                )
+            configureListItemImage(
+                image: item.image,
+                listItem: listItem,
+                traitCollection: traitCollection
             )
         }
 
@@ -457,11 +1374,17 @@ class Parser {
                         playingIndicatorLocation: row.playingIndicatorLocation,
                         checked: checked,
                         onPress: row.onPress,
-                        selected: selected
+                        selected: selected,
+                        imageRowItems: row.imageRowItems,
+                        imageRowVariant: row.imageRowVariant,
+                        imageRowAllowsMultipleLines: row
+                            .imageRowAllowsMultipleLines
                     )
                 }
 
                 let updatedSection = NitroSection(
+                    headerImage: section.headerImage,
+                    headerSubtitle: section.headerSubtitle,
                     title: section.title,
                     items: updatedItems,
                     type: section.type
@@ -501,8 +1424,8 @@ class Parser {
 
             let clampedElapsedTime = min(max(elapsedTime, 0), duration)
             listItem.playbackConfiguration = CPPlaybackConfiguration(
-                preferredPresentation: .none,
-                playbackAction: .none,
+                preferredPresentation: .audio,
+                playbackAction: .play,
                 elapsedTime: CMTime(
                     seconds: clampedElapsedTime,
                     preferredTimescale: 1_000
@@ -512,6 +1435,78 @@ class Parser {
                     preferredTimescale: 1_000
                 )
             )
+        }
+    }
+
+    private static let remoteImageRequestSignatures =
+        NSMapTable<CPListItem, NSString>.weakToStrongObjects()
+
+    private static func configureListItemImage(
+        image: ImageProtocol?,
+        listItem: CPListItem,
+        traitCollection: UITraitCollection
+    ) {
+        guard let remoteImage = image?.remoteImage else {
+            remoteImageRequestSignatures.removeObject(forKey: listItem)
+            listItem.setImage(
+                parseNitroImage(
+                    image: image,
+                    traitCollection: traitCollection
+                )
+            )
+            return
+        }
+
+        let requestSignature = imageSignature(image: image) as NSString
+        remoteImageRequestSignatures.setObject(
+            requestSignature,
+            forKey: listItem
+        )
+
+        if let cachedImage = cachedRemoteImage(uri: remoteImage.uri) {
+            remoteImageRequestSignatures.removeObject(forKey: listItem)
+            listItem.setImage(
+                applyTint(
+                    uiImage: cachedImage,
+                    color: remoteImage.color,
+                    traitCollection: traitCollection
+                )
+            )
+            return
+        }
+
+        listItem.setImage(
+            createRemoteImageLoadingPlaceholder(
+                maximumImageSize: CPListItem.maximumImageSize
+            )
+        )
+
+        let timeoutSeconds =
+            remoteImage.timeoutMs.map { $0 / 1000.0 }
+            ?? defaultAsyncRemoteTimeoutSeconds
+
+        loadRemoteImageAsync(
+            uri: remoteImage.uri,
+            timeoutSeconds: timeoutSeconds
+        ) { loadedImage in
+            DispatchQueue.main.async {
+                guard
+                    remoteImageRequestSignatures.object(forKey: listItem)
+                        == requestSignature
+                else { return }
+
+                remoteImageRequestSignatures.removeObject(forKey: listItem)
+                listItem.setImage(
+                    applyTint(
+                        uiImage: loadedImage
+                            ?? createRemoteImageFailurePlaceholder(
+                                maximumImageSize: CPListItem.maximumImageSize
+                            ),
+                        color: remoteImage.color,
+                        traitCollection: traitCollection
+                    )
+                )
+            }
         }
     }
 
@@ -1034,6 +2029,7 @@ class Parser {
 
     /// Default network timeout for remote images when no `timeoutMs` is provided.
     private static let defaultRemoteTimeoutSeconds: TimeInterval = 0.5
+    private static let defaultAsyncRemoteTimeoutSeconds: TimeInterval = 5
 
     static func parseAssetImage(
         assetImage: AssetImage,
@@ -1081,9 +2077,8 @@ class Parser {
         )
     }
 
-    /// Synchronously loads an image from a remote HTTPS URL with in-memory caching.
-    /// `parseRemoteImage` is always invoked on a background thread by the Car App rendering pipeline,
-    /// so the semaphore wait cannot block the main thread.
+    /// Synchronously loads an image for CarPlay APIs that require a complete image value.
+    /// Ordinary list rows use `loadRemoteImageAsync` instead.
     private static func loadRemoteImage(uri: String, timeoutSeconds: TimeInterval) -> UIImage? {
         let cacheKey = uri as NSString
         if let cached = remoteImageCache.object(forKey: cacheKey) {
@@ -1104,16 +2099,81 @@ class Parser {
         task.resume()
         if semaphore.wait(timeout: .now() + timeoutSeconds) == .timedOut {
             task.cancel()
-            return UIImage(systemName: "exclamationmark.circle")
+            return createRemoteImageFailurePlaceholder()
         }
 
         guard let data = resultData, let image = UIImage(data: data) else {
-            return UIImage(systemName: "exclamationmark.circle")
+            return createRemoteImageFailurePlaceholder()
         }
 
         let cost = Int(image.size.width * image.size.height * image.scale * image.scale * 4)
         remoteImageCache.setObject(image, forKey: cacheKey, cost: cost)
         return image
+    }
+
+    private static func cachedRemoteImage(uri: String) -> UIImage? {
+        remoteImageCache.object(forKey: uri as NSString)
+    }
+
+    private static func loadRemoteImageAsync(
+        uri: String,
+        timeoutSeconds: TimeInterval,
+        completion: @escaping (UIImage?) -> Void
+    ) {
+        if let cachedImage = cachedRemoteImage(uri: uri) {
+            completion(cachedImage)
+            return
+        }
+
+        guard let url = URL(string: uri) else {
+            completion(nil)
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.timeoutInterval = timeoutSeconds
+
+        remoteImageSession.dataTask(with: request) { data, _, _ in
+            guard let data, let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+
+            let cost = Int(image.size.width * image.size.height * image.scale * image.scale * 4)
+            remoteImageCache.setObject(image, forKey: uri as NSString, cost: cost)
+            completion(image)
+        }.resume()
+    }
+
+    private static func createRemoteImageLoadingPlaceholder(
+        maximumImageSize: CGSize
+    ) -> UIImage {
+        UIGraphicsImageRenderer(size: maximumImageSize).image { _ in }
+    }
+
+    private static func createRemoteImageFailurePlaceholder(
+        maximumImageSize: CGSize = CPListImageRowItem.maximumImageSize
+    ) -> UIImage? {
+        guard let symbol = UIImage(systemName: "exclamationmark.circle") else {
+            return nil
+        }
+
+        let canvasSize = maximumImageSize
+        let symbolSide = min(canvasSize.width, canvasSize.height) * 0.28
+        let symbolRect = CGRect(
+            x: (canvasSize.width - symbolSide) / 2,
+            y: (canvasSize.height - symbolSide) / 2,
+            width: symbolSide,
+            height: symbolSide
+        )
+        let tintedSymbol = symbol.withTintColor(
+            .systemGray,
+            renderingMode: .alwaysOriginal
+        )
+
+        return UIGraphicsImageRenderer(size: canvasSize).image { _ in
+            tintedSymbol.draw(in: symbolRect)
+        }
     }
 
     static func getTintedImageAsset(

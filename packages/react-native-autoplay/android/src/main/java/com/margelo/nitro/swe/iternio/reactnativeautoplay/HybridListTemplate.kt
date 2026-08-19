@@ -23,6 +23,17 @@ class HybridListTemplate : HybridListTemplateSpec() {
         }
     }
 
+    override fun updateListTemplateContent(
+        templateId: String,
+        sections: Array<NitroSection>?,
+        detailsHeader: NitroListTemplateDetailsHeader?
+    ): Promise<Unit> {
+        return Promise.async {
+            val template = AndroidAutoTemplate.getTemplate<ListTemplate>(templateId)
+            template.updateSections(sections)
+        }
+    }
+
     override fun updateListTemplatePlayingItem(
         templateId: String, itemId: String?
     ): Promise<Unit> {

@@ -28,13 +28,23 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `GlyphImage` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct GlyphImage; }
+// Forward declaration of `AssetImage` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct AssetImage; }
+// Forward declaration of `RemoteImage` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage; }
 // Forward declaration of `NitroRow` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 
-#include <string>
+#include "GlyphImage.hpp"
+#include "AssetImage.hpp"
+#include "RemoteImage.hpp"
+#include <variant>
 #include <optional>
+#include <string>
 #include "NitroRow.hpp"
 #include <vector>
 #include "NitroSectionType.hpp"
@@ -46,13 +56,15 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
    */
   struct NitroSection final {
   public:
+    std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> headerImage     SWIFT_PRIVATE;
+    std::optional<std::string> headerSubtitle     SWIFT_PRIVATE;
     std::optional<std::string> title     SWIFT_PRIVATE;
     std::vector<NitroRow> items     SWIFT_PRIVATE;
     NitroSectionType type     SWIFT_PRIVATE;
 
   public:
     NitroSection() = default;
-    explicit NitroSection(std::optional<std::string> title, std::vector<NitroRow> items, NitroSectionType type): title(title), items(items), type(type) {}
+    explicit NitroSection(std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> headerImage, std::optional<std::string> headerSubtitle, std::optional<std::string> title, std::vector<NitroRow> items, NitroSectionType type): headerImage(headerImage), headerSubtitle(headerSubtitle), title(title), items(items), type(type) {}
 
   public:
     // NitroSection is not equatable because these properties are not equatable: items
@@ -68,6 +80,8 @@ namespace margelo::nitro {
     static inline margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection(
+        JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerImage"))),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerSubtitle"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
         JSIConverter<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroRow>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "items"))),
         JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSectionType>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "type")))
@@ -75,6 +89,8 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection& arg) {
       jsi::Object obj(runtime);
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "headerImage"), JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::toJSI(runtime, arg.headerImage));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "headerSubtitle"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.headerSubtitle));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.title));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "items"), JSIConverter<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroRow>>::toJSI(runtime, arg.items));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "type"), JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSectionType>::toJSI(runtime, arg.type));
@@ -88,6 +104,8 @@ namespace margelo::nitro {
       if (!nitro::isPlainObject(runtime, obj)) {
         return false;
       }
+      if (!JSIConverter<std::optional<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerImage")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerSubtitle")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
       if (!JSIConverter<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroRow>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "items")))) return false;
       if (!JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSectionType>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "type")))) return false;

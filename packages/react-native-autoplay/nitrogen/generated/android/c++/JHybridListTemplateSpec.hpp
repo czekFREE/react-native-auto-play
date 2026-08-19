@@ -56,6 +56,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     // Methods
     void createListTemplate(const ListTemplateConfig& config) override;
     std::shared_ptr<Promise<void>> updateListTemplateSections(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections) override;
+    std::shared_ptr<Promise<void>> updateListTemplateContent(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections, const std::optional<NitroListTemplateDetailsHeader>& detailsHeader) override;
     std::shared_ptr<Promise<void>> updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) override;
     std::shared_ptr<Promise<void>> completeListItemPress(const std::string& completionId) override;
 

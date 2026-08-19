@@ -37,6 +37,12 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSectio
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
 // Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
+// Forward declaration of `NitroImageRowItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroImageRowItem; }
+// Forward declaration of `NitroImageRowElementShape` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowElementShape; }
+// Forward declaration of `NitroImageRowVariant` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowVariant; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 // Forward declaration of `NitroBaseMapTemplateConfig` to properly resolve imports.
@@ -89,6 +95,14 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "PlayingIndicatorLocation.hpp"
 #include "JPlayingIndicatorLocation.hpp"
 #include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
+#include "NitroImageRowItem.hpp"
+#include "JNitroImageRowItem.hpp"
+#include "JNitroImage.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "JNitroImageRowElementShape.hpp"
+#include "JFunc_void_std__optional_std__string_.hpp"
+#include "NitroImageRowVariant.hpp"
+#include "JNitroImageRowVariant.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
@@ -97,7 +111,6 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JNitroMapButton.hpp"
 #include "NitroMapButtonType.hpp"
 #include "JNitroMapButtonType.hpp"
-#include "JNitroImage.hpp"
 #include "JFunc_void_bool.hpp"
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {

@@ -135,6 +135,7 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
             onDidDisappear: nil,
             onPopped: nil,
             autoDismissMs: nil,
+            detailsHeader: nil,
             headerActions: config.headerActions,
             title: config.title,
             sections: [results],

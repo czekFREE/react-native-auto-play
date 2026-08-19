@@ -20,14 +20,22 @@
 #include "JDistance.hpp"
 #include "JDistanceUnits.hpp"
 #include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
+#include "JFunc_void_std__optional_std__string_.hpp"
 #include "JGlyphImage.hpp"
 #include "JNitroColor.hpp"
+#include "JNitroImage.hpp"
+#include "JNitroImageRowElementShape.hpp"
+#include "JNitroImageRowItem.hpp"
+#include "JNitroImageRowVariant.hpp"
 #include "JNitroRow.hpp"
 #include "JNitroSectionType.hpp"
 #include "JPlayingIndicatorLocation.hpp"
 #include "JRemoteImage.hpp"
 #include "JVariant_GlyphImage_AssetImage_RemoteImage.hpp"
 #include "NitroColor.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "NitroImageRowItem.hpp"
+#include "NitroImageRowVariant.hpp"
 #include "NitroRow.hpp"
 #include "NitroSectionType.hpp"
 #include "PlayingIndicatorLocation.hpp"
@@ -58,6 +66,10 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     [[nodiscard]]
     NitroSection toCpp() const {
       static const auto clazz = javaClassStatic();
+      static const auto fieldHeaderImage = clazz->getField<JVariant_GlyphImage_AssetImage_RemoteImage>("headerImage");
+      jni::local_ref<JVariant_GlyphImage_AssetImage_RemoteImage> headerImage = this->getFieldValue(fieldHeaderImage);
+      static const auto fieldHeaderSubtitle = clazz->getField<jni::JString>("headerSubtitle");
+      jni::local_ref<jni::JString> headerSubtitle = this->getFieldValue(fieldHeaderSubtitle);
       static const auto fieldTitle = clazz->getField<jni::JString>("title");
       jni::local_ref<jni::JString> title = this->getFieldValue(fieldTitle);
       static const auto fieldItems = clazz->getField<jni::JArrayClass<JNitroRow>>("items");
@@ -65,6 +77,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       static const auto fieldType = clazz->getField<JNitroSectionType>("type");
       jni::local_ref<JNitroSectionType> type = this->getFieldValue(fieldType);
       return NitroSection(
+        headerImage != nullptr ? std::make_optional(headerImage->toCpp()) : std::nullopt,
+        headerSubtitle != nullptr ? std::make_optional(headerSubtitle->toStdString()) : std::nullopt,
         title != nullptr ? std::make_optional(title->toStdString()) : std::nullopt,
         [&](auto&& __input) {
           size_t __size = __input->size();
@@ -86,11 +100,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroSection::javaobject> fromCpp(const NitroSection& value) {
-      using JSignature = JNitroSection(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNitroRow>>, jni::alias_ref<JNitroSectionType>);
+      using JSignature = JNitroSection(jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JArrayClass<JNitroRow>>, jni::alias_ref<JNitroSectionType>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
+        value.headerImage.has_value() ? JVariant_GlyphImage_AssetImage_RemoteImage::fromCpp(value.headerImage.value()) : nullptr,
+        value.headerSubtitle.has_value() ? jni::make_jstring(value.headerSubtitle.value()) : nullptr,
         value.title.has_value() ? jni::make_jstring(value.title.value()) : nullptr,
         [&](auto&& __input) {
           size_t __size = __input.size();

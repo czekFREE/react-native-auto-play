@@ -20,6 +20,12 @@ import java.util.Objects
 data class NitroSection(
   @DoNotStrip
   @Keep
+  val headerImage: Variant_GlyphImage_AssetImage_RemoteImage?,
+  @DoNotStrip
+  @Keep
+  val headerSubtitle: String?,
+  @DoNotStrip
+  @Keep
   val title: String?,
   @DoNotStrip
   @Keep
@@ -33,13 +39,17 @@ data class NitroSection(
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is NitroSection) return false
-    return Objects.deepEquals(this.title, other.title)
+    return Objects.deepEquals(this.headerImage, other.headerImage)
+      && Objects.deepEquals(this.headerSubtitle, other.headerSubtitle)
+      && Objects.deepEquals(this.title, other.title)
       && Objects.deepEquals(this.items, other.items)
       && Objects.deepEquals(this.type, other.type)
   }
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
+      headerImage,
+      headerSubtitle,
       title,
       items,
       type
@@ -54,8 +64,8 @@ data class NitroSection(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: String?, items: Array<NitroRow>, type: NitroSectionType): NitroSection {
-      return NitroSection(title, items, type)
+    private fun fromCpp(headerImage: Variant_GlyphImage_AssetImage_RemoteImage?, headerSubtitle: String?, title: String?, items: Array<NitroRow>, type: NitroSectionType): NitroSection {
+      return NitroSection(headerImage, headerSubtitle, title, items, type)
     }
   }
 }

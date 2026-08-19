@@ -28,6 +28,8 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `NitroListTemplateDetailsHeader` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeader; }
 // Forward declaration of `NitroAction` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroAction; }
 // Forward declaration of `AutoText` to properly resolve imports.
@@ -40,6 +42,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroBaseMa
 #include <string>
 #include <optional>
 #include <functional>
+#include "NitroListTemplateDetailsHeader.hpp"
 #include "NitroAction.hpp"
 #include <vector>
 #include "AutoText.hpp"
@@ -60,6 +63,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidDisappear     SWIFT_PRIVATE;
     std::optional<std::function<void()>> onPopped     SWIFT_PRIVATE;
     std::optional<double> autoDismissMs     SWIFT_PRIVATE;
+    std::optional<NitroListTemplateDetailsHeader> detailsHeader     SWIFT_PRIVATE;
     std::optional<std::vector<NitroAction>> headerActions     SWIFT_PRIVATE;
     AutoText title     SWIFT_PRIVATE;
     std::optional<std::vector<NitroSection>> sections     SWIFT_PRIVATE;
@@ -67,10 +71,10 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     ListTemplateConfig() = default;
-    explicit ListTemplateConfig(std::string id, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillDisappear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidDisappear, std::optional<std::function<void()>> onPopped, std::optional<double> autoDismissMs, std::optional<std::vector<NitroAction>> headerActions, AutoText title, std::optional<std::vector<NitroSection>> sections, std::optional<NitroBaseMapTemplateConfig> mapConfig): id(id), onWillAppear(onWillAppear), onWillDisappear(onWillDisappear), onDidAppear(onDidAppear), onDidDisappear(onDidDisappear), onPopped(onPopped), autoDismissMs(autoDismissMs), headerActions(headerActions), title(title), sections(sections), mapConfig(mapConfig) {}
+    explicit ListTemplateConfig(std::string id, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillDisappear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidDisappear, std::optional<std::function<void()>> onPopped, std::optional<double> autoDismissMs, std::optional<NitroListTemplateDetailsHeader> detailsHeader, std::optional<std::vector<NitroAction>> headerActions, AutoText title, std::optional<std::vector<NitroSection>> sections, std::optional<NitroBaseMapTemplateConfig> mapConfig): id(id), onWillAppear(onWillAppear), onWillDisappear(onWillDisappear), onDidAppear(onDidAppear), onDidDisappear(onDidDisappear), onPopped(onPopped), autoDismissMs(autoDismissMs), detailsHeader(detailsHeader), headerActions(headerActions), title(title), sections(sections), mapConfig(mapConfig) {}
 
   public:
-    // ListTemplateConfig is not equatable because these properties are not equatable: onWillAppear, onWillDisappear, onDidAppear, onDidDisappear, onPopped, headerActions, sections, mapConfig
+    // ListTemplateConfig is not equatable because these properties are not equatable: onWillAppear, onWillDisappear, onDidAppear, onDidDisappear, onPopped, detailsHeader, headerActions, sections, mapConfig
   };
 
 } // namespace margelo::nitro::swe::iternio::reactnativeautoplay
@@ -90,6 +94,7 @@ namespace margelo::nitro {
         JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onDidDisappear"))),
         JSIConverter<std::optional<std::function<void()>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPopped"))),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "autoDismissMs"))),
+        JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroListTemplateDetailsHeader>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "detailsHeader"))),
         JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerActions"))),
         JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
         JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "sections"))),
@@ -105,6 +110,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "onDidDisappear"), JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::toJSI(runtime, arg.onDidDisappear));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "onPopped"), JSIConverter<std::optional<std::function<void()>>>::toJSI(runtime, arg.onPopped));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "autoDismissMs"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.autoDismissMs));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "detailsHeader"), JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroListTemplateDetailsHeader>>::toJSI(runtime, arg.detailsHeader));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "headerActions"), JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::toJSI(runtime, arg.headerActions));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::toJSI(runtime, arg.title));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "sections"), JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>>>::toJSI(runtime, arg.sections));
@@ -126,6 +132,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<std::function<void(std::optional<bool>)>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onDidDisappear")))) return false;
       if (!JSIConverter<std::optional<std::function<void()>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onPopped")))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "autoDismissMs")))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::NitroListTemplateDetailsHeader>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "detailsHeader")))) return false;
       if (!JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerActions")))) return false;
       if (!JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
       if (!JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "sections")))) return false;

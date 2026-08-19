@@ -250,13 +250,39 @@ class AutoPlayInterfaceController: NSObject, CPInterfaceControllerDelegate {
         )
 
         if aTemplate is CPAlertTemplate {
-            try? RootModule.withTemplateStore { templateStore in
-                templateStore.removeTemplate(templateId: templateId)
-            }
-
-            HybridAutoPlay.removeListeners(
-                templateId: templateId
-            )
+            removePoppedTemplate(templateId: templateId)
+            return
         }
+
+        // CarPlay may call this delegate before its templates array reflects a native back action.
+        // Reconcile on the next main-actor turn so onPopped is emitted for removed templates, while
+        // templates merely covered by a push remain registered.
+        Task { @MainActor [weak self, weak aTemplate] in
+            await Task.yield()
+
+            guard let self else { return }
+
+            if aTemplate.map({ self.isTemplateRetained($0) }) != true {
+                self.removePoppedTemplate(templateId: templateId)
+            }
+        }
+    }
+
+    private func isTemplateRetained(_ template: CPTemplate) -> Bool {
+        return interfaceController.templates.contains { retainedTemplate in
+            retainedTemplate === template
+                || (retainedTemplate as? CPTabBarTemplate)?
+                    .templates.contains(where: { $0 === template }) == true
+        } || interfaceController.presentedTemplate === template
+    }
+
+    private func removePoppedTemplate(templateId: String) {
+        try? RootModule.withTemplateStore { templateStore in
+            templateStore.removeTemplate(templateId: templateId)
+        }
+
+        HybridAutoPlay.removeListeners(
+            templateId: templateId
+        )
     }
 }

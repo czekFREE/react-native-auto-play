@@ -33,6 +33,24 @@ class HybridListTemplate: HybridListTemplateSpec {
         }
     }
 
+    func updateListTemplateContent(
+        templateId: String,
+        sections: [NitroSection]?,
+        detailsHeader: NitroListTemplateDetailsHeader?
+    ) throws -> Promise<Void> {
+        return Promise.async {
+            try await MainActor.run {
+                try RootModule.withAutoPlayTemplate(templateId: templateId) {
+                    (template: ListTemplate) in
+                    template.updateContent(
+                        sections: sections,
+                        detailsHeader: detailsHeader
+                    )
+                }
+            }
+        }
+    }
+
     func updateListTemplatePlayingItem(
         templateId: String,
         itemId: String?

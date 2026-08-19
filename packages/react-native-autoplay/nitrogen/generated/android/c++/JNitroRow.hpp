@@ -20,12 +20,20 @@
 #include "JDistance.hpp"
 #include "JDistanceUnits.hpp"
 #include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
+#include "JFunc_void_std__optional_std__string_.hpp"
 #include "JGlyphImage.hpp"
 #include "JNitroColor.hpp"
+#include "JNitroImage.hpp"
+#include "JNitroImageRowElementShape.hpp"
+#include "JNitroImageRowItem.hpp"
+#include "JNitroImageRowVariant.hpp"
 #include "JPlayingIndicatorLocation.hpp"
 #include "JRemoteImage.hpp"
 #include "JVariant_GlyphImage_AssetImage_RemoteImage.hpp"
 #include "NitroColor.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "NitroImageRowItem.hpp"
+#include "NitroImageRowVariant.hpp"
 #include "PlayingIndicatorLocation.hpp"
 #include "RemoteImage.hpp"
 #include <NitroModules/JNICallable.hpp>
@@ -33,6 +41,7 @@
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
@@ -83,6 +92,12 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject> onPress = this->getFieldValue(fieldOnPress);
       static const auto fieldSelected = clazz->getField<jni::JBoolean>("selected");
       jni::local_ref<jni::JBoolean> selected = this->getFieldValue(fieldSelected);
+      static const auto fieldImageRowItems = clazz->getField<jni::JArrayClass<JNitroImageRowItem>>("imageRowItems");
+      jni::local_ref<jni::JArrayClass<JNitroImageRowItem>> imageRowItems = this->getFieldValue(fieldImageRowItems);
+      static const auto fieldImageRowVariant = clazz->getField<JNitroImageRowVariant>("imageRowVariant");
+      jni::local_ref<JNitroImageRowVariant> imageRowVariant = this->getFieldValue(fieldImageRowVariant);
+      static const auto fieldImageRowAllowsMultipleLines = clazz->getField<jni::JBoolean>("imageRowAllowsMultipleLines");
+      jni::local_ref<jni::JBoolean> imageRowAllowsMultipleLines = this->getFieldValue(fieldImageRowAllowsMultipleLines);
       return NitroRow(
         title->toCpp(),
         id != nullptr ? std::make_optional(id->toStdString()) : std::nullopt,
@@ -106,7 +121,19 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
             return JNICallable<JFunc_void_std__optional_bool__std__optional_std__string_, void(std::optional<bool>, std::optional<std::string>)>(std::move(onPressRef));
           }
         }()) : std::nullopt,
-        selected != nullptr ? std::make_optional(static_cast<bool>(selected->value())) : std::nullopt
+        selected != nullptr ? std::make_optional(static_cast<bool>(selected->value())) : std::nullopt,
+        imageRowItems != nullptr ? std::make_optional([&](auto&& __input) {
+          size_t __size = __input->size();
+          std::vector<NitroImageRowItem> __vector;
+          __vector.reserve(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            auto __element = __input->getElement(__i);
+            __vector.push_back(__element->toCpp());
+          }
+          return __vector;
+        }(imageRowItems)) : std::nullopt,
+        imageRowVariant != nullptr ? std::make_optional(imageRowVariant->toCpp()) : std::nullopt,
+        imageRowAllowsMultipleLines != nullptr ? std::make_optional(static_cast<bool>(imageRowAllowsMultipleLines->value())) : std::nullopt
       );
     }
 
@@ -116,7 +143,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroRow::javaobject> fromCpp(const NitroRow& value) {
-      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>, jni::alias_ref<jni::JBoolean>);
+      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JArrayClass<JNitroImageRowItem>>, jni::alias_ref<JNitroImageRowVariant>, jni::alias_ref<jni::JBoolean>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -135,7 +162,19 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         value.playingIndicatorLocation.has_value() ? JPlayingIndicatorLocation::fromCpp(value.playingIndicatorLocation.value()) : nullptr,
         value.checked.has_value() ? jni::JBoolean::valueOf(value.checked.value()) : nullptr,
         value.onPress.has_value() ? JFunc_void_std__optional_bool__std__optional_std__string__cxx::fromCpp(value.onPress.value()) : nullptr,
-        value.selected.has_value() ? jni::JBoolean::valueOf(value.selected.value()) : nullptr
+        value.selected.has_value() ? jni::JBoolean::valueOf(value.selected.value()) : nullptr,
+        value.imageRowItems.has_value() ? [&](auto&& __input) {
+          size_t __size = __input.size();
+          jni::local_ref<jni::JArrayClass<JNitroImageRowItem>> __array = jni::JArrayClass<JNitroImageRowItem>::newArray(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            const auto& __element = __input[__i];
+            auto __elementJni = JNitroImageRowItem::fromCpp(__element);
+            __array->setElement(__i, *__elementJni);
+          }
+          return __array;
+        }(value.imageRowItems.value()) : nullptr,
+        value.imageRowVariant.has_value() ? JNitroImageRowVariant::fromCpp(value.imageRowVariant.value()) : nullptr,
+        value.imageRowAllowsMultipleLines.has_value() ? jni::JBoolean::valueOf(value.imageRowAllowsMultipleLines.value()) : nullptr
       );
     }
   };

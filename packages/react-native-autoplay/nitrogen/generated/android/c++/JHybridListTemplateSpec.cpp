@@ -9,8 +9,8 @@
 
 // Forward declaration of `ListTemplateConfig` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct ListTemplateConfig; }
-// Forward declaration of `NitroAction` to properly resolve imports.
-namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroAction; }
+// Forward declaration of `NitroListTemplateDetailsHeader` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeader; }
 // Forward declaration of `GlyphImage` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct GlyphImage; }
 // Forward declaration of `AssetImage` to properly resolve imports.
@@ -19,6 +19,10 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct AssetImage;
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage; }
 // Forward declaration of `NitroColor` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroColor; }
+// Forward declaration of `NitroListTemplateDetailsHeaderAction` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeaderAction; }
+// Forward declaration of `NitroAction` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroAction; }
 // Forward declaration of `NitroActionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroActionType; }
 // Forward declaration of `NitroAlignment` to properly resolve imports.
@@ -37,6 +41,12 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSectio
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
 // Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
+// Forward declaration of `NitroImageRowItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroImageRowItem; }
+// Forward declaration of `NitroImageRowElementShape` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowElementShape; }
+// Forward declaration of `NitroImageRowVariant` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowVariant; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 // Forward declaration of `NitroBaseMapTemplateConfig` to properly resolve imports.
@@ -57,19 +67,24 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JFunc_void_std__optional_bool_.hpp"
 #include <NitroModules/JNICallable.hpp>
 #include "JFunc_void.hpp"
-#include "NitroAction.hpp"
-#include <vector>
-#include "JNitroAction.hpp"
+#include "NitroListTemplateDetailsHeader.hpp"
+#include "JNitroListTemplateDetailsHeader.hpp"
 #include "GlyphImage.hpp"
 #include "AssetImage.hpp"
 #include "RemoteImage.hpp"
 #include <variant>
-#include "JVariant_GlyphImage_AssetImage_RemoteImage.hpp"
+#include "JNitroImage.hpp"
 #include "JGlyphImage.hpp"
 #include "NitroColor.hpp"
 #include "JNitroColor.hpp"
 #include "JAssetImage.hpp"
 #include "JRemoteImage.hpp"
+#include <vector>
+#include "NitroListTemplateDetailsHeaderAction.hpp"
+#include "JNitroListTemplateDetailsHeaderAction.hpp"
+#include "NitroAction.hpp"
+#include "JNitroAction.hpp"
+#include "JVariant_GlyphImage_AssetImage_RemoteImage.hpp"
 #include "NitroActionType.hpp"
 #include "JNitroActionType.hpp"
 #include "NitroAlignment.hpp"
@@ -89,6 +104,13 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "PlayingIndicatorLocation.hpp"
 #include "JPlayingIndicatorLocation.hpp"
 #include "JFunc_void_std__optional_bool__std__optional_std__string_.hpp"
+#include "NitroImageRowItem.hpp"
+#include "JNitroImageRowItem.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "JNitroImageRowElementShape.hpp"
+#include "JFunc_void_std__optional_std__string_.hpp"
+#include "NitroImageRowVariant.hpp"
+#include "JNitroImageRowVariant.hpp"
 #include "NitroSectionType.hpp"
 #include "JNitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
@@ -97,7 +119,6 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "JNitroMapButton.hpp"
 #include "NitroMapButtonType.hpp"
 #include "JNitroMapButtonType.hpp"
-#include "JNitroImage.hpp"
 #include "JFunc_void_bool.hpp"
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {
@@ -149,6 +170,30 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       }
       return __array;
     }(sections.value()) : nullptr);
+    return [&]() {
+      auto __promise = Promise<void>::create();
+      __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {
+        __promise->resolve();
+      });
+      __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
+        jni::JniException __jniError(__throwable);
+        __promise->reject(std::make_exception_ptr(__jniError));
+      });
+      return __promise;
+    }();
+  }
+  std::shared_ptr<Promise<void>> JHybridListTemplateSpec::updateListTemplateContent(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections, const std::optional<NitroListTemplateDetailsHeader>& detailsHeader) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* templateId */, jni::alias_ref<jni::JArrayClass<JNitroSection>> /* sections */, jni::alias_ref<JNitroListTemplateDetailsHeader> /* detailsHeader */)>("updateListTemplateContent");
+    auto __result = method(_javaPart, jni::make_jstring(templateId), sections.has_value() ? [&](auto&& __input) {
+      size_t __size = __input.size();
+      jni::local_ref<jni::JArrayClass<JNitroSection>> __array = jni::JArrayClass<JNitroSection>::newArray(__size);
+      for (size_t __i = 0; __i < __size; __i++) {
+        const auto& __element = __input[__i];
+        auto __elementJni = JNitroSection::fromCpp(__element);
+        __array->setElement(__i, *__elementJni);
+      }
+      return __array;
+    }(sections.value()) : nullptr, detailsHeader.has_value() ? JNitroListTemplateDetailsHeader::fromCpp(detailsHeader.value()) : nullptr);
     return [&]() {
       auto __promise = Promise<void>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {

@@ -62,13 +62,22 @@ data class NitroRow(
   val onPress: Func_void_std__optional_bool__std__optional_std__string_?,
   @DoNotStrip
   @Keep
-  val selected: Boolean?
+  val selected: Boolean?,
+  @DoNotStrip
+  @Keep
+  val imageRowItems: Array<NitroImageRowItem>?,
+  @DoNotStrip
+  @Keep
+  val imageRowVariant: NitroImageRowVariant?,
+  @DoNotStrip
+  @Keep
+  val imageRowAllowsMultipleLines: Boolean?
 ) {
   /**
    * Create a new instance of NitroRow from Kotlin
    */
-  constructor(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, completionId: String?) -> Unit)?, selected: Boolean?):
-         this(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__string__java(it) }, selected)
+  constructor(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: ((checked: Boolean?, completionId: String?) -> Unit)?, selected: Boolean?, imageRowItems: Array<NitroImageRowItem>?, imageRowVariant: NitroImageRowVariant?, imageRowAllowsMultipleLines: Boolean?):
+         this(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress?.let { Func_void_std__optional_bool__std__optional_std__string__java(it) }, selected, imageRowItems, imageRowVariant, imageRowAllowsMultipleLines)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -88,6 +97,9 @@ data class NitroRow(
       && Objects.deepEquals(this.checked, other.checked)
       && Objects.deepEquals(this.onPress, other.onPress)
       && Objects.deepEquals(this.selected, other.selected)
+      && Objects.deepEquals(this.imageRowItems, other.imageRowItems)
+      && Objects.deepEquals(this.imageRowVariant, other.imageRowVariant)
+      && Objects.deepEquals(this.imageRowAllowsMultipleLines, other.imageRowAllowsMultipleLines)
   }
 
   override fun hashCode(): Int {
@@ -106,7 +118,10 @@ data class NitroRow(
       playingIndicatorLocation,
       checked,
       onPress,
-      selected
+      selected,
+      imageRowItems,
+      imageRowVariant,
+      imageRowAllowsMultipleLines
     ).contentDeepHashCode()
   }
 
@@ -118,8 +133,8 @@ data class NitroRow(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__string_?, selected: Boolean?): NitroRow {
-      return NitroRow(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress, selected)
+    private fun fromCpp(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Boolean?, enabled: Boolean, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Boolean?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Boolean?, onPress: Func_void_std__optional_bool__std__optional_std__string_?, selected: Boolean?, imageRowItems: Array<NitroImageRowItem>?, imageRowVariant: NitroImageRowVariant?, imageRowAllowsMultipleLines: Boolean?): NitroRow {
+      return NitroRow(title, id, detailedText, systemAccessoryImage, browsable, enabled, image, isPlaying, playbackDuration, playbackElapsedTime, playbackProgress, playingIndicatorLocation, checked, onPress, selected, imageRowItems, imageRowVariant, imageRowAllowsMultipleLines)
     }
   }
 }

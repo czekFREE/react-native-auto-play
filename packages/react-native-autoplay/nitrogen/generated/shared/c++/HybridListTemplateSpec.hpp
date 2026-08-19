@@ -17,6 +17,8 @@
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct ListTemplateConfig; }
 // Forward declaration of `NitroSection` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSection; }
+// Forward declaration of `NitroListTemplateDetailsHeader` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeader; }
 
 #include "ListTemplateConfig.hpp"
 #include <NitroModules/Promise.hpp>
@@ -24,6 +26,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSectio
 #include "NitroSection.hpp"
 #include <vector>
 #include <optional>
+#include "NitroListTemplateDetailsHeader.hpp"
 
 namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
@@ -58,6 +61,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       // Methods
       virtual void createListTemplate(const ListTemplateConfig& config) = 0;
       virtual std::shared_ptr<Promise<void>> updateListTemplateSections(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections) = 0;
+      virtual std::shared_ptr<Promise<void>> updateListTemplateContent(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections, const std::optional<NitroListTemplateDetailsHeader>& detailsHeader) = 0;
       virtual std::shared_ptr<Promise<void>> updateListTemplatePlayingItem(const std::string& templateId, const std::optional<std::string>& itemId) = 0;
       virtual std::shared_ptr<Promise<void>> completeListItemPress(const std::string& completionId) = 0;
 

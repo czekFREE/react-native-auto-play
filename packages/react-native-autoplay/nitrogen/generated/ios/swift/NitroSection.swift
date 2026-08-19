@@ -18,8 +18,29 @@ public extension NitroSection {
   /**
    * Create a new instance of `NitroSection`.
    */
-  init(title: String?, items: [NitroRow], type: NitroSectionType) {
-    self.init({ () -> bridge.std__optional_std__string_ in
+  init(headerImage: Variant_GlyphImage_AssetImage_RemoteImage?, headerSubtitle: String?, title: String?, items: [NitroRow], type: NitroSectionType) {
+    self.init({ () -> bridge.std__optional_std__variant_GlyphImage__AssetImage__RemoteImage__ in
+      if let __unwrappedValue = headerImage {
+        return bridge.create_std__optional_std__variant_GlyphImage__AssetImage__RemoteImage__({ () -> bridge.std__variant_GlyphImage__AssetImage__RemoteImage_ in
+          switch __unwrappedValue {
+            case .first(let __value):
+              return bridge.create_std__variant_GlyphImage__AssetImage__RemoteImage_(__value)
+            case .second(let __value):
+              return bridge.create_std__variant_GlyphImage__AssetImage__RemoteImage_(__value)
+            case .third(let __value):
+              return bridge.create_std__variant_GlyphImage__AssetImage__RemoteImage_(__value)
+          }
+        }().variant)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = headerSubtitle {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = title {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
@@ -35,6 +56,45 @@ public extension NitroSection {
   }
 
   @inline(__always)
+  var headerImage: Variant_GlyphImage_AssetImage_RemoteImage? {
+    return { () -> Variant_GlyphImage_AssetImage_RemoteImage? in
+      if bridge.has_value_std__optional_std__variant_GlyphImage__AssetImage__RemoteImage__(self.__headerImage) {
+        let __unwrapped = bridge.get_std__optional_std__variant_GlyphImage__AssetImage__RemoteImage__(self.__headerImage)
+        return { () -> Variant_GlyphImage_AssetImage_RemoteImage in
+          let __variant = bridge.std__variant_GlyphImage__AssetImage__RemoteImage_(__unwrapped)
+          switch __variant.index() {
+            case 0:
+              let __actual = __variant.get_0()
+              return .first(__actual)
+            case 1:
+              let __actual = __variant.get_1()
+              return .second(__actual)
+            case 2:
+              let __actual = __variant.get_2()
+              return .third(__actual)
+            default:
+              fatalError("Variant can never have index \(__variant.index())!")
+          }
+        }()
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var headerSubtitle: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__headerSubtitle) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__headerSubtitle)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
   var title: String? {
     return { () -> String? in
       if bridge.has_value_std__optional_std__string_(self.__title) {
@@ -45,12 +105,12 @@ public extension NitroSection {
       }
     }()
   }
-  
+
   @inline(__always)
   var items: [NitroRow] {
     return self.__items.map({ __item in __item })
   }
-  
+
   @inline(__always)
   var type: NitroSectionType {
     return self.__type

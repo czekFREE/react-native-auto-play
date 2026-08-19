@@ -1,19 +1,21 @@
 import type { AutoImage } from '../types/Image';
 import type { AutoText } from '../types/Text';
 import { HybridListTemplate } from '../utils/HybridListTemplate';
-import { type NitroAction, NitroActionUtil } from '../utils/NitroAction';
+import { NitroActionUtil } from '../utils/NitroAction';
+import type { ThemedColor } from '../utils/NitroColor';
+import type { NitroListTemplateConfig } from '../utils/NitroListTemplateConfig';
 import { NitroMapButton } from '../utils/NitroMapButton';
-import { type NitroSection, NitroSectionUtil } from '../utils/NitroSection';
-import type { BaseMapTemplateConfig } from './MapTemplate';
+import { NitroSectionUtil } from '../utils/NitroSection';
 import {
-  type HeaderActions,
-  type NitroBaseMapTemplateConfig,
-  type NitroTemplateConfig,
-  Template,
-  type TemplateConfig,
-} from './Template';
+  type ListTemplateDetailsHeader,
+  ListTemplateDetailsHeaderUtil,
+} from './ListTemplateDetailsHeader';
+import type { BaseMapTemplateConfig } from './MapTemplate';
+import { type HeaderActions, type NitroTemplateConfig, Template } from './Template';
 
 export type PlayingIndicatorLocation = 'leading' | 'trailing';
+
+export type { NitroListTemplateConfig } from '../utils/NitroListTemplateConfig';
 
 type BaseRow = {
   title: AutoText;
@@ -59,35 +61,105 @@ export type TextRow = BaseRow & {
   detailedText?: AutoText;
 };
 
+type BaseImageRowItem<T> = {
+  image: AutoImage;
+  title?: AutoText;
+  subtitle?: AutoText;
+  /** Spoken label for image-only content on iOS 26.4 and newer. */
+  accessibilityLabel?: string;
+  enabled?: boolean;
+  onPress?: (template: T) => Promise<void> | void;
+};
+
+export type ImageRowElement<T> = BaseImageRowItem<T>;
+
+export type ImageRowCardElement<T> = BaseImageRowItem<T> & {
+  showsImageFullHeight?: boolean;
+  tintColor?: ThemedColor | string;
+};
+
+export type ImageRowCondensedElement<T> = BaseImageRowItem<T> & {
+  title: AutoText;
+  subtitle?: AutoText;
+  imageShape: ImageRowElementShape;
+  accessorySystemImage?: string;
+};
+
+export type ImageRowGridElement<T> = BaseImageRowItem<T>;
+
+export type ImageRowImageGridElement<T> = BaseImageRowItem<T> & {
+  title: AutoText;
+  imageShape: ImageRowElementShape;
+  accessorySystemImage?: string;
+};
+
+export type ImageRowElementShape = 'circular' | 'roundedRectangle';
+
+type ImageRowBase<T> = BaseRow & {
+  type: 'image';
+  allowsMultipleLines?: boolean;
+  onPress?: (template: T) => Promise<void> | void;
+};
+
+/**
+ * Displays a horizontal collection of image elements on iOS. Android Auto
+ * renders the parent row and ignores the nested image elements and variant.
+ * @namespace iOS
+ */
+export type ImageRow<T> = ImageRowBase<T> &
+  (
+    | { variant?: 'row'; items: Array<ImageRowElement<T>> }
+    | { variant: 'card'; items: Array<ImageRowCardElement<T>> }
+    | { variant: 'condensed'; items: Array<ImageRowCondensedElement<T>> }
+    | { variant: 'grid'; items: Array<ImageRowGridElement<T>> }
+    | { variant: 'imageGrid'; items: Array<ImageRowImageGridElement<T>> }
+  );
+
+type RichSectionHeader = {
+  /**
+   * Displays supporting text in an enhanced CarPlay section header.
+   * @namespace iOS
+   */
+  headerSubtitle?: string;
+  /**
+   * Displays artwork in an enhanced CarPlay section header.
+   * Remote images are loaded asynchronously.
+   * @namespace iOS
+   */
+  headerImage?: AutoImage;
+};
+
 export type MultiSection<T> =
-  | {
+  | (RichSectionHeader & {
       type: 'default';
       title: string;
-      items: Array<DefaultRow<T> | ToggleRow<T> | TextRow>;
-    }
-  | {
+      items: Array<DefaultRow<T> | ImageRow<T> | ToggleRow<T> | TextRow>;
+    })
+  | (RichSectionHeader & {
       type: 'radio';
       title: string;
       items: Array<RadioRow<T>>;
-    };
+    });
 
 export type SingleSection<T> = {
-  [K in MultiSection<T> as K['type']]: Omit<K, 'title' | 'detailedText'>;
+  [K in MultiSection<T> as K['type']]: Omit<
+    K,
+    'title' | 'headerImage' | 'headerSubtitle' | 'detailedText'
+  >;
 }[MultiSection<T>['type']];
 
 export type Section<T> = Array<MultiSection<T>> | SingleSection<T>;
 
-export interface NitroListTemplateConfig extends TemplateConfig {
-  headerActions?: Array<NitroAction>;
-  title: AutoText;
-  sections?: Array<NitroSection>;
-  mapConfig?: NitroBaseMapTemplateConfig;
-}
-
 export type ListTemplateConfig = Omit<
   NitroListTemplateConfig,
-  'headerActions' | 'sections' | 'mapConfig'
+  'detailsHeader' | 'headerActions' | 'sections' | 'mapConfig'
 > & {
+  /**
+   * Rich media header displayed above list sections on iOS 26.4 and newer.
+   * Ignored on unsupported platforms and OS versions.
+   * @namespace iOS
+   */
+  detailsHeader?: ListTemplateDetailsHeader<ListTemplate>;
   /**
    * action buttons, usually at the the top right on Android and a top bar on iOS
    */
@@ -113,10 +185,11 @@ export class ListTemplate extends Template<ListTemplateConfig, HeaderActions<Lis
   constructor(config: ListTemplateConfig) {
     super(config);
 
-    const { headerActions, mapConfig, sections, ...rest } = config;
+    const { detailsHeader, headerActions, mapConfig, sections, ...rest } = config;
 
     const nitroConfig: NitroListTemplateConfig & NitroTemplateConfig = {
       ...rest,
+      detailsHeader: ListTemplateDetailsHeaderUtil.convert(this.template, detailsHeader),
       id: this.id,
       headerActions: NitroActionUtil.convert(this.template, headerActions),
       sections: NitroSectionUtil.convert(this.template, sections),
@@ -135,6 +208,20 @@ export class ListTemplate extends Template<ListTemplateConfig, HeaderActions<Lis
     return HybridListTemplate.updateListTemplateSections(
       this.id,
       NitroSectionUtil.convert(this.template, sections)
+    );
+  }
+
+  public updateContent({
+    detailsHeader,
+    sections,
+  }: {
+    detailsHeader?: ListTemplateDetailsHeader<ListTemplate>;
+    sections?: Section<ListTemplate>;
+  }) {
+    return HybridListTemplate.updateListTemplateContent(
+      this.id,
+      NitroSectionUtil.convert(this.template, sections),
+      ListTemplateDetailsHeaderUtil.convert(this.template, detailsHeader)
     );
   }
 

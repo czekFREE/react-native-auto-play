@@ -14,8 +14,8 @@ namespace ReactNativeAutoPlay { class HybridListTemplateSpec_cxx; }
 
 // Forward declaration of `ListTemplateConfig` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct ListTemplateConfig; }
-// Forward declaration of `NitroAction` to properly resolve imports.
-namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroAction; }
+// Forward declaration of `NitroListTemplateDetailsHeader` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeader; }
 // Forward declaration of `GlyphImage` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct GlyphImage; }
 // Forward declaration of `AssetImage` to properly resolve imports.
@@ -24,6 +24,10 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct AssetImage;
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct RemoteImage; }
 // Forward declaration of `NitroColor` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroColor; }
+// Forward declaration of `NitroListTemplateDetailsHeaderAction` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroListTemplateDetailsHeaderAction; }
+// Forward declaration of `NitroAction` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroAction; }
 // Forward declaration of `NitroActionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroActionType; }
 // Forward declaration of `NitroAlignment` to properly resolve imports.
@@ -42,6 +46,12 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroSectio
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroRow; }
 // Forward declaration of `PlayingIndicatorLocation` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class PlayingIndicatorLocation; }
+// Forward declaration of `NitroImageRowItem` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { struct NitroImageRowItem; }
+// Forward declaration of `NitroImageRowElementShape` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowElementShape; }
+// Forward declaration of `NitroImageRowVariant` to properly resolve imports.
+namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroImageRowVariant; }
 // Forward declaration of `NitroSectionType` to properly resolve imports.
 namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroSectionType; }
 // Forward declaration of `NitroBaseMapTemplateConfig` to properly resolve imports.
@@ -55,13 +65,15 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include <string>
 #include <optional>
 #include <functional>
-#include "NitroAction.hpp"
-#include <vector>
+#include "NitroListTemplateDetailsHeader.hpp"
 #include "GlyphImage.hpp"
 #include "AssetImage.hpp"
 #include "RemoteImage.hpp"
 #include <variant>
 #include "NitroColor.hpp"
+#include <vector>
+#include "NitroListTemplateDetailsHeaderAction.hpp"
+#include "NitroAction.hpp"
 #include "NitroActionType.hpp"
 #include "NitroAlignment.hpp"
 #include "NitroButtonStyle.hpp"
@@ -71,6 +83,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay { enum class NitroMa
 #include "NitroSection.hpp"
 #include "NitroRow.hpp"
 #include "PlayingIndicatorLocation.hpp"
+#include "NitroImageRowItem.hpp"
+#include "NitroImageRowElementShape.hpp"
+#include "NitroImageRowVariant.hpp"
 #include "NitroSectionType.hpp"
 #include "NitroBaseMapTemplateConfig.hpp"
 #include "NitroMapButton.hpp"
@@ -135,6 +150,14 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     }
     inline std::shared_ptr<Promise<void>> updateListTemplateSections(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections) override {
       auto __result = _swiftPart.updateListTemplateSections(templateId, sections);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> updateListTemplateContent(const std::string& templateId, const std::optional<std::vector<NitroSection>>& sections, const std::optional<NitroListTemplateDetailsHeader>& detailsHeader) override {
+      auto __result = _swiftPart.updateListTemplateContent(templateId, sections, detailsHeader);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

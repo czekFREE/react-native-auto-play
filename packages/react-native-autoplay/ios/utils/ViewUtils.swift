@@ -33,11 +33,12 @@ class ViewUtils {
             if appDelegate.responds(to: selector),
                 let methodIMP = appDelegate.method(for: selector)
             {
-                typealias Func = @convention(c) (
-                    AnyObject,
-                    Selector,
-                    UIView
-                ) -> Void
+                typealias Func =
+                    @convention(c) (
+                        AnyObject,
+                        Selector,
+                        UIView
+                    ) -> Void
                 let function = unsafeBitCast(methodIMP, to: Func.self)
 
                 function(appDelegate, selector, rootView)

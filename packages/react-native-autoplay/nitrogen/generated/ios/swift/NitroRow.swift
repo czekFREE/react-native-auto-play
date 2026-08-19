@@ -18,7 +18,7 @@ public extension NitroRow {
   /**
    * Create a new instance of `NitroRow`.
    */
-  init(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)?, selected: Bool?) {
+  init(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)?, selected: Bool?, imageRowItems: [NitroImageRowItem]?, imageRowVariant: NitroImageRowVariant?, imageRowAllowsMultipleLines: Bool?) {
     self.init(title, { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = id {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -109,6 +109,30 @@ public extension NitroRow {
       } else {
         return .init()
       }
+    }(), { () -> bridge.std__optional_std__vector_NitroImageRowItem__ in
+      if let __unwrappedValue = imageRowItems {
+        return bridge.create_std__optional_std__vector_NitroImageRowItem__({ () -> bridge.std__vector_NitroImageRowItem_ in
+          var __vector = bridge.create_std__vector_NitroImageRowItem_(__unwrappedValue.count)
+          for __item in __unwrappedValue {
+            __vector.push_back(__item)
+          }
+          return __vector
+        }())
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_NitroImageRowVariant_ in
+      if let __unwrappedValue = imageRowVariant {
+        return bridge.create_std__optional_NitroImageRowVariant_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = imageRowAllowsMultipleLines {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
     }())
   }
 
@@ -116,7 +140,7 @@ public extension NitroRow {
   var title: AutoText {
     return self.__title
   }
-  
+
   @inline(__always)
   var id: String? {
     return { () -> String? in
@@ -128,12 +152,12 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var detailedText: AutoText? {
     return self.__detailedText.value
   }
-  
+
   @inline(__always)
   var systemAccessoryImage: String? {
     return { () -> String? in
@@ -145,7 +169,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var browsable: Bool? {
     return { () -> Bool? in
@@ -157,12 +181,12 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var enabled: Bool {
     return self.__enabled
   }
-  
+
   @inline(__always)
   var image: Variant_GlyphImage_AssetImage_RemoteImage? {
     return { () -> Variant_GlyphImage_AssetImage_RemoteImage? in
@@ -189,7 +213,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var isPlaying: Bool? {
     return { () -> Bool? in
@@ -201,7 +225,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var playbackDuration: Double? {
     return { () -> Double? in
@@ -213,7 +237,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var playbackElapsedTime: Double? {
     return { () -> Double? in
@@ -225,7 +249,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var playbackProgress: Double? {
     return { () -> Double? in
@@ -237,12 +261,12 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var playingIndicatorLocation: PlayingIndicatorLocation? {
     return self.__playingIndicatorLocation.value
   }
-  
+
   @inline(__always)
   var checked: Bool? {
     return { () -> Bool? in
@@ -254,7 +278,7 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)? {
     return { () -> ((_ checked: Bool?, _ completionId: String?) -> Void)? in
@@ -283,12 +307,41 @@ public extension NitroRow {
       }
     }()
   }
-  
+
   @inline(__always)
   var selected: Bool? {
     return { () -> Bool? in
       if bridge.has_value_std__optional_bool_(self.__selected) {
         let __unwrapped = bridge.get_std__optional_bool_(self.__selected)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var imageRowItems: [NitroImageRowItem]? {
+    return { () -> [NitroImageRowItem]? in
+      if bridge.has_value_std__optional_std__vector_NitroImageRowItem__(self.__imageRowItems) {
+        let __unwrapped = bridge.get_std__optional_std__vector_NitroImageRowItem__(self.__imageRowItems)
+        return __unwrapped.map({ __item in __item })
+      } else {
+        return nil
+      }
+    }()
+  }
+
+  @inline(__always)
+  var imageRowVariant: NitroImageRowVariant? {
+    return self.__imageRowVariant.value
+  }
+
+  @inline(__always)
+  var imageRowAllowsMultipleLines: Bool? {
+    return { () -> Bool? in
+      if bridge.has_value_std__optional_bool_(self.__imageRowAllowsMultipleLines) {
+        let __unwrapped = bridge.get_std__optional_bool_(self.__imageRowAllowsMultipleLines)
         return __unwrapped
       } else {
         return nil

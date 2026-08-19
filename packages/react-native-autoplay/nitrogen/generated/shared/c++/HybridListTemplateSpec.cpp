@@ -16,6 +16,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     registerHybrids(this, [](Prototype& prototype) {
       prototype.registerHybridMethod("createListTemplate", &HybridListTemplateSpec::createListTemplate);
       prototype.registerHybridMethod("updateListTemplateSections", &HybridListTemplateSpec::updateListTemplateSections);
+      prototype.registerHybridMethod("updateListTemplateContent", &HybridListTemplateSpec::updateListTemplateContent);
       prototype.registerHybridMethod("updateListTemplatePlayingItem", &HybridListTemplateSpec::updateListTemplatePlayingItem);
       prototype.registerHybridMethod("completeListItemPress", &HybridListTemplateSpec::completeListItemPress);
     });

@@ -39,6 +39,7 @@ export { CarUxRestrictions } from './specs/AndroidAutomotive.nitro';
 export * from './templates/GridTemplate';
 export * from './templates/InformationTemplate';
 export * from './templates/ListTemplate';
+export * from './templates/ListTemplateDetailsHeader';
 export * from './templates/MapTemplate';
 export * from './templates/MessageTemplate';
 export * from './templates/NowPlayingTemplate';
