@@ -140,7 +140,7 @@ public extension NitroRow {
   var title: AutoText {
     return self.__title
   }
-
+  
   @inline(__always)
   var id: String? {
     return { () -> String? in
@@ -152,12 +152,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var detailedText: AutoText? {
     return self.__detailedText.value
   }
-
+  
   @inline(__always)
   var systemAccessoryImage: String? {
     return { () -> String? in
@@ -169,7 +169,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var browsable: Bool? {
     return { () -> Bool? in
@@ -181,12 +181,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var enabled: Bool {
     return self.__enabled
   }
-
+  
   @inline(__always)
   var image: Variant_GlyphImage_AssetImage_RemoteImage? {
     return { () -> Variant_GlyphImage_AssetImage_RemoteImage? in
@@ -213,7 +213,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var isPlaying: Bool? {
     return { () -> Bool? in
@@ -225,7 +225,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackDuration: Double? {
     return { () -> Double? in
@@ -237,7 +237,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackElapsedTime: Double? {
     return { () -> Double? in
@@ -249,7 +249,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playbackProgress: Double? {
     return { () -> Double? in
@@ -261,12 +261,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var playingIndicatorLocation: PlayingIndicatorLocation? {
     return self.__playingIndicatorLocation.value
   }
-
+  
   @inline(__always)
   var checked: Bool? {
     return { () -> Bool? in
@@ -278,7 +278,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)? {
     return { () -> ((_ checked: Bool?, _ completionId: String?) -> Void)? in
@@ -307,7 +307,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var selected: Bool? {
     return { () -> Bool? in
@@ -319,7 +319,7 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var imageRowItems: [NitroImageRowItem]? {
     return { () -> [NitroImageRowItem]? in
@@ -331,12 +331,12 @@ public extension NitroRow {
       }
     }()
   }
-
+  
   @inline(__always)
   var imageRowVariant: NitroImageRowVariant? {
     return self.__imageRowVariant.value
   }
-
+  
   @inline(__always)
   var imageRowAllowsMultipleLines: Bool? {
     return { () -> Bool? in

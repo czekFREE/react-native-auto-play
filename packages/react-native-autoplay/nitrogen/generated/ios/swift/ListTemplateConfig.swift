@@ -113,7 +113,7 @@ public extension ListTemplateConfig {
   var id: String {
     return String(self.__id)
   }
-
+  
   @inline(__always)
   var onWillAppear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -136,7 +136,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onWillDisappear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -159,7 +159,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onDidAppear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -182,7 +182,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onDidDisappear: ((_ animated: Bool?) -> Void)? {
     return { () -> ((_ animated: Bool?) -> Void)? in
@@ -205,7 +205,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var onPopped: (() -> Void)? {
     return { () -> (() -> Void)? in
@@ -222,7 +222,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var autoDismissMs: Double? {
     return { () -> Double? in
@@ -234,12 +234,12 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var detailsHeader: NitroListTemplateDetailsHeader? {
     return self.__detailsHeader.value
   }
-
+  
   @inline(__always)
   var headerActions: [NitroAction]? {
     return { () -> [NitroAction]? in
@@ -251,12 +251,12 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var title: AutoText {
     return self.__title
   }
-
+  
   @inline(__always)
   var sections: [NitroSection]? {
     return { () -> [NitroSection]? in
@@ -268,7 +268,7 @@ public extension ListTemplateConfig {
       }
     }()
   }
-
+  
   @inline(__always)
   var mapConfig: NitroBaseMapTemplateConfig? {
     return self.__mapConfig.value

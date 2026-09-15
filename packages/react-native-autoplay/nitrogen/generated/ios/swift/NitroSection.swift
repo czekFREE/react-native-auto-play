@@ -81,7 +81,7 @@ public extension NitroSection {
       }
     }()
   }
-
+  
   @inline(__always)
   var headerSubtitle: String? {
     return { () -> String? in
@@ -93,7 +93,7 @@ public extension NitroSection {
       }
     }()
   }
-
+  
   @inline(__always)
   var title: String? {
     return { () -> String? in
@@ -105,12 +105,12 @@ public extension NitroSection {
       }
     }()
   }
-
+  
   @inline(__always)
   var items: [NitroRow] {
     return self.__items.map({ __item in __item })
   }
-
+  
   @inline(__always)
   var type: NitroSectionType {
     return self.__type
