@@ -1,4 +1,4 @@
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 import { useSafeAreaInsets } from '../hooks/useSafeAreaInsets';
 
 export const SafeAreaView = (props: ViewProps) => {
@@ -10,7 +10,11 @@ export const SafeAreaView = (props: ViewProps) => {
       style={[
         style,
         {
-          ...StyleSheet.absoluteFillObject,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           paddingTop: safeAreaInsets.top,
           paddingBottom: safeAreaInsets.bottom,
           paddingRight: safeAreaInsets.right,
