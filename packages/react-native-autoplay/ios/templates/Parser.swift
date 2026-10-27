@@ -292,7 +292,8 @@ class Parser {
     static func parseSections(
         sections: [NitroSection]?,
         updateSection: @escaping (NitroSection, Int) -> Void,
-        traitCollection: UITraitCollection
+        traitCollection: UITraitCollection,
+        reusableListItem: (NitroRow, Int) -> (item: NitroRow, listItem: CPListItem)? = { _, _ in nil }
     ) -> [CPListSection] {
         guard let sections else { return [] }
 
@@ -310,16 +311,19 @@ class Parser {
                     )
                 }
 
-                let listItem = CPListItem(
-                    text: parseText(text: item.title),
-                    detailText: parseText(text: item.detailedText),
-                    image: nil,
-                    accessoryImage: nil,
-                    accessoryType: .none
-                )
+                let reusableItem = reusableListItem(item, sectionIndex)
+                let listItem =
+                    reusableItem?.listItem
+                    ?? CPListItem(
+                        text: parseText(text: item.title),
+                        detailText: parseText(text: item.detailedText),
+                        image: nil,
+                        accessoryImage: nil,
+                        accessoryType: .none
+                    )
 
                 configureListItem(
-                    currentItem: nil,
+                    currentItem: reusableItem?.item,
                     item: item,
                     itemIndex: itemIndex,
                     listItem: listItem,
@@ -1416,7 +1420,7 @@ class Parser {
                 let elapsedTime = item.playbackElapsedTime,
                 duration.isFinite,
                 elapsedTime.isFinite,
-                duration > 0
+                duration >= 0
             else {
                 listItem.playbackConfiguration = nil
                 return

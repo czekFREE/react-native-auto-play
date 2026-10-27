@@ -12,7 +12,11 @@ class ListTemplate: AutoPlayHeaderProviding {
     var config: ListTemplateConfig
 
     var sections: [NitroSection]?
+    private var renderedSections: [NitroSection]?
+    private var renderedSectionsTraitCollection: UITraitCollection?
     private var detailsHeader: NitroListTemplateDetailsHeader?
+    private var appliedDetailsHeaderSignature: String?
+    private var appliedDetailsHeaderTraitCollection: UITraitCollection?
     private var playingItemId: String?
 
     private static func createSectionsLogValue(sections: [NitroSection]?) -> String {
@@ -111,13 +115,25 @@ class ListTemplate: AutoPlayHeaderProviding {
             "[AutoPlay] native list template CPListTemplate.updateSections begin templateId=\(config.id), currentItems=\(template.itemCount), \(Self.createSectionsLogValue(sections: sections))"
         )
 
+        let reusableListItems = createReusableListItems(
+            traitCollection: traitCollection
+        )
         template.updateSections(
             Parser.parseSections(
                 sections: sections,
                 updateSection: self.updateSection(section:sectionIndex:),
-                traitCollection: traitCollection
+                traitCollection: traitCollection,
+                reusableListItem: { item, sectionIndex in
+                    guard let id = item.id,
+                        sectionIndex < reusableListItems.count
+                    else { return nil }
+
+                    return reusableListItems[sectionIndex][id]
+                }
             )
         )
+        renderedSections = sections
+        renderedSectionsTraitCollection = traitCollection
         applyDetailsHeader(traitCollection: traitCollection)
         applyPlayingItem()
 
@@ -167,10 +183,11 @@ class ListTemplate: AutoPlayHeaderProviding {
         // to a reused visible cell. Stable row ids let playback/image updates keep the existing
         // CPListItem instances and only mutate their display data.
         if Self.canUpdateRowsInPlace(
-            currentSections: self.sections,
+            currentSections: renderedSections,
             nextSections: sections
-        ), let currentSections = self.sections, let nextSections = sections,
+        ), let currentSections = renderedSections, let nextSections = sections,
             let traitCollection = SceneStore.getRootTraitCollection(),
+            renderedSectionsTraitCollection?.isEqual(traitCollection) == true,
             updateRowsInPlace(
                 currentSections: currentSections,
                 nextSections: nextSections,
@@ -178,6 +195,7 @@ class ListTemplate: AutoPlayHeaderProviding {
             )
         {
             self.sections = nextSections
+            renderedSections = nextSections
             applyPlayingItem()
             AutoPlayDevelopmentLogger.log(
                 "[AutoPlay] native list template rows updated in place templateId=\(config.id), \(Self.createSectionsLogValue(sections: sections))"
@@ -192,10 +210,55 @@ class ListTemplate: AutoPlayHeaderProviding {
     }
 
     @MainActor
+    private func createReusableListItems(
+        traitCollection: UITraitCollection
+    ) -> [[String: (item: NitroRow, listItem: CPListItem)]] {
+        guard let renderedSections, let sections,
+            renderedSections.count == template.sections.count,
+            renderedSectionsTraitCollection?.isEqual(traitCollection) == true
+        else { return [] }
+
+        return renderedSections.enumerated().map { sectionIndex, renderedSection in
+            guard sectionIndex < sections.count else { return [:] }
+            let nextSection = sections[sectionIndex]
+            guard renderedSection.type == nextSection.type,
+                Parser.listSectionHeaderContentSignature(section: renderedSection)
+                    == Parser.listSectionHeaderContentSignature(section: nextSection)
+            else { return [:] }
+
+            let previousItemsById = Dictionary(grouping: renderedSection.items, by: { $0.id })
+            let nextItemsById = Dictionary(grouping: nextSection.items, by: { $0.id })
+            let nativeItems = template.sections[sectionIndex].items
+            var reusableItems: [String: (item: NitroRow, listItem: CPListItem)] = [:]
+
+            for (itemIndex, item) in renderedSection.items.enumerated() {
+                guard let id = item.id, item.imageRowItems == nil,
+                    previousItemsById[id]?.count == 1,
+                    nextItemsById[id]?.count == 1,
+                    itemIndex < nativeItems.count,
+                    let listItem = nativeItems[itemIndex] as? CPListItem
+                else { continue }
+
+                reusableItems[id] = (item: item, listItem: listItem)
+            }
+
+            return reusableItems
+        }
+    }
+
+    @MainActor
     private func applyDetailsHeader(
         traitCollection: UITraitCollection
     ) {
         guard #available(iOS 26.4, *) else { return }
+
+        let signature = Parser.listTemplateDetailsHeaderContentSignature(
+            detailsHeader: detailsHeader
+        )
+        guard
+            appliedDetailsHeaderSignature != signature
+                || appliedDetailsHeaderTraitCollection?.isEqual(traitCollection) != true
+        else { return }
 
         template.listHeader = detailsHeader.map {
             Parser.parseListTemplateDetailsHeader(
@@ -203,6 +266,8 @@ class ListTemplate: AutoPlayHeaderProviding {
                 traitCollection: traitCollection
             )
         }
+        appliedDetailsHeaderSignature = signature
+        appliedDetailsHeaderTraitCollection = traitCollection
     }
 
     @MainActor
