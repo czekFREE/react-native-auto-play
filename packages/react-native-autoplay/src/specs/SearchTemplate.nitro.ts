@@ -8,6 +8,7 @@ export interface SearchTemplate extends HybridObject<{ android: 'kotlin'; ios: '
   createSearchTemplate(config: SearchTemplateConfig): void;
   updateSearchResults(
     templateId: string,
-    results: NitroSearchTemplateConfig['results']
+    results: NitroSearchTemplateConfig['results'],
+    searchText?: string,
   ): Promise<void>;
 }

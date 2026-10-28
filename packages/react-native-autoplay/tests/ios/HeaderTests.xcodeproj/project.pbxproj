@@ -41,6 +41,10 @@
 				A00000000000000000000015,
 				A00000000000000000000016,
 				A00000000000000000000017,
+				A00000000000000000000018,
+				A00000000000000000000019,
+				A0000000000000000000001A,
+				A0000000000000000000001B,
 				A00000000000000000000004
 			);
 			sourceTree = "<group>";
@@ -100,7 +104,11 @@
 				A0000000000000000000001E,
 				A0000000000000000000001F,
 				A00000000000000000000020,
-				A00000000000000000000021
+				A00000000000000000000021,
+				A00000000000000000000022,
+				A00000000000000000000023,
+				A00000000000000000000024,
+				A00000000000000000000025
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +178,46 @@
 		A00000000000000000000021 = {
 			isa = PBXBuildFile;
 			fileRef = A00000000000000000000017;
+		};
+		A00000000000000000000018 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/templates/SearchTemplate.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000022 = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000018;
+		};
+		A00000000000000000000019 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SearchTemplateTestSupport.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000023 = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000019;
+		};
+		A0000000000000000000001A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "__tests__/SearchTemplateTests.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000024 = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000001A;
+		};
+		A0000000000000000000001B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/templates/parseSearchResults.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000025 = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000001B;
 		};
 	};
 	rootObject = A00000000000000000000001;

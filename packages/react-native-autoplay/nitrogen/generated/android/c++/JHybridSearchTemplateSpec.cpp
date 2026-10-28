@@ -138,9 +138,9 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     static const auto method = _javaPart->javaClassStatic()->getMethod<void(jni::alias_ref<JSearchTemplateConfig> /* config */)>("createSearchTemplate");
     method(_javaPart, JSearchTemplateConfig::fromCpp(config));
   }
-  std::shared_ptr<Promise<void>> JHybridSearchTemplateSpec::updateSearchResults(const std::string& templateId, const NitroSection& results) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* templateId */, jni::alias_ref<JNitroSection> /* results */)>("updateSearchResults");
-    auto __result = method(_javaPart, jni::make_jstring(templateId), JNitroSection::fromCpp(results));
+  std::shared_ptr<Promise<void>> JHybridSearchTemplateSpec::updateSearchResults(const std::string& templateId, const NitroSection& results, const std::optional<std::string>& searchText) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* templateId */, jni::alias_ref<JNitroSection> /* results */, jni::alias_ref<jni::JString> /* searchText */)>("updateSearchResults");
+    auto __result = method(_javaPart, jni::make_jstring(templateId), JNitroSection::fromCpp(results), searchText.has_value() ? jni::make_jstring(searchText.value()) : nullptr);
     return [&]() {
       auto __promise = Promise<void>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& /* unit */) {

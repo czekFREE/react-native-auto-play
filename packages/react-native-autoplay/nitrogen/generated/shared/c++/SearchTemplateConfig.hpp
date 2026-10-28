@@ -60,6 +60,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     std::optional<std::vector<NitroAction>> headerActions     SWIFT_PRIVATE;
     AutoText title     SWIFT_PRIVATE;
     NitroSection results     SWIFT_PRIVATE;
+    std::optional<bool> automaticallyPushResults     SWIFT_PRIVATE;
     std::optional<std::string> initialSearchText     SWIFT_PRIVATE;
     std::optional<std::string> searchHint     SWIFT_PRIVATE;
     std::function<void(const std::string& /* searchText */)> onSearchTextChanged     SWIFT_PRIVATE;
@@ -67,7 +68,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     SearchTemplateConfig() = default;
-    explicit SearchTemplateConfig(std::string id, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillDisappear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidDisappear, std::optional<std::function<void()>> onPopped, std::optional<double> autoDismissMs, std::optional<std::vector<NitroAction>> headerActions, AutoText title, NitroSection results, std::optional<std::string> initialSearchText, std::optional<std::string> searchHint, std::function<void(const std::string& /* searchText */)> onSearchTextChanged, std::function<void(const std::string& /* searchText */)> onSearchTextSubmitted): id(id), onWillAppear(onWillAppear), onWillDisappear(onWillDisappear), onDidAppear(onDidAppear), onDidDisappear(onDidDisappear), onPopped(onPopped), autoDismissMs(autoDismissMs), headerActions(headerActions), title(title), results(results), initialSearchText(initialSearchText), searchHint(searchHint), onSearchTextChanged(onSearchTextChanged), onSearchTextSubmitted(onSearchTextSubmitted) {}
+    explicit SearchTemplateConfig(std::string id, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onWillDisappear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidAppear, std::optional<std::function<void(std::optional<bool> /* animated */)>> onDidDisappear, std::optional<std::function<void()>> onPopped, std::optional<double> autoDismissMs, std::optional<std::vector<NitroAction>> headerActions, AutoText title, NitroSection results, std::optional<bool> automaticallyPushResults, std::optional<std::string> initialSearchText, std::optional<std::string> searchHint, std::function<void(const std::string& /* searchText */)> onSearchTextChanged, std::function<void(const std::string& /* searchText */)> onSearchTextSubmitted): id(id), onWillAppear(onWillAppear), onWillDisappear(onWillDisappear), onDidAppear(onDidAppear), onDidDisappear(onDidDisappear), onPopped(onPopped), autoDismissMs(autoDismissMs), headerActions(headerActions), title(title), results(results), automaticallyPushResults(automaticallyPushResults), initialSearchText(initialSearchText), searchHint(searchHint), onSearchTextChanged(onSearchTextChanged), onSearchTextSubmitted(onSearchTextSubmitted) {}
 
   public:
     // SearchTemplateConfig is not equatable because these properties are not equatable: onWillAppear, onWillDisappear, onDidAppear, onDidDisappear, onPopped, headerActions, results, onSearchTextChanged, onSearchTextSubmitted
@@ -93,6 +94,7 @@ namespace margelo::nitro {
         JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerActions"))),
         JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
         JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "results"))),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "automaticallyPushResults"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "initialSearchText"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "searchHint"))),
         JSIConverter<std::function<void(const std::string&)>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onSearchTextChanged"))),
@@ -111,6 +113,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "headerActions"), JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::toJSI(runtime, arg.headerActions));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::toJSI(runtime, arg.title));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "results"), JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>::toJSI(runtime, arg.results));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "automaticallyPushResults"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.automaticallyPushResults));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "initialSearchText"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.initialSearchText));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "searchHint"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.searchHint));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "onSearchTextChanged"), JSIConverter<std::function<void(const std::string&)>>::toJSI(runtime, arg.onSearchTextChanged));
@@ -135,6 +138,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<std::vector<margelo::nitro::swe::iternio::reactnativeautoplay::NitroAction>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "headerActions")))) return false;
       if (!JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
       if (!JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::NitroSection>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "results")))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "automaticallyPushResults")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "initialSearchText")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "searchHint")))) return false;
       if (!JSIConverter<std::function<void(const std::string&)>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "onSearchTextChanged")))) return false;

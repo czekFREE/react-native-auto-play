@@ -10,6 +10,8 @@ struct NitroRow {
   var imageRowVariant: String? = nil
   var imageRowAllowsMultipleLines: Bool? = nil
   var onPress: (() -> Void)? = nil
+  var enabled = true
+  var imageUri: String? = nil
 }
 
 struct NitroSection {
@@ -36,7 +38,7 @@ struct ListTemplateConfig {
   var onPopped: (() -> Void)? = nil
 }
 
-class AutoPlayHeaderProviding {
+class AutoPlayHeaderProviding: NSObject {
   var autoDismissMs: Double? { nil }
   var barButtons: [String]?
   var deferInvalidation = false
@@ -56,7 +58,7 @@ class AutoPlayHeaderProviding {
 func setBarButtons(template: CPTemplate, barButtons: [String]?) {}
 
 enum SceneStore {
-  static var traitCollection = UITraitCollection(userInterfaceStyle: .light)
+  static var traitCollection: UITraitCollection? = UITraitCollection(userInterfaceStyle: .light)
   static func getRootTraitCollection() -> UITraitCollection? { traitCollection }
 }
 
@@ -155,6 +157,10 @@ enum Parser {
   ) {
     listItem.setText(item.title)
     listItem.userInfo = item.id
+    listItem.isEnabled = item.enabled
+    if let imageUri = item.imageUri {
+      SearchTestArtworkRequests.add(uri: imageUri, listItem: listItem)
+    }
     listItem.handler = { _, completion in
       item.onPress?()
       completion()

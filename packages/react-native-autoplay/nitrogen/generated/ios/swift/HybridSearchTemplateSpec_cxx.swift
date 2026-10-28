@@ -136,9 +136,16 @@ open class HybridSearchTemplateSpec_cxx {
   }
   
   @inline(__always)
-  public final func updateSearchResults(templateId: std.string, results: NitroSection) -> bridge.Result_std__shared_ptr_Promise_void___ {
+  public final func updateSearchResults(templateId: std.string, results: NitroSection, searchText: bridge.std__optional_std__string_) -> bridge.Result_std__shared_ptr_Promise_void___ {
     do {
-      let __result = try self.__implementation.updateSearchResults(templateId: String(templateId), results: results)
+      let __result = try self.__implementation.updateSearchResults(templateId: String(templateId), results: results, searchText: { () -> String? in
+        if bridge.has_value_std__optional_std__string_(searchText) {
+          let __unwrapped = bridge.get_std__optional_std__string_(searchText)
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }())
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
         let __promise = bridge.create_std__shared_ptr_Promise_void__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)

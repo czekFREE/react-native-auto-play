@@ -23,7 +23,7 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
     var completionHandler: (([CPListItem]) -> Void)?
     var pushedListTemplate: ListTemplate?
     var searchText = ""
-    var isInitialized = false
+    private var resultsSearchText = ""
 
     init(config: SearchTemplateConfig) {
         self.config = config
@@ -32,24 +32,43 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         template = CPSearchTemplate(id: config.id)
     }
 
-    func updateSearchResults(results: NitroSection) {
+    deinit {
+        completionHandler?([])
+    }
+
+    func updateSearchResults(results: NitroSection, searchText: String? = nil) {
+        if let searchText,
+            searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                != self.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        {
+            return
+        }
+
         self.results = results
+        resultsSearchText = self.searchText
+        guard SceneStore.getRootTraitCollection() != nil else {
+            completePendingSearch(items: [])
+            return
+        }
         invalidate()
     }
 
     @MainActor
     override func _invalidate() {
-        // if we have pushed a list template update it
         if let listTemplate = pushedListTemplate {
             listTemplate.updateSections(sections: [results])
         }
 
-        // otherwise update the search results on the search template
-        guard let completionHandler = self.completionHandler else {
+        guard completionHandler != nil else {
             return
         }
 
-        guard let traitCollection = SceneStore.getRootTraitCollection() else {
+        guard
+            resultsSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                == searchText.trimmingCharacters(in: .whitespacesAndNewlines),
+            let traitCollection = SceneStore.getRootTraitCollection()
+        else {
+            completePendingSearch(items: [])
             return
         }
 
@@ -57,9 +76,7 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
             section: results,
             traitCollection: traitCollection
         )
-        completionHandler(listItems)
-
-        self.completionHandler = nil
+        completePendingSearch(items: listItems)
     }
 
     override func onWillAppear(animated: Bool) {
@@ -73,15 +90,18 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
     }
 
     override func onWillDisappear(animated: Bool) {
+        completePendingSearch(items: [])
         config.onWillDisappear?(animated)
         template.delegate = nil
     }
 
     override func onDidDisappear(animated: Bool) {
+        completePendingSearch(items: [])
         config.onDidDisappear?(animated)
     }
 
     override func onPopped() {
+        completePendingSearch(items: [])
         config.onPopped?()
     }
 
@@ -92,25 +112,35 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         updatedSearchText searchText: String,
         completionHandler: @escaping ([CPListItem]) -> Void
     ) {
+        completePendingSearch(items: [])
+        let previousSearchText = self.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalizedSearchText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.searchText = searchText
         self.completionHandler = completionHandler
 
-        if !isInitialized {
-            // this makes sure we show the initial items when opening up the template
+        guard SceneStore.getRootTraitCollection() != nil else {
+            completePendingSearch(items: [])
+            if normalizedSearchText != previousSearchText {
+                config.onSearchTextChanged(searchText)
+            }
+            return
+        }
+
+        if pushedListTemplate != nil
+            || (normalizedSearchText == previousSearchText
+                && resultsSearchText.trimmingCharacters(in: .whitespacesAndNewlines) == normalizedSearchText)
+        {
             invalidate()
-            isInitialized = true
             return
         }
 
-        if searchText == self.searchText {
+        if normalizedSearchText == previousSearchText {
             return
         }
 
-        self.searchText = searchText
-
-        if pushedListTemplate != nil {
-            return
+        if normalizedSearchText.isEmpty {
+            completePendingSearch(items: [])
         }
-
         config.onSearchTextChanged(searchText)
     }
 
@@ -119,14 +149,26 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         selectedResult item: CPListItem,
         completionHandler: @escaping () -> Void
     ) {
-        item.handler?(item, completionHandler)
+        guard let handler = item.handler else {
+            completionHandler()
+            return
+        }
+        handler(item, completionHandler)
     }
 
     func searchTemplateSearchButtonPressed(
         _ searchTemplate: CPSearchTemplate
     ) {
+        completePendingSearch(items: [])
+        if config.automaticallyPushResults == false {
+            config.onSearchTextSubmitted(searchText)
+            return
+        }
 
-        // Create a new ListTemplate with the search results
+        guard pushedListTemplate == nil else {
+            return
+        }
+
         let listConfig = ListTemplateConfig(
             id: "\(config.id)-results",
             onWillAppear: nil,
@@ -148,7 +190,6 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         // execute callback after creating the template to avoid race condition in updateSearchResults
         config.onSearchTextSubmitted(searchText)
 
-        // Push the template
         Task { @MainActor in
             do {
                 try await RootModule.withSceneAndInterfaceController {
@@ -174,5 +215,11 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
                 )
             }
         }
+    }
+
+    private func completePendingSearch(items: [CPListItem]) {
+        let completionHandler = self.completionHandler
+        self.completionHandler = nil
+        completionHandler?(items)
     }
 }

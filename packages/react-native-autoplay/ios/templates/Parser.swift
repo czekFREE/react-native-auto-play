@@ -245,50 +245,6 @@ class Parser {
         }
     }
 
-    static func parseSearchResults(
-        section: NitroSection?,
-        traitCollection: UITraitCollection
-    ) -> [CPListItem] {
-        guard let section else { return [] }
-
-        return section.items.enumerated().map { (itemIndex, item) in
-            let accessoryImage = item.systemAccessoryImage.flatMap {
-                UIImage(systemName: $0)
-            }
-            let listItem = CPListItem(
-                text: parseText(text: item.title),
-                detailText: parseText(text: item.detailedText),
-                image: Parser.parseNitroImage(
-                    image: item.image,
-                    traitCollection: traitCollection
-                ),
-                accessoryImage: accessoryImage,
-                accessoryType: item.browsable == true && accessoryImage == nil
-                    ? .disclosureIndicator : .none
-            )
-
-            listItem.isPlaying = item.isPlaying ?? false
-            configureListItemPlayback(item: item, listItem: listItem)
-            listItem.playingIndicatorLocation =
-                item.playingIndicatorLocation == .trailing
-                ? .trailing : .leading
-
-            listItem.handler = { _, completionHandler in
-                guard let onPress = item.onPress else {
-                    completionHandler()
-                    return
-                }
-
-                onPress(
-                    nil,
-                    ListItemPressCompletionStore.add(completionHandler)
-                )
-            }
-
-            return listItem
-        }
-    }
-
     static func parseSections(
         sections: [NitroSection]?,
         updateSection: @escaping (NitroSection, Int) -> Void,

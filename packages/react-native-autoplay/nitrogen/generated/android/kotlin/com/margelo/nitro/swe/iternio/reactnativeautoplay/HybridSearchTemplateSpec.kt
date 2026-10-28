@@ -35,7 +35,7 @@ abstract class HybridSearchTemplateSpec: HybridObject() {
   
   @DoNotStrip
   @Keep
-  abstract fun updateSearchResults(templateId: String, results: NitroSection): Promise<Unit>
+  abstract fun updateSearchResults(templateId: String, results: NitroSection, searchText: String?): Promise<Unit>
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

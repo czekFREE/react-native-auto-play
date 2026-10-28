@@ -133,8 +133,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
         std::rethrow_exception(__result.error());
       }
     }
-    inline std::shared_ptr<Promise<void>> updateSearchResults(const std::string& templateId, const NitroSection& results) override {
-      auto __result = _swiftPart.updateSearchResults(templateId, std::forward<decltype(results)>(results));
+    inline std::shared_ptr<Promise<void>> updateSearchResults(const std::string& templateId, const NitroSection& results, const std::optional<std::string>& searchText) override {
+      auto __result = _swiftPart.updateSearchResults(templateId, std::forward<decltype(results)>(results), searchText);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

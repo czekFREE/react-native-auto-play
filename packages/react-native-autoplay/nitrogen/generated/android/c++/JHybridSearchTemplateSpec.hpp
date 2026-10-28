@@ -55,7 +55,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   public:
     // Methods
     void createSearchTemplate(const SearchTemplateConfig& config) override;
-    std::shared_ptr<Promise<void>> updateSearchResults(const std::string& templateId, const NitroSection& results) override;
+    std::shared_ptr<Promise<void>> updateSearchResults(const std::string& templateId, const NitroSection& results, const std::optional<std::string>& searchText) override;
 
   private:
     jni::global_ref<JHybridSearchTemplateSpec::JavaPart> _javaPart;

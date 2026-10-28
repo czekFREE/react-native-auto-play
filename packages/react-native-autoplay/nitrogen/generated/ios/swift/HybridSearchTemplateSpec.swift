@@ -14,7 +14,7 @@ public protocol HybridSearchTemplateSpec_protocol: HybridObject {
 
   // Methods
   func createSearchTemplate(config: SearchTemplateConfig) throws -> Void
-  func updateSearchResults(templateId: String, results: NitroSection) throws -> Promise<Void>
+  func updateSearchResults(templateId: String, results: NitroSection, searchText: String?) throws -> Promise<Void>
 }
 
 public extension HybridSearchTemplateSpec_protocol {

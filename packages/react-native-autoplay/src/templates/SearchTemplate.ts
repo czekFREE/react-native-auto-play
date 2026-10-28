@@ -23,6 +23,12 @@ export interface NitroSearchTemplateConfig extends TemplateConfig {
   title: AutoText;
   results: NitroSection;
   /**
+   * Push a native results list on submission. Set to false when the application owns result navigation.
+   * Defaults to true on iOS. Android already delegates result navigation to the application.
+   * @namespace iOS
+   */
+  automaticallyPushResults?: boolean;
+  /**
    * Text that is put into the searchbar as initial value
    * @namespace Android
    */
@@ -86,13 +92,15 @@ export class SearchTemplate extends Template<SearchTemplateConfig, HeaderActions
     HybridSearchTemplate.createSearchTemplate(nitroConfig);
   }
 
-  public updateSearchResults(results?: SingleSection<SearchTemplate>) {
+  /** On iOS, associate async results with their query to discard updates for an older search. */
+  public updateSearchResults(results?: SingleSection<SearchTemplate>, searchText?: string) {
     return HybridSearchTemplate.updateSearchResults(
       this.id,
       NitroSectionUtil.convert(this.template, results)?.at(0) ?? {
         items: [],
         type: 'default',
-      }
+      },
+      searchText,
     );
   }
 }
