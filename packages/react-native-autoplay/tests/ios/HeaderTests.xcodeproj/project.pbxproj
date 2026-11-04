@@ -45,6 +45,8 @@
 				A00000000000000000000019,
 				A0000000000000000000001A,
 				A0000000000000000000001B,
+				A0000000000000000000001C,
+				A0000000000000000000001D,
 				A00000000000000000000004
 			);
 			sourceTree = "<group>";
@@ -108,7 +110,9 @@
 				A00000000000000000000022,
 				A00000000000000000000023,
 				A00000000000000000000024,
-				A00000000000000000000025
+				A00000000000000000000025,
+				A00000000000000000000026,
+				A00000000000000000000027
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +222,26 @@
 		A00000000000000000000025 = {
 			isa = PBXBuildFile;
 			fileRef = A0000000000000000000001B;
+		};
+		A0000000000000000000001C = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/templates/configurePlaybackConfiguration.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000026 = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000001C;
+		};
+		A0000000000000000000001D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "__tests__/PlaybackConfigurationTests.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000027 = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000001D;
 		};
 	};
 	rootObject = A00000000000000000000001;

@@ -218,18 +218,27 @@ class ListTemplate: AutoPlayHeaderProviding {
             renderedSectionsTraitCollection?.isEqual(traitCollection) == true
         else { return [] }
 
-        return renderedSections.enumerated().map { sectionIndex, renderedSection in
-            guard sectionIndex < sections.count else { return [:] }
-            let nextSection = sections[sectionIndex]
-            guard renderedSection.type == nextSection.type,
-                Parser.listSectionHeaderContentSignature(section: renderedSection)
-                    == Parser.listSectionHeaderContentSignature(section: nextSection)
-            else { return [:] }
+        var reusedSectionIndices = Set<Int>()
+        var reusableItems = sections.enumerated().map {
+            nextSectionIndex,
+            nextSection -> [String: (item: NitroRow, listItem: CPListItem)] in
+            let matchingSections = renderedSections.indices.filter { sectionIndex in
+                let previousSection = renderedSections[sectionIndex]
+                return previousSection.type == nextSection.type
+                    && Parser.listSectionHeaderContentSignature(section: previousSection)
+                        == Parser.listSectionHeaderContentSignature(section: nextSection)
+            }
+            let sectionIndex =
+                matchingSections.contains(nextSectionIndex)
+                ? nextSectionIndex
+                : matchingSections.count == 1 ? matchingSections.first : nil
+            guard let sectionIndex, reusedSectionIndices.insert(sectionIndex).inserted else { return [:] }
+            let renderedSection = renderedSections[sectionIndex]
 
             let previousItemsById = Dictionary(grouping: renderedSection.items, by: { $0.id })
             let nextItemsById = Dictionary(grouping: nextSection.items, by: { $0.id })
             let nativeItems = template.sections[sectionIndex].items
-            var reusableItems: [String: (item: NitroRow, listItem: CPListItem)] = [:]
+            var rowsById: [String: (item: NitroRow, listItem: CPListItem)] = [:]
 
             for (itemIndex, item) in renderedSection.items.enumerated() {
                 guard let id = item.id, item.imageRowItems == nil,
@@ -239,11 +248,54 @@ class ListTemplate: AutoPlayHeaderProviding {
                     let listItem = nativeItems[itemIndex] as? CPListItem
                 else { continue }
 
-                reusableItems[id] = (item: item, listItem: listItem)
+                rowsById[id] = (item: item, listItem: listItem)
             }
 
-            return reusableItems
+            return rowsById
         }
+
+        let previousRows = renderedSections.enumerated().flatMap { sectionIndex, section in
+            section.items.enumerated().map { itemIndex, item in
+                (sectionIndex: sectionIndex, itemIndex: itemIndex, item: item)
+            }
+        }
+        let paginationRows = previousRows.filter { $0.item.isPaginationItem == true }
+        guard paginationRows.count == 1, let pagination = paginationRows.first,
+            let paginationId = pagination.item.id,
+            pagination.itemIndex < template.sections[pagination.sectionIndex].items.count,
+            let paginationItem = template.sections[pagination.sectionIndex].items[pagination.itemIndex] as? CPListItem
+        else { return reusableItems }
+
+        let nextRows = sections.enumerated().flatMap { sectionIndex, section in
+            section.items.map { (sectionIndex: sectionIndex, item: $0) }
+        }
+        let previousIds = previousRows.compactMap { $0.item.id }
+        let nextIds = nextRows.compactMap { $0.item.id }
+        let previousIdSet = Set(previousIds)
+        guard previousIdSet.count == previousIds.count, Set(nextIds).count == nextIds.count,
+            nextIds.filter({ previousIdSet.contains($0) && $0 != paginationId })
+                == previousIds.filter({ $0 != paginationId }),
+            previousRows.allSatisfy({ previousRow in
+                guard let id = previousRow.item.id, id != paginationId else { return true }
+                guard let nextRow = nextRows.first(where: { $0.item.id == id }) else { return false }
+                return Parser.listSectionHeaderContentSignature(section: renderedSections[previousRow.sectionIndex])
+                    == Parser.listSectionHeaderContentSignature(section: sections[nextRow.sectionIndex])
+            }),
+            let firstNewRow = nextRows.first(where: { row in
+                guard let id = row.item.id else { return false }
+                return !previousIdSet.contains(id) && row.item.isPaginationItem != true
+                    && row.item.imageRowItems == nil && row.item.enabled && row.item.onPress != nil
+            }),
+            let firstNewId = firstNewRow.item.id
+        else { return reusableItems }
+
+        // CarPlay has no public focus setter. Keeping this native object lets the
+        // selected pagination control become the first appended content item.
+        for sectionIndex in reusableItems.indices {
+            reusableItems[sectionIndex].removeValue(forKey: paginationId)
+        }
+        reusableItems[firstNewRow.sectionIndex][firstNewId] = (pagination.item, paginationItem)
+        return reusableItems
     }
 
     @MainActor

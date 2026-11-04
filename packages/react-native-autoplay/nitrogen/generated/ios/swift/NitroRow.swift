@@ -18,10 +18,16 @@ public extension NitroRow {
   /**
    * Create a new instance of `NitroRow`.
    */
-  init(title: AutoText, id: String?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)?, selected: Bool?, imageRowItems: [NitroImageRowItem]?, imageRowVariant: NitroImageRowVariant?, imageRowAllowsMultipleLines: Bool?) {
+  init(title: AutoText, id: String?, isPaginationItem: Bool?, detailedText: AutoText?, systemAccessoryImage: String?, browsable: Bool?, enabled: Bool, image: Variant_GlyphImage_AssetImage_RemoteImage?, isPlaying: Bool?, playbackDuration: Double?, playbackElapsedTime: Double?, playbackProgress: Double?, playingIndicatorLocation: PlayingIndicatorLocation?, checked: Bool?, onPress: ((_ checked: Bool?, _ completionId: String?) -> Void)?, selected: Bool?, imageRowItems: [NitroImageRowItem]?, imageRowVariant: NitroImageRowVariant?, imageRowAllowsMultipleLines: Bool?) {
     self.init(title, { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = id {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = isPaginationItem {
+        return bridge.create_std__optional_bool_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -153,6 +159,17 @@ public extension NitroRow {
     }()
   }
   
+  @inline(__always)
+  var isPaginationItem: Bool? {
+    return { () -> Bool? in
+      if bridge.has_value_std__optional_bool_(self.__isPaginationItem) {
+        let __unwrapped = bridge.get_std__optional_bool_(self.__isPaginationItem)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
   @inline(__always)
   var detailedText: AutoText? {
     return self.__detailedText.value

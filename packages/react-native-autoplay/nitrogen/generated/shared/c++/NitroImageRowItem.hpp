@@ -56,8 +56,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
    */
   struct NitroImageRowItem final {
   public:
+    std::optional<std::string> id     SWIFT_PRIVATE;
     std::optional<std::string> title     SWIFT_PRIVATE;
     std::optional<std::string> subtitle     SWIFT_PRIVATE;
+    std::optional<double> playbackDuration     SWIFT_PRIVATE;
+    std::optional<double> playbackElapsedTime     SWIFT_PRIVATE;
     std::variant<GlyphImage, AssetImage, RemoteImage> image     SWIFT_PRIVATE;
     bool enabled     SWIFT_PRIVATE;
     std::optional<bool> showsImageFullHeight     SWIFT_PRIVATE;
@@ -69,7 +72,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     NitroImageRowItem() = default;
-    explicit NitroImageRowItem(std::optional<std::string> title, std::optional<std::string> subtitle, std::variant<GlyphImage, AssetImage, RemoteImage> image, bool enabled, std::optional<bool> showsImageFullHeight, std::optional<NitroColor> tintColor, std::optional<NitroImageRowElementShape> imageShape, std::optional<std::string> accessorySystemImage, std::optional<std::string> accessibilityLabel, std::optional<std::function<void(const std::optional<std::string>& /* completionId */)>> onPress): title(title), subtitle(subtitle), image(image), enabled(enabled), showsImageFullHeight(showsImageFullHeight), tintColor(tintColor), imageShape(imageShape), accessorySystemImage(accessorySystemImage), accessibilityLabel(accessibilityLabel), onPress(onPress) {}
+    explicit NitroImageRowItem(std::optional<std::string> id, std::optional<std::string> title, std::optional<std::string> subtitle, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::variant<GlyphImage, AssetImage, RemoteImage> image, bool enabled, std::optional<bool> showsImageFullHeight, std::optional<NitroColor> tintColor, std::optional<NitroImageRowElementShape> imageShape, std::optional<std::string> accessorySystemImage, std::optional<std::string> accessibilityLabel, std::optional<std::function<void(const std::optional<std::string>& /* completionId */)>> onPress): id(id), title(title), subtitle(subtitle), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), image(image), enabled(enabled), showsImageFullHeight(showsImageFullHeight), tintColor(tintColor), imageShape(imageShape), accessorySystemImage(accessorySystemImage), accessibilityLabel(accessibilityLabel), onPress(onPress) {}
 
   public:
     // NitroImageRowItem is not equatable because these properties are not equatable: onPress
@@ -85,8 +88,11 @@ namespace margelo::nitro {
     static inline margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem(
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "id"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "subtitle"))),
+        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration"))),
+        JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime"))),
         JSIConverter<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image"))),
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "showsImageFullHeight"))),
@@ -99,8 +105,11 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::swe::iternio::reactnativeautoplay::NitroImageRowItem& arg) {
       jsi::Object obj(runtime);
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "id"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.id));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.title));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "subtitle"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.subtitle));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.playbackDuration));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime"), JSIConverter<std::optional<double>>::toJSI(runtime, arg.playbackElapsedTime));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "image"), JSIConverter<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>::toJSI(runtime, arg.image));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "enabled"), JSIConverter<bool>::toJSI(runtime, arg.enabled));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "showsImageFullHeight"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.showsImageFullHeight));
@@ -119,8 +128,11 @@ namespace margelo::nitro {
       if (!nitro::isPlainObject(runtime, obj)) {
         return false;
       }
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "id")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "subtitle")))) return false;
+      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackDuration")))) return false;
+      if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "playbackElapsedTime")))) return false;
       if (!JSIConverter<std::variant<margelo::nitro::swe::iternio::reactnativeautoplay::GlyphImage, margelo::nitro::swe::iternio::reactnativeautoplay::AssetImage, margelo::nitro::swe::iternio::reactnativeautoplay::RemoteImage>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "image")))) return false;
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "enabled")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "showsImageFullHeight")))) return false;

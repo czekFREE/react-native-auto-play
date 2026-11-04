@@ -12,6 +12,7 @@ struct NitroRow {
   var onPress: (() -> Void)? = nil
   var enabled = true
   var imageUri: String? = nil
+  var isPaginationItem: Bool? = nil
 }
 
 struct NitroSection {

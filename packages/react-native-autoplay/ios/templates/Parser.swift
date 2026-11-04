@@ -668,6 +668,7 @@ class Parser {
     }
 
     private typealias ParsedImageRowItem = (
+        id: String?,
         accessibilityLabel: String?,
         accessorySystemImage: String?,
         enabled: Bool,
@@ -675,6 +676,8 @@ class Parser {
         imageShape: NitroImageRowElementShape?,
         maximumImageSize: CGSize,
         onPress: ((String?) -> Void)?,
+        playbackDuration: Double?,
+        playbackElapsedTime: Double?,
         showsImageFullHeight: Bool,
         subtitle: String?,
         tintColor: NitroColor?,
@@ -742,6 +745,7 @@ class Parser {
 
             parsedItems.append(
                 (
+                    id: imageRowItem.id,
                     accessibilityLabel: imageRowItem.accessibilityLabel,
                     accessorySystemImage: imageRowItem.accessorySystemImage,
                     enabled: imageRowItem.enabled,
@@ -749,6 +753,8 @@ class Parser {
                     imageShape: imageRowItem.imageShape,
                     maximumImageSize: maximumImageSize,
                     onPress: imageRowItem.onPress,
+                    playbackDuration: imageRowItem.playbackDuration,
+                    playbackElapsedTime: imageRowItem.playbackElapsedTime,
                     showsImageFullHeight: imageRowItem.showsImageFullHeight
                         ?? false,
                     subtitle: imageRowItem.subtitle,
@@ -856,6 +862,7 @@ class Parser {
             imageRowItem.showsImageFullHeight == true ? "true" : "false"
 
         return [
+            imageRowItem.id ?? "",
             imageRowItem.title ?? "",
             imageRowItem.subtitle ?? "",
             imageSignature(image: imageRowItem.image),
@@ -1156,6 +1163,11 @@ class Parser {
         element.isEnabled = parsedItem.enabled
         if #available(iOS 26.4, *) {
             element.accessibilityLabel = parsedItem.accessibilityLabel
+            configurePlaybackConfiguration(
+                item: element,
+                duration: parsedItem.playbackDuration,
+                elapsedTime: parsedItem.playbackElapsedTime
+            )
         }
     }
 
@@ -1322,6 +1334,7 @@ class Parser {
                     return NitroRow(
                         title: row.title,
                         id: row.id,
+                        isPaginationItem: row.isPaginationItem,
                         detailedText: row.detailedText,
                         systemAccessoryImage: row.systemAccessoryImage,
                         browsable: row.browsable,
@@ -1372,28 +1385,10 @@ class Parser {
         listItem.playbackProgress = CGFloat(item.playbackProgress ?? 0)
 
         if #available(iOS 26.4, *) {
-            guard let duration = item.playbackDuration,
-                let elapsedTime = item.playbackElapsedTime,
-                duration.isFinite,
-                elapsedTime.isFinite,
-                duration >= 0
-            else {
-                listItem.playbackConfiguration = nil
-                return
-            }
-
-            let clampedElapsedTime = min(max(elapsedTime, 0), duration)
-            listItem.playbackConfiguration = CPPlaybackConfiguration(
-                preferredPresentation: .audio,
-                playbackAction: .play,
-                elapsedTime: CMTime(
-                    seconds: clampedElapsedTime,
-                    preferredTimescale: 1_000
-                ),
-                duration: CMTime(
-                    seconds: duration,
-                    preferredTimescale: 1_000
-                )
+            configurePlaybackConfiguration(
+                item: listItem,
+                duration: item.playbackDuration,
+                elapsedTime: item.playbackElapsedTime
             )
         }
     }

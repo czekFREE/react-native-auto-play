@@ -66,6 +66,8 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       jni::local_ref<JAutoText> title = this->getFieldValue(fieldTitle);
       static const auto fieldId = clazz->getField<jni::JString>("id");
       jni::local_ref<jni::JString> id = this->getFieldValue(fieldId);
+      static const auto fieldIsPaginationItem = clazz->getField<jni::JBoolean>("isPaginationItem");
+      jni::local_ref<jni::JBoolean> isPaginationItem = this->getFieldValue(fieldIsPaginationItem);
       static const auto fieldDetailedText = clazz->getField<JAutoText>("detailedText");
       jni::local_ref<JAutoText> detailedText = this->getFieldValue(fieldDetailedText);
       static const auto fieldSystemAccessoryImage = clazz->getField<jni::JString>("systemAccessoryImage");
@@ -101,6 +103,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       return NitroRow(
         title->toCpp(),
         id != nullptr ? std::make_optional(id->toStdString()) : std::nullopt,
+        isPaginationItem != nullptr ? std::make_optional(static_cast<bool>(isPaginationItem->value())) : std::nullopt,
         detailedText != nullptr ? std::make_optional(detailedText->toCpp()) : std::nullopt,
         systemAccessoryImage != nullptr ? std::make_optional(systemAccessoryImage->toStdString()) : std::nullopt,
         browsable != nullptr ? std::make_optional(static_cast<bool>(browsable->value())) : std::nullopt,
@@ -143,13 +146,14 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroRow::javaobject> fromCpp(const NitroRow& value) {
-      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JArrayClass<JNitroImageRowItem>>, jni::alias_ref<JNitroImageRowVariant>, jni::alias_ref<jni::JBoolean>);
+      using JSignature = JNitroRow(jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JAutoText>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jboolean, jni::alias_ref<JVariant_GlyphImage_AssetImage_RemoteImage>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JPlayingIndicatorLocation>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JFunc_void_std__optional_bool__std__optional_std__string_::javaobject>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JArrayClass<JNitroImageRowItem>>, jni::alias_ref<JNitroImageRowVariant>, jni::alias_ref<jni::JBoolean>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         JAutoText::fromCpp(value.title),
         value.id.has_value() ? jni::make_jstring(value.id.value()) : nullptr,
+        value.isPaginationItem.has_value() ? jni::JBoolean::valueOf(value.isPaginationItem.value()) : nullptr,
         value.detailedText.has_value() ? JAutoText::fromCpp(value.detailedText.value()) : nullptr,
         value.systemAccessoryImage.has_value() ? jni::make_jstring(value.systemAccessoryImage.value()) : nullptr,
         value.browsable.has_value() ? jni::JBoolean::valueOf(value.browsable.value()) : nullptr,

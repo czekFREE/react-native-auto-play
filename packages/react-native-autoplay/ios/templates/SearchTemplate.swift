@@ -118,6 +118,11 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         self.searchText = searchText
         self.completionHandler = completionHandler
 
+        if normalizedSearchText.isEmpty {
+            results = config.results
+            resultsSearchText = self.searchText
+        }
+
         guard SceneStore.getRootTraitCollection() != nil else {
             completePendingSearch(items: [])
             if normalizedSearchText != previousSearchText {
@@ -139,7 +144,7 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         }
 
         if normalizedSearchText.isEmpty {
-            completePendingSearch(items: [])
+            invalidate()
         }
         config.onSearchTextChanged(searchText)
     }

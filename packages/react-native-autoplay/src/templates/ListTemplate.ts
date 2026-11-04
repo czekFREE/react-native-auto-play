@@ -31,6 +31,8 @@ type BaseRow = {
 
 export type DefaultRow<T> = BaseRow & {
   type: 'default';
+  /** Keeps a pagination control's native identity on the first appended result on iOS. */
+  isPaginationItem?: boolean;
   /**
    * Displays an SF Symbol in the trailing region of a CarPlay row.
    * @namespace ios
@@ -62,9 +64,13 @@ export type TextRow = BaseRow & {
 };
 
 type BaseImageRowItem<T> = {
+  id?: string;
   image: AutoImage;
   title?: AutoText;
   subtitle?: AutoText;
+  /** Native audio presentation on iOS 26.4+ requires both playback times, in seconds. */
+  playbackDuration?: number;
+  playbackElapsedTime?: number;
   /** Spoken label for image-only content on iOS 26.4 and newer. */
   accessibilityLabel?: string;
   enabled?: boolean;
@@ -207,7 +213,7 @@ export class ListTemplate extends Template<ListTemplateConfig, HeaderActions<Lis
   public updateSections(sections?: Section<ListTemplate>) {
     return HybridListTemplate.updateListTemplateSections(
       this.id,
-      NitroSectionUtil.convert(this.template, sections)
+      NitroSectionUtil.convert(this.template, sections),
     );
   }
 
@@ -221,7 +227,7 @@ export class ListTemplate extends Template<ListTemplateConfig, HeaderActions<Lis
     return HybridListTemplate.updateListTemplateContent(
       this.id,
       NitroSectionUtil.convert(this.template, sections),
-      ListTemplateDetailsHeaderUtil.convert(this.template, detailsHeader)
+      ListTemplateDetailsHeaderUtil.convert(this.template, detailsHeader),
     );
   }
 

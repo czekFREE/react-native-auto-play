@@ -47,10 +47,16 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
     [[nodiscard]]
     NitroImageRowItem toCpp() const {
       static const auto clazz = javaClassStatic();
+      static const auto fieldId = clazz->getField<jni::JString>("id");
+      jni::local_ref<jni::JString> id = this->getFieldValue(fieldId);
       static const auto fieldTitle = clazz->getField<jni::JString>("title");
       jni::local_ref<jni::JString> title = this->getFieldValue(fieldTitle);
       static const auto fieldSubtitle = clazz->getField<jni::JString>("subtitle");
       jni::local_ref<jni::JString> subtitle = this->getFieldValue(fieldSubtitle);
+      static const auto fieldPlaybackDuration = clazz->getField<jni::JDouble>("playbackDuration");
+      jni::local_ref<jni::JDouble> playbackDuration = this->getFieldValue(fieldPlaybackDuration);
+      static const auto fieldPlaybackElapsedTime = clazz->getField<jni::JDouble>("playbackElapsedTime");
+      jni::local_ref<jni::JDouble> playbackElapsedTime = this->getFieldValue(fieldPlaybackElapsedTime);
       static const auto fieldImage = clazz->getField<JNitroImage>("image");
       jni::local_ref<JNitroImage> image = this->getFieldValue(fieldImage);
       static const auto fieldEnabled = clazz->getField<jboolean>("enabled");
@@ -68,8 +74,11 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
       static const auto fieldOnPress = clazz->getField<JFunc_void_std__optional_std__string_::javaobject>("onPress");
       jni::local_ref<JFunc_void_std__optional_std__string_::javaobject> onPress = this->getFieldValue(fieldOnPress);
       return NitroImageRowItem(
+        id != nullptr ? std::make_optional(id->toStdString()) : std::nullopt,
         title != nullptr ? std::make_optional(title->toStdString()) : std::nullopt,
         subtitle != nullptr ? std::make_optional(subtitle->toStdString()) : std::nullopt,
+        playbackDuration != nullptr ? std::make_optional(playbackDuration->value()) : std::nullopt,
+        playbackElapsedTime != nullptr ? std::make_optional(playbackElapsedTime->value()) : std::nullopt,
         image->toCpp(),
         static_cast<bool>(enabled),
         showsImageFullHeight != nullptr ? std::make_optional(static_cast<bool>(showsImageFullHeight->value())) : std::nullopt,
@@ -95,13 +104,16 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
      */
     [[maybe_unused]]
     static jni::local_ref<JNitroImageRowItem::javaobject> fromCpp(const NitroImageRowItem& value) {
-      using JSignature = JNitroImageRowItem(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<JNitroImage>, jboolean, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JNitroColor>, jni::alias_ref<JNitroImageRowElementShape>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<JFunc_void_std__optional_std__string_::javaobject>);
+      using JSignature = JNitroImageRowItem(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JDouble>, jni::alias_ref<jni::JDouble>, jni::alias_ref<JNitroImage>, jboolean, jni::alias_ref<jni::JBoolean>, jni::alias_ref<JNitroColor>, jni::alias_ref<JNitroImageRowElementShape>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<JFunc_void_std__optional_std__string_::javaobject>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
+        value.id.has_value() ? jni::make_jstring(value.id.value()) : nullptr,
         value.title.has_value() ? jni::make_jstring(value.title.value()) : nullptr,
         value.subtitle.has_value() ? jni::make_jstring(value.subtitle.value()) : nullptr,
+        value.playbackDuration.has_value() ? jni::JDouble::valueOf(value.playbackDuration.value()) : nullptr,
+        value.playbackElapsedTime.has_value() ? jni::JDouble::valueOf(value.playbackElapsedTime.value()) : nullptr,
         JNitroImage::fromCpp(value.image),
         value.enabled,
         value.showsImageFullHeight.has_value() ? jni::JBoolean::valueOf(value.showsImageFullHeight.value()) : nullptr,

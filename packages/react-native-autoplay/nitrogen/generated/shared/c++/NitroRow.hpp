@@ -65,6 +65,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
   public:
     AutoText title     SWIFT_PRIVATE;
     std::optional<std::string> id     SWIFT_PRIVATE;
+    std::optional<bool> isPaginationItem     SWIFT_PRIVATE;
     std::optional<AutoText> detailedText     SWIFT_PRIVATE;
     std::optional<std::string> systemAccessoryImage     SWIFT_PRIVATE;
     std::optional<bool> browsable     SWIFT_PRIVATE;
@@ -84,7 +85,7 @@ namespace margelo::nitro::swe::iternio::reactnativeautoplay {
 
   public:
     NitroRow() = default;
-    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<AutoText> detailedText, std::optional<std::string> systemAccessoryImage, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::optional<double> playbackProgress, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> onPress, std::optional<bool> selected, std::optional<std::vector<NitroImageRowItem>> imageRowItems, std::optional<NitroImageRowVariant> imageRowVariant, std::optional<bool> imageRowAllowsMultipleLines): title(title), id(id), detailedText(detailedText), systemAccessoryImage(systemAccessoryImage), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), playbackProgress(playbackProgress), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected), imageRowItems(imageRowItems), imageRowVariant(imageRowVariant), imageRowAllowsMultipleLines(imageRowAllowsMultipleLines) {}
+    explicit NitroRow(AutoText title, std::optional<std::string> id, std::optional<bool> isPaginationItem, std::optional<AutoText> detailedText, std::optional<std::string> systemAccessoryImage, std::optional<bool> browsable, bool enabled, std::optional<std::variant<GlyphImage, AssetImage, RemoteImage>> image, std::optional<bool> isPlaying, std::optional<double> playbackDuration, std::optional<double> playbackElapsedTime, std::optional<double> playbackProgress, std::optional<PlayingIndicatorLocation> playingIndicatorLocation, std::optional<bool> checked, std::optional<std::function<void(std::optional<bool> /* checked */, const std::optional<std::string>& /* completionId */)>> onPress, std::optional<bool> selected, std::optional<std::vector<NitroImageRowItem>> imageRowItems, std::optional<NitroImageRowVariant> imageRowVariant, std::optional<bool> imageRowAllowsMultipleLines): title(title), id(id), isPaginationItem(isPaginationItem), detailedText(detailedText), systemAccessoryImage(systemAccessoryImage), browsable(browsable), enabled(enabled), image(image), isPlaying(isPlaying), playbackDuration(playbackDuration), playbackElapsedTime(playbackElapsedTime), playbackProgress(playbackProgress), playingIndicatorLocation(playingIndicatorLocation), checked(checked), onPress(onPress), selected(selected), imageRowItems(imageRowItems), imageRowVariant(imageRowVariant), imageRowAllowsMultipleLines(imageRowAllowsMultipleLines) {}
 
   public:
     // NitroRow is not equatable because these properties are not equatable: onPress, imageRowItems
@@ -102,6 +103,7 @@ namespace margelo::nitro {
       return margelo::nitro::swe::iternio::reactnativeautoplay::NitroRow(
         JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "id"))),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPaginationItem"))),
         JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "detailedText"))),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "systemAccessoryImage"))),
         JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "browsable"))),
@@ -124,6 +126,7 @@ namespace margelo::nitro {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::toJSI(runtime, arg.title));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "id"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.id));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "isPaginationItem"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.isPaginationItem));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "detailedText"), JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>>::toJSI(runtime, arg.detailedText));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "systemAccessoryImage"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.systemAccessoryImage));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "browsable"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.browsable));
@@ -152,6 +155,7 @@ namespace margelo::nitro {
       }
       if (!JSIConverter<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "id")))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isPaginationItem")))) return false;
       if (!JSIConverter<std::optional<margelo::nitro::swe::iternio::reactnativeautoplay::AutoText>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "detailedText")))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "systemAccessoryImage")))) return false;
       if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "browsable")))) return false;

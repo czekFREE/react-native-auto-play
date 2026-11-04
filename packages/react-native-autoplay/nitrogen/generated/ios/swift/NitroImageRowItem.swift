@@ -18,8 +18,14 @@ public extension NitroImageRowItem {
   /**
    * Create a new instance of `NitroImageRowItem`.
    */
-  init(title: String?, subtitle: String?, image: NitroImage, enabled: Bool, showsImageFullHeight: Bool?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: ((_ completionId: String?) -> Void)?) {
+  init(id: String?, title: String?, subtitle: String?, playbackDuration: Double?, playbackElapsedTime: Double?, image: NitroImage, enabled: Bool, showsImageFullHeight: Bool?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: ((_ completionId: String?) -> Void)?) {
     self.init({ () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = id {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = title {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
@@ -28,6 +34,18 @@ public extension NitroImageRowItem {
     }(), { () -> bridge.std__optional_std__string_ in
       if let __unwrappedValue = subtitle {
         return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = playbackDuration {
+        return bridge.create_std__optional_double_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_double_ in
+      if let __unwrappedValue = playbackElapsedTime {
+        return bridge.create_std__optional_double_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -83,6 +101,17 @@ public extension NitroImageRowItem {
   }
 
   @inline(__always)
+  var id: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__id) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__id)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+  @inline(__always)
   var title: String? {
     return { () -> String? in
       if bridge.has_value_std__optional_std__string_(self.__title) {
@@ -106,6 +135,28 @@ public extension NitroImageRowItem {
     }()
   }
   
+  @inline(__always)
+  var playbackDuration: Double? {
+    return { () -> Double? in
+      if bridge.has_value_std__optional_double_(self.__playbackDuration) {
+        let __unwrapped = bridge.get_std__optional_double_(self.__playbackDuration)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+  @inline(__always)
+  var playbackElapsedTime: Double? {
+    return { () -> Double? in
+      if bridge.has_value_std__optional_double_(self.__playbackElapsedTime) {
+        let __unwrapped = bridge.get_std__optional_double_(self.__playbackElapsedTime)
+        return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
   @inline(__always)
   var image: NitroImage {
     return { () -> NitroImage in

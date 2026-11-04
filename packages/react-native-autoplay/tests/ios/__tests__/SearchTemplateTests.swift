@@ -119,7 +119,7 @@ final class SearchTemplateTests: XCTestCase {
     XCTAssertNil(search.completionHandler)
   }
 
-  func testClearingQuerySettlesPendingSearchAndEmptyCallback() {
+  func testClearingQuerySettlesPendingSearchAndRestoresInitialResults() {
     let search = makeSearch()
     var firstCompletions = 0
     var emptyCompletions: [[String?]] = []
@@ -130,8 +130,64 @@ final class SearchTemplateTests: XCTestCase {
 
     XCTAssertEqual(firstCompletions, 1)
     XCTAssertEqual(emptyCompletions.count, 1)
-    XCTAssertEqual(emptyCompletions[0], [])
+    XCTAssertEqual(emptyCompletions[0], ["Initial show"])
     XCTAssertEqual(queries, ["podcast", " "])
+    XCTAssertNil(search.completionHandler)
+  }
+
+  func testClearingCompletedQueryRestoresConfiguredBackRowAndSelectionHandler() throws {
+    var backSelections = 0
+    let search = SearchTemplate(
+      config: SearchTemplateConfig(
+        id: "search-input",
+        title: "Hledat",
+        results: NitroSection(
+          title: nil,
+          items: [
+            NitroRow(id: "back", title: "Zpět", onPress: { backSelections += 1 }),
+            NitroRow(id: "hint", title: "Zadejte hledaný výraz"),
+          ]
+        )
+      )
+    )
+    var completedQueryResults: [[String?]] = []
+    var emptyQueryResults: [[CPListItem]] = []
+    updateQuery(search, text: "podcast") { completedQueryResults.append($0.map(\.text)) }
+    search.updateSearchResults(results: makeResults(title: "Matching show"), searchText: "podcast")
+
+    updateQuery(search, text: "") { emptyQueryResults.append($0) }
+    search.updateSearchResults(results: makeResults(title: "Late show"), searchText: "podcast")
+    search._invalidate()
+
+    XCTAssertEqual(completedQueryResults, [["Matching show"]])
+    XCTAssertEqual(emptyQueryResults.count, 1)
+    XCTAssertEqual(
+      try XCTUnwrap(emptyQueryResults.first).map(\.text), ["Zpět", "Zadejte hledaný výraz"])
+    var selectionCompletions = 0
+    search.searchTemplate(
+      search.template,
+      selectedResult: try XCTUnwrap(emptyQueryResults.first?.first)
+    ) { selectionCompletions += 1 }
+    search.onPopped()
+
+    XCTAssertEqual(backSelections, 1)
+    XCTAssertEqual(selectionCompletions, 1)
+    XCTAssertEqual(emptyQueryResults.count, 1)
+    XCTAssertNil(search.completionHandler)
+  }
+
+  func testClearingWithoutTraitsRestoresInitialResultsWhenTraitsReturn() {
+    let search = makeSearch()
+    updateQuery(search, text: "podcast") { _ in }
+    search.updateSearchResults(results: makeResults(title: "Matching show"), searchText: "podcast")
+    var completions: [[String?]] = []
+    SceneStore.traitCollection = nil
+
+    updateQuery(search, text: "") { completions.append($0.map(\.text)) }
+    SceneStore.traitCollection = UITraitCollection(userInterfaceStyle: .light)
+    updateQuery(search, text: "") { completions.append($0.map(\.text)) }
+
+    XCTAssertEqual(completions, [[], ["Initial show"]])
     XCTAssertNil(search.completionHandler)
   }
 

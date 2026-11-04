@@ -23,6 +23,144 @@ final class ListTemplatePaginationTests: XCTestCase {
     XCTAssertTrue(try XCTUnwrap(rows[1] as? CPListItem).isPlaying)
   }
 
+  func testPaginationControlBecomesFirstAppendedResultAndGetsItsRealHandler() throws {
+    let list = makeList(ids: ["show-1"])
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Shows",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "more", title: "Načíst další", onPress: {}, isPaginationItem: true),
+        ])
+    ])
+    let first = list.template.sections[0].items[0]
+    let pagination = list.template.sections[0].items[1]
+
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Shows",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "more", title: "Načítání…", onPress: {}, isPaginationItem: true),
+        ])
+    ])
+    XCTAssertTrue(list.template.sections[0].items[1] === pagination)
+    XCTAssertTrue(try XCTUnwrap(pagination as? CPListItem).isEnabled)
+
+    var pressed = ""
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Shows",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "show-2", title: "Second", onPress: { pressed = "show-2" }),
+          NitroRow(id: "show-3", title: "Third", onPress: {}),
+          NitroRow(id: "more", title: "Načíst další", onPress: {}, isPaginationItem: true),
+        ])
+    ])
+    let rows = list.template.sections[0].items
+    XCTAssertTrue(rows[0] === first)
+    XCTAssertTrue(rows[1] === pagination)
+    XCTAssertFalse(rows[3] === pagination)
+    let newResult = try XCTUnwrap(rows[1] as? CPListItem)
+    XCTAssertEqual(newResult.userInfo as? String, "show-2")
+    XCTAssertEqual(newResult.text, "Second")
+    newResult.handler?(newResult, {})
+    XCTAssertEqual(pressed, "show-2")
+  }
+
+  func testPaginationHandoffWorksAcrossSearchStatusAndResultSections() {
+    let list = makeList(ids: [])
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Episodes", items: [NitroRow(id: "track-1", title: "First", onPress: {})]),
+      NitroSection(
+        title: "", items: [NitroRow(id: "more", title: "More", onPress: {}, isPaginationItem: true)]
+      ),
+    ])
+    let firstTrack = list.template.sections[0].items[0]
+    let pagination = list.template.sections[1].items[0]
+
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Podcasts", items: [NitroRow(id: "show-1", title: "Podcast", onPress: {})]),
+      NitroSection(
+        title: "Episodes",
+        items: [
+          NitroRow(id: "track-1", title: "First", onPress: {}),
+          NitroRow(id: "track-2", title: "Second", onPress: {}),
+        ]),
+      NitroSection(
+        title: "",
+        items: [NitroRow(id: "more", title: "Vše načteno", onPress: {}, isPaginationItem: true)]),
+    ])
+
+    XCTAssertTrue(list.template.sections[0].items[0] === pagination)
+    XCTAssertTrue(list.template.sections[1].items[0] === firstTrack)
+    XCTAssertFalse(list.template.sections[2].items[0] === pagination)
+    XCTAssertEqual(list.template.sections[0].items[0].text, "Podcast")
+  }
+
+  func testEmptyFinalPageAndRetryKeepThePaginationObjectAvailable() throws {
+    let list = makeList(ids: [])
+    let stages = ["Načíst další", "Načítání…", "Nepodařilo se načíst", "Vše načteno"]
+    var pagination: (any CPListTemplateItem)?
+    for title in stages {
+      list.updateSections(sections: [
+        NitroSection(
+          title: "Shows",
+          items: [
+            NitroRow(id: "show-1", title: "First", onPress: {}),
+            NitroRow(id: "more", title: title, onPress: {}, isPaginationItem: true),
+          ])
+      ])
+      let item = list.template.sections[0].items[1]
+      if let pagination {
+        XCTAssertTrue(item === pagination)
+      }
+      pagination = item
+      XCTAssertTrue(try XCTUnwrap(item as? CPListItem).isEnabled)
+      XCTAssertEqual(item.text, title)
+    }
+  }
+
+  func testPaginationDoesNotHandoffOnSortReplacementOrAmbiguousIdentities() {
+    let list = makeList(ids: [])
+    let previous = [
+      NitroSection(
+        title: "Latest",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "more", title: "More", onPress: {}, isPaginationItem: true),
+        ])
+    ]
+    list.updateSections(sections: previous)
+    let originalPagination = list.template.sections[0].items[1]
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Earliest",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "show-2", title: "Second", onPress: {}),
+        ])
+    ])
+    XCTAssertFalse(list.template.sections[0].items[1] === originalPagination)
+
+    list.updateSections(sections: previous)
+    let nextPagination = list.template.sections[0].items[1]
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Latest",
+        items: [
+          NitroRow(id: "show-1", title: "First", onPress: {}),
+          NitroRow(id: "show-2", title: "Second", onPress: {}),
+          NitroRow(id: "show-2", title: "Duplicate", onPress: {}),
+        ])
+    ])
+    XCTAssertFalse(list.template.sections[0].items[1] === nextPagination)
+    XCTAssertFalse(list.template.sections[0].items[2] === nextPagination)
+  }
+
   func testRemovalAndReorderRetainMatchingRows() {
     let list = makeList(ids: ["show-1", "show-2", "show-3"])
     let initialRows = list.template.sections[0].items
@@ -33,6 +171,38 @@ final class ListTemplatePaginationTests: XCTestCase {
     XCTAssertEqual(rows.count, 2)
     XCTAssertTrue(rows[0] === initialRows[2])
     XCTAssertTrue(rows[1] === initialRows[0])
+  }
+
+  func testEqualSectionHeadersKeepTheirOwnRowsAtTheSameSectionIndex() {
+    let list = makeList(ids: [])
+    list.updateSections(sections: [
+      NitroSection(title: "", items: [NitroRow(id: "shared", title: "First section")]),
+      NitroSection(title: "", items: [NitroRow(id: "shared", title: "Second section")]),
+    ])
+    let first = list.template.sections[0].items[0]
+    let second = list.template.sections[1].items[0]
+
+    list.updateSections(sections: [
+      NitroSection(
+        title: "",
+        items: [
+          NitroRow(id: "shared", title: "First section updated"),
+          NitroRow(id: "first-new", title: "First append"),
+        ]),
+      NitroSection(
+        title: "",
+        items: [
+          NitroRow(id: "shared", title: "Second section updated"),
+          NitroRow(id: "second-new", title: "Second append"),
+        ]),
+    ])
+
+    XCTAssertTrue(list.template.sections[0].items[0] === first)
+    XCTAssertTrue(list.template.sections[1].items[0] === second)
+    XCTAssertFalse(list.template.sections[0].items[0] === second)
+    XCTAssertFalse(list.template.sections[1].items[0] === first)
+    XCTAssertEqual(first.text, "First section updated")
+    XCTAssertEqual(second.text, "Second section updated")
   }
 
   func testDuplicateIdsDoNotReuseOneObjectForTwoRows() {
@@ -151,10 +321,14 @@ final class ListTemplatePaginationTests: XCTestCase {
     let list = makeList(ids: ["show-1"])
     let initialRow = list.template.sections[0].items[0]
 
-    list.updateSections(sections: [NitroSection(title: "Other collection", items: [
-      NitroRow(id: "show-1", title: "Show show-1"),
-      NitroRow(id: "show-2", title: "Show show-2")
-    ])])
+    list.updateSections(sections: [
+      NitroSection(
+        title: "Other collection",
+        items: [
+          NitroRow(id: "show-1", title: "Show show-1"),
+          NitroRow(id: "show-2", title: "Show show-2"),
+        ])
+    ])
 
     XCTAssertFalse(list.template.sections[0].items[0] === initialRow)
     XCTAssertEqual(list.template.sections[0].header, "Other collection")

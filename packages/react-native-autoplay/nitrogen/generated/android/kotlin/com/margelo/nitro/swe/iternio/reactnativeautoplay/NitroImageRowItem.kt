@@ -20,10 +20,19 @@ import java.util.Objects
 data class NitroImageRowItem(
   @DoNotStrip
   @Keep
+  val id: String?,
+  @DoNotStrip
+  @Keep
   val title: String?,
   @DoNotStrip
   @Keep
   val subtitle: String?,
+  @DoNotStrip
+  @Keep
+  val playbackDuration: Double?,
+  @DoNotStrip
+  @Keep
+  val playbackElapsedTime: Double?,
   @DoNotStrip
   @Keep
   val image: NitroImage,
@@ -52,14 +61,17 @@ data class NitroImageRowItem(
   /**
    * Create a new instance of NitroImageRowItem from Kotlin
    */
-  constructor(title: String?, subtitle: String?, image: NitroImage, enabled: Boolean, showsImageFullHeight: Boolean?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: ((completionId: String?) -> Unit)?):
-         this(title, subtitle, image, enabled, showsImageFullHeight, tintColor, imageShape, accessorySystemImage, accessibilityLabel, onPress?.let { Func_void_std__optional_std__string__java(it) })
+  constructor(id: String?, title: String?, subtitle: String?, playbackDuration: Double?, playbackElapsedTime: Double?, image: NitroImage, enabled: Boolean, showsImageFullHeight: Boolean?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: ((completionId: String?) -> Unit)?):
+         this(id, title, subtitle, playbackDuration, playbackElapsedTime, image, enabled, showsImageFullHeight, tintColor, imageShape, accessorySystemImage, accessibilityLabel, onPress?.let { Func_void_std__optional_std__string__java(it) })
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is NitroImageRowItem) return false
-    return Objects.deepEquals(this.title, other.title)
+    return Objects.deepEquals(this.id, other.id)
+      && Objects.deepEquals(this.title, other.title)
       && Objects.deepEquals(this.subtitle, other.subtitle)
+      && Objects.deepEquals(this.playbackDuration, other.playbackDuration)
+      && Objects.deepEquals(this.playbackElapsedTime, other.playbackElapsedTime)
       && Objects.deepEquals(this.image, other.image)
       && Objects.deepEquals(this.enabled, other.enabled)
       && Objects.deepEquals(this.showsImageFullHeight, other.showsImageFullHeight)
@@ -72,8 +84,11 @@ data class NitroImageRowItem(
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
+      id,
       title,
       subtitle,
+      playbackDuration,
+      playbackElapsedTime,
       image,
       enabled,
       showsImageFullHeight,
@@ -93,8 +108,8 @@ data class NitroImageRowItem(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(title: String?, subtitle: String?, image: NitroImage, enabled: Boolean, showsImageFullHeight: Boolean?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: Func_void_std__optional_std__string_?): NitroImageRowItem {
-      return NitroImageRowItem(title, subtitle, image, enabled, showsImageFullHeight, tintColor, imageShape, accessorySystemImage, accessibilityLabel, onPress)
+    private fun fromCpp(id: String?, title: String?, subtitle: String?, playbackDuration: Double?, playbackElapsedTime: Double?, image: NitroImage, enabled: Boolean, showsImageFullHeight: Boolean?, tintColor: NitroColor?, imageShape: NitroImageRowElementShape?, accessorySystemImage: String?, accessibilityLabel: String?, onPress: Func_void_std__optional_std__string_?): NitroImageRowItem {
+      return NitroImageRowItem(id, title, subtitle, playbackDuration, playbackElapsedTime, image, enabled, showsImageFullHeight, tintColor, imageShape, accessorySystemImage, accessibilityLabel, onPress)
     }
   }
 }

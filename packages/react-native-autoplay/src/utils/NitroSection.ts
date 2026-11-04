@@ -17,6 +17,7 @@ type NitroSectionType = 'default' | 'radio';
 export type NitroRow = {
   title: AutoText;
   id?: string;
+  isPaginationItem?: boolean;
   detailedText?: AutoText;
   systemAccessoryImage?: string;
   browsable?: boolean;
@@ -36,8 +37,11 @@ export type NitroRow = {
 };
 
 export type NitroImageRowItem = {
+  id?: string;
   title?: string;
   subtitle?: string;
+  playbackDuration?: number;
+  playbackElapsedTime?: number;
   image: NitroImage;
   enabled: boolean;
   showsImageFullHeight?: boolean;
@@ -67,6 +71,108 @@ const validateRadioItems = (type: NitroSectionType, items: Array<NitroRow>) => {
   ) {
     throw new Error('radio lists must have one selected item');
   }
+};
+
+const convertRow = <T>(
+  template: T,
+  item: DefaultRow<T> | ImageRow<T> | RadioRow<T> | ToggleRow<T> | TextRow,
+): NitroRow => {
+  const { title, type, enabled = true, id } = item;
+
+  const image = 'image' in item ? item.image : undefined;
+  const detailedText = 'detailedText' in item ? item.detailedText : undefined;
+  const systemAccessoryImage =
+    'systemAccessoryImage' in item ? item.systemAccessoryImage : undefined;
+  const selected = type === 'radio' ? (item.selected ?? false) : undefined;
+
+  const onTogglePress = item.type === 'toggle' ? item.onPress : undefined;
+  const onRowPress = item.type !== 'text' && item.type !== 'toggle' ? item.onPress : undefined;
+
+  const onPress: NitroRow['onPress'] =
+    item.type === 'text'
+      ? undefined
+      : (checked?: boolean, completionId?: string) => {
+          const completePress = () => {
+            if (completionId != null) {
+              void HybridListTemplate.completeListItemPress(completionId);
+            }
+          };
+
+          if (onTogglePress != null && checked != null) {
+            void Promise.resolve(onTogglePress(template, checked)).then(
+              completePress,
+              completePress,
+            );
+            return;
+          }
+          if (onRowPress != null) {
+            void Promise.resolve(onRowPress(template)).then(completePress, completePress);
+            return;
+          }
+
+          completePress();
+        };
+
+  const imageRowItems =
+    item.type === 'image'
+      ? item.items.map<NitroImageRowItem>((imageRowItem) => ({
+          id: imageRowItem.id,
+          accessibilityLabel:
+            'accessibilityLabel' in imageRowItem ? imageRowItem.accessibilityLabel : undefined,
+          accessorySystemImage:
+            'accessorySystemImage' in imageRowItem ? imageRowItem.accessorySystemImage : undefined,
+          enabled: imageRowItem.enabled ?? true,
+          image: NitroImageUtil.convert(imageRowItem.image),
+          imageShape: 'imageShape' in imageRowItem ? imageRowItem.imageShape : undefined,
+          playbackDuration: imageRowItem.playbackDuration,
+          playbackElapsedTime: imageRowItem.playbackElapsedTime,
+          onPress: imageRowItem.onPress
+            ? (completionId?: string) => {
+                const completePress = () => {
+                  if (completionId != null) {
+                    void HybridListTemplate.completeListItemPress(completionId);
+                  }
+                };
+
+                void Promise.resolve(imageRowItem.onPress?.(template)).then(
+                  completePress,
+                  completePress,
+                );
+              }
+            : undefined,
+          showsImageFullHeight:
+            'showsImageFullHeight' in imageRowItem ? imageRowItem.showsImageFullHeight : undefined,
+          subtitle: 'subtitle' in imageRowItem ? imageRowItem.subtitle?.text : undefined,
+          tintColor:
+            'tintColor' in imageRowItem
+              ? NitroColorUtil.convert(imageRowItem.tintColor)
+              : undefined,
+          title: 'title' in imageRowItem ? imageRowItem.title?.text : undefined,
+        }))
+      : undefined;
+
+  return {
+    browsable: type === 'default' ? item.browsable : undefined,
+    detailedText,
+    enabled,
+    id,
+    isPaginationItem: item.type === 'default' ? item.isPaginationItem : undefined,
+    image: NitroImageUtil.convert(image),
+    isPlaying: item.isPlaying,
+    playbackDuration: item.playbackDuration,
+    playbackElapsedTime: item.playbackElapsedTime,
+    playbackProgress: item.playbackProgress,
+    playingIndicatorLocation: item.playingIndicatorLocation,
+    systemAccessoryImage,
+    title,
+    checked: type === 'toggle' ? item.checked : undefined,
+    onPress,
+    selected,
+    imageRowItems,
+    imageRowAllowsMultipleLines:
+      item.type === 'image' ? (item.allowsMultipleLines ?? false) : undefined,
+    imageRowVariant: item.type === 'image' ? (item.variant ?? 'row') : undefined,
+  };
 };
 
 const convert = <T>(template: T, sections?: Section<T>): Array<NitroSection> | undefined => {
@@ -101,104 +207,6 @@ const convert = <T>(template: T, sections?: Section<T>): Array<NitroSection> | u
       type: sections.type,
     },
   ];
-};
-
-const convertRow = <T>(
-  template: T,
-  item: DefaultRow<T> | ImageRow<T> | RadioRow<T> | ToggleRow<T> | TextRow
-): NitroRow => {
-  const { title, type, enabled = true, id } = item;
-
-  const image = 'image' in item ? item.image : undefined;
-  const detailedText = 'detailedText' in item ? item.detailedText : undefined;
-  const systemAccessoryImage =
-    'systemAccessoryImage' in item ? item.systemAccessoryImage : undefined;
-  const selected = type === 'radio' ? (item.selected ?? false) : undefined;
-
-  const onTogglePress = item.type === 'toggle' ? item.onPress : undefined;
-  const onRowPress = item.type !== 'text' && item.type !== 'toggle' ? item.onPress : undefined;
-
-  const onPress: NitroRow['onPress'] =
-    item.type === 'text'
-      ? undefined
-      : (checked?: boolean, completionId?: string) => {
-          const completePress = () => {
-            if (completionId != null) {
-              void HybridListTemplate.completeListItemPress(completionId);
-            }
-          };
-
-          if (onTogglePress != null && checked != null) {
-            void Promise.resolve(onTogglePress(template, checked)).then(
-              completePress,
-              completePress
-            );
-            return;
-          }
-          if (onRowPress != null) {
-            void Promise.resolve(onRowPress(template)).then(completePress, completePress);
-            return;
-          }
-
-          completePress();
-        };
-
-  const imageRowItems =
-    item.type === 'image'
-      ? item.items.map<NitroImageRowItem>((imageRowItem) => ({
-          accessibilityLabel:
-            'accessibilityLabel' in imageRowItem ? imageRowItem.accessibilityLabel : undefined,
-          accessorySystemImage:
-            'accessorySystemImage' in imageRowItem ? imageRowItem.accessorySystemImage : undefined,
-          enabled: imageRowItem.enabled ?? true,
-          image: NitroImageUtil.convert(imageRowItem.image),
-          imageShape: 'imageShape' in imageRowItem ? imageRowItem.imageShape : undefined,
-          onPress: imageRowItem.onPress
-            ? (completionId?: string) => {
-                const completePress = () => {
-                  if (completionId != null) {
-                    void HybridListTemplate.completeListItemPress(completionId);
-                  }
-                };
-
-                void Promise.resolve(imageRowItem.onPress?.(template)).then(
-                  completePress,
-                  completePress
-                );
-              }
-            : undefined,
-          showsImageFullHeight:
-            'showsImageFullHeight' in imageRowItem ? imageRowItem.showsImageFullHeight : undefined,
-          subtitle: 'subtitle' in imageRowItem ? imageRowItem.subtitle?.text : undefined,
-          tintColor:
-            'tintColor' in imageRowItem
-              ? NitroColorUtil.convert(imageRowItem.tintColor)
-              : undefined,
-          title: 'title' in imageRowItem ? imageRowItem.title?.text : undefined,
-        }))
-      : undefined;
-
-  return {
-    browsable: type === 'default' ? item.browsable : undefined,
-    detailedText,
-    enabled,
-    id,
-    image: NitroImageUtil.convert(image),
-    isPlaying: item.isPlaying,
-    playbackDuration: item.playbackDuration,
-    playbackElapsedTime: item.playbackElapsedTime,
-    playbackProgress: item.playbackProgress,
-    playingIndicatorLocation: item.playingIndicatorLocation,
-    systemAccessoryImage,
-    title,
-    checked: type === 'toggle' ? item.checked : undefined,
-    onPress,
-    selected,
-    imageRowItems,
-    imageRowAllowsMultipleLines:
-      item.type === 'image' ? (item.allowsMultipleLines ?? false) : undefined,
-    imageRowVariant: item.type === 'image' ? (item.variant ?? 'row') : undefined,
-  };
 };
 
 export const NitroSectionUtil = { convert };
