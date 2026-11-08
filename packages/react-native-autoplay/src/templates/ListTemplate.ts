@@ -84,7 +84,8 @@ export type ImageRowCardElement<T> = BaseImageRowItem<T> & {
   tintColor?: ThemedColor | string;
 };
 
-export type ImageRowCondensedElement<T> = BaseImageRowItem<T> & {
+export type ImageRowCondensedElement<T> = Omit<BaseImageRowItem<T>, 'image'> & {
+  image?: AutoImage;
   title: AutoText;
   subtitle?: AutoText;
   imageShape: ImageRowElementShape;

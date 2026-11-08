@@ -355,7 +355,15 @@ class ListTemplate: AutoPlayHeaderProviding {
         var matchedItemCount = 0
 
         for section in template.sections {
-            for case let listItem as CPListItem in section.items {
+            for item in section.items {
+                if let imageRow = item as? CPListImageRowItem {
+                    matchedItemCount += Parser.updateImageRowPlayingItem(
+                        listItem: imageRow,
+                        itemId: playingItemId
+                    )
+                    continue
+                }
+                guard let listItem = item as? CPListItem else { continue }
                 let isPlaying =
                     playingItemId != nil
                     && listItem.userInfo as? String == playingItemId

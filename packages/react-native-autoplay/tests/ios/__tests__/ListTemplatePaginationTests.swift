@@ -271,7 +271,7 @@ final class ListTemplatePaginationTests: XCTestCase {
       NitroSection(
         title: "Shows",
         items: [
-          NitroRow(id: "show-1", title: "Artwork", imageRowItems: ["image"]),
+          NitroRow(id: "show-1", title: "Artwork", imageRowItems: [NitroImageRowItem(id: "image", title: "Image")]),
           NitroRow(id: "show-2", title: "Another show"),
         ])
     ])

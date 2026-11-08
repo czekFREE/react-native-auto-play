@@ -106,6 +106,63 @@ describe('NitroSection image-element playback', () => {
     });
   });
 
+  it('keeps an image-free condensed action selectable without playback metadata', async () => {
+    const onPress = jest.fn();
+    const result = NitroSectionUtil.convert(template, {
+      type: 'default',
+      items: [
+        {
+          type: 'image',
+          title: { text: '' },
+          variant: 'condensed',
+          items: [
+            {
+              id: 'show-all',
+              title: { text: 'Zobrazit vše' },
+              imageShape: 'roundedRectangle',
+              accessorySystemImage: 'chevron.right',
+              onPress,
+            },
+          ],
+        },
+      ],
+    });
+    const action = result?.[0]?.items[0]?.imageRowItems?.[0];
+
+    expect(action).toMatchObject({
+      id: 'show-all',
+      title: 'Zobrazit vše',
+      accessorySystemImage: 'chevron.right',
+      image: {
+        uri: 'autoplay-internal://empty-image',
+        width: 0,
+        height: 0,
+        scale: 1,
+        packager_asset: false,
+      },
+      playbackDuration: undefined,
+      playbackElapsedTime: undefined,
+    });
+    action?.onPress?.('show-all-selection');
+    await Promise.resolve();
+
+    expect(onPress).toHaveBeenCalledWith({ id: 'for-you' });
+    expect(HybridListTemplate.completeListItemPress).toHaveBeenCalledWith('show-all-selection');
+  });
+
+  it('keeps an explicit artwork URL distinct from intentional empty artwork', () => {
+    const result = NitroSectionUtil.convert(template, {
+      type: 'default',
+      items: [createTrackRow({ onPress: jest.fn() })],
+    });
+
+    expect(result?.[0]?.items[0]?.imageRowItems?.[0]?.image).toEqual({
+      uri: 'https://example.com/episode.png',
+      color: undefined,
+      timeoutMs: undefined,
+    });
+  });
+
   it('finishes the native tile selection only after asynchronous playback settles', async () => {
     let completePlayback: () => void = () => undefined;
     const playback = new Promise<void>((resolve) => {

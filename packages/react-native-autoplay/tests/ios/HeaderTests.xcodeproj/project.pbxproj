@@ -47,6 +47,10 @@
 				A0000000000000000000001B,
 				A0000000000000000000001C,
 				A0000000000000000000001D,
+				A00000000000000000000028,
+				A00000000000000000000029,
+				A0000000000000000000002C,
+				A0000000000000000000002D,
 				A00000000000000000000004
 			);
 			sourceTree = "<group>";
@@ -112,7 +116,11 @@
 				A00000000000000000000024,
 				A00000000000000000000025,
 				A00000000000000000000026,
-				A00000000000000000000027
+				A00000000000000000000027,
+				A0000000000000000000002A,
+				A0000000000000000000002B,
+				A0000000000000000000002E,
+				A0000000000000000000002F
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +250,46 @@
 		A00000000000000000000027 = {
 			isa = PBXBuildFile;
 			fileRef = A0000000000000000000001D;
+		};
+		A00000000000000000000028 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/templates/ImageRowPlaybackStateStore.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000029 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "__tests__/ImageRowPlaybackStateTests.swift";
+			sourceTree = "<group>";
+		};
+		A0000000000000000000002A = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000028;
+		};
+		A0000000000000000000002B = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000029;
+		};
+		A0000000000000000000002C = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/templates/createEmptyImageRowArtwork.swift";
+			sourceTree = "<group>";
+		};
+		A0000000000000000000002D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "__tests__/EmptyImageRowArtworkTests.swift";
+			sourceTree = "<group>";
+		};
+		A0000000000000000000002E = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000002C;
+		};
+		A0000000000000000000002F = {
+			isa = PBXBuildFile;
+			fileRef = A0000000000000000000002D;
 		};
 	};
 	rootObject = A00000000000000000000001;

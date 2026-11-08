@@ -650,6 +650,12 @@ class Parser {
             )
         }
 
+        if #available(iOS 26.0, *) {
+            imageRowPlaybackStates.register(
+                listItem: listItem,
+                elements: createImageRowPlaybackDescriptors(parsedItems: content.parsedItems)
+            )
+        }
         configureImageRowInteraction(
             item: item,
             listItem: listItem,
@@ -734,7 +740,12 @@ class Parser {
             }
             else {
                 image =
-                    parseNitroImage(
+                    createEmptyImageRowArtwork(
+                        asset: imageRowItem.image.assetImage.map {
+                            (uri: $0.uri, width: $0.width, height: $0.height)
+                        }
+                    )
+                    ?? parseNitroImage(
                         image: imageRowItem.image,
                         traitCollection: traitCollection
                     )
@@ -819,10 +830,14 @@ class Parser {
         let images = content.parsedItems.map { $0.image }
 
         listItem.text = parseText(text: item.title)
-        listItem.elements = createImageRowElements(
-            variant: item.imageRowVariant ?? .row,
-            images: images,
-            parsedItems: content.parsedItems
+        imageRowPlaybackStates.replaceElements(
+            listItem: listItem,
+            elements: createImageRowElements(
+                variant: item.imageRowVariant ?? .row,
+                images: images,
+                parsedItems: content.parsedItems
+            ),
+            sourceElements: createImageRowPlaybackDescriptors(parsedItems: content.parsedItems)
         )
         configureImageRowInteraction(
             item: item,
@@ -950,6 +965,30 @@ class Parser {
 
     private static let imageRowRemoteRequestSignatures =
         NSMapTable<CPListImageRowItem, NSString>.weakToStrongObjects()
+
+    @available(iOS 26.0, *)
+    private static let imageRowPlaybackStates = ImageRowPlaybackStateStore()
+
+    @available(iOS 26.0, *)
+    private static func createImageRowPlaybackDescriptors(
+        parsedItems: [ParsedImageRowItem]
+    ) -> [ImageRowPlaybackStateStore.Element] {
+        parsedItems.map { item in
+            ImageRowPlaybackStateStore.Element(
+                id: item.id,
+                accessorySystemImage: item.accessorySystemImage,
+                playbackTimes: PlaybackConfigurationTimes(
+                    duration: item.playbackDuration,
+                    elapsedTime: item.playbackElapsedTime
+                )
+            )
+        }
+    }
+
+    static func updateImageRowPlayingItem(listItem: CPListImageRowItem, itemId: String?) -> Int {
+        guard #available(iOS 26.0, *) else { return 0 }
+        return imageRowPlaybackStates.updatePlayingItem(listItem: listItem, itemId: itemId)
+    }
 
     @available(iOS 26.0, *)
     private static func createImageRowItem(
@@ -1210,11 +1249,13 @@ class Parser {
         variant: NitroImageRowVariant
     ) {
         if #available(iOS 26.0, *) {
-            // Reassign the copied collection so CarPlay reloads the visible row.
-            listItem.elements = createImageRowElements(
-                variant: variant,
-                images: images,
-                parsedItems: parsedItems
+            imageRowPlaybackStates.replaceElements(
+                listItem: listItem,
+                elements: createImageRowElements(
+                    variant: variant,
+                    images: images,
+                    parsedItems: parsedItems
+                )
             )
             return
         }

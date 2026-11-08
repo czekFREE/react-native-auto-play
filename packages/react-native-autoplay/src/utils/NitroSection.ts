@@ -14,6 +14,14 @@ import { type NitroImage, NitroImageUtil } from './NitroImage';
 
 type NitroSectionType = 'default' | 'radio';
 
+const EMPTY_IMAGE_ROW_ARTWORK: NitroImage = {
+  uri: 'autoplay-internal://empty-image',
+  width: 0,
+  height: 0,
+  scale: 1,
+  packager_asset: false,
+};
+
 export type NitroRow = {
   title: AutoText;
   id?: string;
@@ -122,7 +130,9 @@ const convertRow = <T>(
           accessorySystemImage:
             'accessorySystemImage' in imageRowItem ? imageRowItem.accessorySystemImage : undefined,
           enabled: imageRowItem.enabled ?? true,
-          image: NitroImageUtil.convert(imageRowItem.image),
+          image: imageRowItem.image
+            ? NitroImageUtil.convert(imageRowItem.image)
+            : EMPTY_IMAGE_ROW_ARTWORK,
           imageShape: 'imageShape' in imageRowItem ? imageRowItem.imageShape : undefined,
           playbackDuration: imageRowItem.playbackDuration,
           playbackElapsedTime: imageRowItem.playbackElapsedTime,

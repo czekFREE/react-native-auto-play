@@ -1,12 +1,20 @@
 import CarPlay
 
+struct NitroImageRowItem {
+  var id: String?
+  var title: String
+  var accessorySystemImage: String? = nil
+  var playbackDuration: Double? = nil
+  var playbackElapsedTime: Double? = nil
+}
+
 // These stand-ins isolate the template from Nitro and application scene setup.
 // The tested ListTemplate and all CarPlay template, section and item objects are real.
 struct NitroRow {
   var id: String?
   var title: String
   var selected: Bool? = nil
-  var imageRowItems: [String]? = nil
+  var imageRowItems: [NitroImageRowItem]? = nil
   var imageRowVariant: String? = nil
   var imageRowAllowsMultipleLines: Bool? = nil
   var onPress: (() -> Void)? = nil
@@ -84,6 +92,7 @@ extension CPListTemplate {
 }
 
 enum Parser {
+  private static let imageRowPlaybackStates = ImageRowPlaybackStateStore()
   static func parseText(text: String?) -> String? { text }
   static func listSectionHeaderContentSignature(section: NitroSection) -> String {
     section.title ?? ""
@@ -115,8 +124,17 @@ enum Parser {
     (sections ?? []).enumerated().map { sectionIndex, section in
       CPListSection(
         items: section.items.enumerated().map { itemIndex, item -> any CPListTemplateItem in
-          if item.imageRowItems != nil {
-            return CPListImageRowItem(text: item.title, elements: [], allowsMultipleLines: true)
+          if let imageRowItems = item.imageRowItems {
+            let row = CPListImageRowItem(
+              text: item.title,
+              condensedElements: createImageRowElements(items: imageRowItems),
+              allowsMultipleLines: item.imageRowAllowsMultipleLines ?? false
+            )
+            imageRowPlaybackStates.register(
+              listItem: row,
+              elements: createImageRowDescriptors(items: imageRowItems)
+            )
+            return row
           }
           let reusableItem = reusableListItem(item, sectionIndex)
           let row = reusableItem?.listItem ?? CPListItem(text: item.title, detailText: nil)
@@ -141,10 +159,53 @@ enum Parser {
   static func imageRowContentSignature(item: NitroRow) -> String { item.title }
   static func configureImageRowItem(
     item: NitroRow,
-    imageRowItems: [String],
+    imageRowItems: [NitroImageRowItem],
     listItem: CPListImageRowItem,
     traitCollection: UITraitCollection
-  ) {}
+  ) {
+    listItem.text = item.title
+    imageRowPlaybackStates.replaceElements(
+      listItem: listItem,
+      elements: createImageRowElements(items: imageRowItems),
+      sourceElements: createImageRowDescriptors(items: imageRowItems)
+    )
+  }
+  static func updateImageRowPlayingItem(listItem: CPListImageRowItem, itemId: String?) -> Int {
+    imageRowPlaybackStates.updatePlayingItem(listItem: listItem, itemId: itemId)
+  }
+  private static func createImageRowElements(
+    items: [NitroImageRowItem]
+  ) -> [CPListImageRowItemCondensedElement] {
+    items.map { item in
+      let element = CPListImageRowItemCondensedElement(
+        image: UIImage(),
+        imageShape: .roundedRectangle,
+        title: item.title,
+        subtitle: nil,
+        accessorySymbolName: item.accessorySystemImage
+      )
+      configurePlaybackConfiguration(
+        item: element,
+        duration: item.playbackDuration,
+        elapsedTime: item.playbackElapsedTime
+      )
+      return element
+    }
+  }
+  private static func createImageRowDescriptors(
+    items: [NitroImageRowItem]
+  ) -> [ImageRowPlaybackStateStore.Element] {
+    items.map { item in
+      ImageRowPlaybackStateStore.Element(
+        id: item.id,
+        accessorySystemImage: item.accessorySystemImage,
+        playbackTimes: PlaybackConfigurationTimes(
+          duration: item.playbackDuration,
+          elapsedTime: item.playbackElapsedTime
+        )
+      )
+    }
+  }
   static func configureListItem(
     currentItem: NitroRow?,
     item: NitroRow,
