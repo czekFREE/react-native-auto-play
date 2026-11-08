@@ -30,6 +30,8 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
         results = config.results
 
         template = CPSearchTemplate(id: config.id)
+        super.init()
+        template.delegate = self
     }
 
     deinit {
@@ -80,13 +82,13 @@ class SearchTemplate: AutoPlayTemplate, CPSearchTemplateDelegate {
     }
 
     override func onWillAppear(animated: Bool) {
+        template.delegate = self
         self.pushedListTemplate = nil
         config.onWillAppear?(animated)
     }
 
     override func onDidAppear(animated: Bool) {
         config.onDidAppear?(animated)
-        template.delegate = self
     }
 
     override func onWillDisappear(animated: Bool) {

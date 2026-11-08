@@ -23,6 +23,50 @@ final class SearchTemplateTests: XCTestCase {
     XCTAssertNil(search.completionHandler)
   }
 
+  func testInitialEmptyQueriesExposeConfiguredBackRowBeforeAppearance() throws {
+    var backSelections = 0
+    let search = makeSearch(
+      results: NitroSection(
+        title: nil,
+        items: [NitroRow(id: "back", title: "Zpět", onPress: { backSelections += 1 })]
+      ))
+    let delegate = try XCTUnwrap(search.template.delegate)
+    var completions: [[CPListItem]] = []
+
+    for _ in 0..<2 {
+      delegate.searchTemplate(search.template, updatedSearchText: "") { completions.append($0) }
+    }
+
+    XCTAssertEqual(completions.map { $0.map(\.text) }, [["Zpět"], ["Zpět"]])
+    var selectionCompletions = 0
+    delegate.searchTemplate(
+      search.template,
+      selectedResult: try XCTUnwrap(completions.first?.first)
+    ) { selectionCompletions += 1 }
+
+    XCTAssertEqual(backSelections, 1)
+    XCTAssertEqual(selectionCompletions, 1)
+    XCTAssertNil(search.completionHandler)
+  }
+
+  func testReturningSearchExposesResultsDuringWillAppearBeforeDidAppear() {
+    let search = makeSearch(results: makeResults(title: "Zpět"))
+    var completions: [[String?]] = []
+    search.onWillDisappear(animated: true)
+    XCTAssertNil(search.template.delegate)
+    search.config.onWillAppear = { _ in
+      search.template.delegate?.searchTemplate(search.template, updatedSearchText: "") {
+        completions.append($0.map(\.text))
+      }
+    }
+
+    search.onWillAppear(animated: true)
+    search.config.onWillAppear = nil
+
+    XCTAssertEqual(completions, [["Zpět"]])
+    XCTAssertNil(search.completionHandler)
+  }
+
   func testFirstNonemptyCallbackRequestsSearchInsteadOfLosingEnteredText() {
     let search = makeSearch()
     var queries: [String] = []
@@ -378,12 +422,14 @@ final class SearchTemplateTests: XCTestCase {
     XCTAssertEqual(completions, 1)
   }
 
-  private func makeSearch(automaticallyPushResults: Bool? = nil) -> SearchTemplate {
+  private func makeSearch(automaticallyPushResults: Bool? = nil, results: NitroSection? = nil)
+    -> SearchTemplate
+  {
     SearchTemplate(
       config: SearchTemplateConfig(
         id: "search-input",
         title: "Hledat",
-        results: makeResults(title: "Initial show"),
+        results: results ?? makeResults(title: "Initial show"),
         automaticallyPushResults: automaticallyPushResults
       ))
   }
