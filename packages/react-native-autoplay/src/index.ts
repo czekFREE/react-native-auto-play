@@ -66,3 +66,4 @@ export type {
 export type { ThemedColor } from './utils/NitroColor';
 export type { GridButton } from './utils/NitroGrid';
 export { setIconFont } from './utils/NitroImage';
+export { createTextImage } from './utils/createTextImage';

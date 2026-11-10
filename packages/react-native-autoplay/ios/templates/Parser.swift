@@ -2031,11 +2031,19 @@ class Parser {
         assetImage: AssetImage,
         traitCollection: UITraitCollection
     ) -> UIImage? {
-        let uiImage = NitroConvert.uiImage([
-            "height": assetImage.height, "width": assetImage.width,
-            "uri": assetImage.uri, "scale": assetImage.scale,
-            "__packager_asset": assetImage.packager_asset,
-        ])
+        let uiImage: UIImage?
+        if assetImage.uri.hasPrefix("autoplay-internal://text-image/") {
+            uiImage = createTextImageArtwork(
+                asset: (uri: assetImage.uri, width: assetImage.width, height: assetImage.height),
+                traitCollection: traitCollection
+            )
+        } else {
+            uiImage = NitroConvert.uiImage([
+                "height": assetImage.height, "width": assetImage.width,
+                "uri": assetImage.uri, "scale": assetImage.scale,
+                "__packager_asset": assetImage.packager_asset,
+            ])
+        }
 
         return applyTint(
             uiImage: uiImage,
