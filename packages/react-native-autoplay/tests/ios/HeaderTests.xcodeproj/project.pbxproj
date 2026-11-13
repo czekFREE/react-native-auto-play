@@ -53,6 +53,8 @@
 				A0000000000000000000002D,
 				A00000000000000000000030,
 				A00000000000000000000031,
+				A00000000000000000000034,
+				A00000000000000000000035,
 				A00000000000000000000004
 			);
 			sourceTree = "<group>";
@@ -124,7 +126,9 @@
 				A0000000000000000000002E,
 				A0000000000000000000002F,
 				A00000000000000000000032,
-				A00000000000000000000033
+				A00000000000000000000033,
+				A00000000000000000000036,
+				A00000000000000000000037
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +318,26 @@
 		A00000000000000000000033 = {
 			isa = PBXBuildFile;
 			fileRef = A00000000000000000000031;
+		};
+		A00000000000000000000034 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../../ios/utils/VoiceInputRecognitionSession.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000035 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "__tests__/VoiceInputRecognitionSessionTests.swift";
+			sourceTree = "<group>";
+		};
+		A00000000000000000000036 = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000034;
+		};
+		A00000000000000000000037 = {
+			isa = PBXBuildFile;
+			fileRef = A00000000000000000000035;
 		};
 	};
 	rootObject = A00000000000000000000001;
